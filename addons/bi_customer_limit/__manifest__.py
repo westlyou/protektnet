@@ -1,7 +1,7 @@
 {
     'name' : 'Customer Credit Limit',
     'version' : '11.0.0.1',    
-    'summary' : 'This apps help to Manage credit limit of your customers',
+    'summary' : 'This apps help to Manage credit limit of your customers.',
     'description': """ This openerp module show credit limit on partner, Account receivable amount agaist credit limit, Partner credit limit Warning, customer credit limit Warning, Total Account Receivable amount on sale. AR on sales,Partner AR agaist credit limit, ovedue warning, customer warning , customer credit warning,Customer Credit limit Warning on Sales, Sales Credit Warning Against AR.Payment credit warning, Account limit warning, Client overdemand warning, Client overlimit warning.
     Customer Credit limit, credit limit of customer,customer credit approval, partner credit limit, credit limit on customer, credit limit on partner, customer credit account, customer credit limit agiast account,customer account credit limit, credit limit on customer cart
     """,
