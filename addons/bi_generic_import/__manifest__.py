@@ -5,7 +5,7 @@
     'name': 'Odoo all import for Sales, Purchase, Invoice, Inventory, Picking, Product and Customer.',
     'version': '11.0.0.0',
     'sequence': 4,
-    'summary': 'Easy to import all odoo data i.e Invoice, Sale, Inventory, Purchase, Picking, Product and Customer.',
+    'summary': 'Easy to import all odoo data i.e Invoice, Sale, Inventory, Purchase, Picking, Product and Customer',
     'price': 89,
     'currency': 'EUR',
     'category' : 'Extra Tools',
