@@ -4,7 +4,7 @@
 		<div class="col-md-12">
 			<h2 class="oe_slogan" style="font-size: 35px;">
 				<b>All in one Import for Sales, Purchase, Invoice, Inventory,
-					Picking, Product and Customer.</b>
+					Picking, Product, Customer and Customer/Supplier Payment.</b>
 			</h2>
 			<h3 class="oe_slogn" style="text-align: center;">
 				Importing all kind of data now easy never been before, Importing
@@ -349,6 +349,7 @@
 	</div>
 </section>
 
+
 <section class="oe_container oe_dark">
 	<div class="oe_row oe_spaced">
 		<div class="oe_span12">
@@ -362,7 +363,16 @@
 			<h3 class="text-info" style="font-size: 25px;">If you select
 				"Use Excel/CSV Sequence Number" option then name field will came
 				from CSV/XLS file.</h3>
+			<h3 class="text-info" style="font-size: 25px;">If you select
+				"Import Draft Invoice" option then invoice will be import in draft stage.</h3>
 
+            <h3 class="text-info" style="font-size: 25px;">If you select
+				"Validate Invoice Automatically With Import" option then invoice will be import in validate/Open stage.</h3>			
+		    
+		    <h3 class="text-info" style="font-size: 25px;">If you want to
+				import Account from XLS/CSV so you have option for "Account Option" regarding this in import invoice wizard.</h3>
+				
+		    <h3 class="text-info" style="font-size: 25px;">You have also option for import invoice for Customer or Vendors.</h3>				
 			<br /> <img class="img-border img-responsive thumbnail"
 				style="border: 3px solid black;" src="import_invoice_wizard.png">
 		</div>
@@ -374,8 +384,8 @@
 		<div class="oe_span12">
 			<h1 class="text-info"
 				style="text-align: center; padding-bottom: 40px;">
-				<strong>After importing CSV/XLS you can see the invoice
-					number is same as we given in CSV/XLS file.</strong>
+			    <strong>After importing CSV/XLS with "Import Draft Invoice" option then you can see the invoice is in draft stage and invoice number is same as we given in CSV/XLS file. 
+					</strong>
 			</h1>
 			<br /> <img class="img-border img-responsive thumbnail"
 				style="border: 3px solid black;" src="invoice_validate_csv.png">
@@ -403,6 +413,24 @@
 		<div class="oe_span12">
 			<h1 class="text-info"
 				style="text-align: center; padding-bottom: 40px;">
+			    <strong>
+			    If you select "Validate Invoice Automatically With Import" option then you can see the invoice is in Open stage.
+					</strong>
+			</h1>
+			<br />
+			<img class="img-border img-responsive thumbnail"
+				style="border: 3px solid black;" src="open_stage_option.png"><br/><br/>
+			 <img class="img-border img-responsive thumbnail"
+				style="border: 3px solid black;" src="open_stage_invoice.png">
+		</div>
+	</div>
+</section>
+
+<section class="oe_container oe_dark">
+	<div class="oe_row oe_spaced">
+		<div class="oe_span12">
+			<h1 class="text-info"
+				style="text-align: center; padding-bottom: 40px;">
 				<strong>If you select "Use System Default Sequence Number"
 					option then name field will follow the system sequence.</strong>
 			</h1>
@@ -412,7 +440,7 @@
 	</div>
 </section>
 
-<section class="oe_container oe_dark">
+<section class="oe_container lead">
 	<div class="oe_row oe_spaced">
 		<div class="oe_span12">
 			<h1 class="text-info"
@@ -426,7 +454,7 @@
 	</div>
 </section>
 
-<section class="oe_container lead">
+<section class="oe_container oe_dark">
 	<div class="oe_row oe_spaced">
 		<div class="oe_span12">
 			<h1 class="text-info"
@@ -528,6 +556,12 @@
 			<h3 class="text-info" style="font-size: 25px;">If you select
 				"Use Excel/CSV Sequence Number" option then name field will came
 				from CSV/XLS file.</h3>
+				
+            <h3 class="text-info" style="font-size: 25px;">If you select
+				"Import Draft Quotation" option then sale order will be import in draft stage.</h3>
+
+            <h3 class="text-info" style="font-size: 25px;">If you select
+				"Confirm Quotation Automatically With Import" option then sale order will be import in Sale Order stage.</h3>							
 
 			<br /> <img class="img-border img-responsive thumbnail"
 				style="border: 3px solid black;" src="sales_wizard.png">
@@ -540,9 +574,7 @@
 		<div class="oe_span12">
 			<h1 class="text-info"
 				style="text-align: center; padding-bottom: 40px;">
-				<strong>After importing CSV/XLS you can see the
-					Sequance(Sale Order number) is same as we given in CSV/XLS file.</strong>
-			</h1>
+				<strong>After importing CSV/XLS with "Import Draft Quotation" option then you can see the sale order is in draft stage and Sequance(Sale Order number) is same as we given in CSV/XLS file.</strong><br/>
 			<br /> <img class="img-border img-responsive thumbnail"
 				style="border: 3px solid black;" src="sales_validate_csv.png">
 		</div>
@@ -569,6 +601,24 @@
 		<div class="oe_span12">
 			<h1 class="text-info"
 				style="text-align: center; padding-bottom: 40px;">
+			    <strong>
+			    If you select "Confirm Quotation Automatically With Import" option then you can see the sale order is in sales order stage.
+					</strong>
+			</h1>
+			<br />
+			<img class="img-border img-responsive thumbnail"
+				style="border: 3px solid black;" src="sale_order_open_stage_option.png"><br/><br/>
+			 <img class="img-border img-responsive thumbnail"
+				style="border: 3px solid black;" src="sale_order_open_stage_invoice.png">
+		</div>
+	</div>
+</section>
+
+<section class="oe_container oe_dark">
+	<div class="oe_row oe_spaced">
+		<div class="oe_span12">
+			<h1 class="text-info"
+				style="text-align: center; padding-bottom: 40px;">
 				<strong>If you select "Use System Default Sequence Number"
 					option then name field will follow the system sequence.</strong>
 			</h1>
@@ -578,7 +628,7 @@
 	</div>
 </section>
 
-<section class="oe_container oe_dark">
+<section class="oe_container lead">
 	<div class="oe_row oe_spaced">
 		<div class="oe_span12">
 			<h1 class="text-info"
@@ -592,7 +642,7 @@
 	</div>
 </section>
 
-<section class="oe_container lead">
+<section class="oe_container oe_dark">
 	<div class="oe_row oe_spaced">
 		<div class="oe_span12">
 			<h1 class="text-info"
@@ -812,6 +862,12 @@
 				"Use Excel/CSV Sequence Number" option then name field will came
 				from CSV/XLS file.</h3>
 
+			<h3 class="text-info" style="font-size: 25px;">If you select
+				"Import Draft Purchase" option then purchase order will be import in RFQ (Request For Quotation) stage.</h3>
+
+            <h3 class="text-info" style="font-size: 25px;">If you select
+				"Confirm Purchase Automatically With Import" option then purchase order will be import in Purchase Order stage.</h3>			
+				
 			<br /> <img class="img-border img-responsive thumbnail"
 				style="border: 3px solid black;" src="pur_wizard.png">
 		</div>
@@ -823,9 +879,7 @@
 		<div class="oe_span12">
 			<h1 class="text-info"
 				style="text-align: center; padding-bottom: 40px;">
-				<strong>After importing CSV/XLS you can see the
-					Sequance(Purchase Order number) is same as we given in CSV/XLS
-					file.</strong>
+				<strong>After importing CSV/XLS with "Import Draft Purchase" option then you can see the purchase order is in RFQ stage and Sequance(Purchase Order number) is same as we given in CSV/XLS file.</strong>
 			</h1>
 			<br /> <img class="img-border img-responsive thumbnail"
 				style="border: 3px solid black;" src="purchase_validate_csv.png">
@@ -853,6 +907,24 @@
 		<div class="oe_span12">
 			<h1 class="text-info"
 				style="text-align: center; padding-bottom: 40px;">
+			    <strong>
+			    If you select "Confirm Purchase Automatically With Import" option then you can see the purchase order is in Purchase Order stage.
+					</strong>
+			</h1>
+			<br />
+			<img class="img-border img-responsive thumbnail"
+				style="border: 3px solid black;" src="purchase_order_open_stage_option.png"><br/><br/>
+			 <img class="img-border img-responsive thumbnail"
+				style="border: 3px solid black;" src="purchase_order_open_stage_invoice.png">
+		</div>
+	</div>
+</section>
+
+<section class="oe_container oe_dark">
+	<div class="oe_row oe_spaced">
+		<div class="oe_span12">
+			<h1 class="text-info"
+				style="text-align: center; padding-bottom: 40px;">
 				<strong>If you select "Use System Default Sequence Number"
 					option then name field will follow the system sequence.</strong>
 			</h1>
@@ -862,7 +934,7 @@
 	</div>
 </section>
 
-<section class="oe_container oe_dark">
+<section class="oe_container lead">
 	<div class="oe_row oe_spaced">
 		<div class="oe_span12">
 			<h1 class="text-info"
@@ -876,7 +948,7 @@
 	</div>
 </section>
 
-<section class="oe_container lead">
+<section class="oe_container oe_dark">
 	<div class="oe_row oe_spaced">
 		<div class="oe_span12">
 			<h1 class="text-info"
@@ -1244,6 +1316,125 @@
 		</div>
 	</div>
 </section>
+
+<section class="container mt32">
+    <div class="row">
+        <h4 class="oe_slogan" style=" text-align: center;"><span align="center" class="label label-success " style="background-color:#528df3;"> <span class="fa fa-star fa-spin"></span> How to Import Customer/Supplier Payment.</span></h4>
+    </div>
+</section>
+
+<section class="oe_container oe_dark">
+        <div class="oe_row oe_spaced">
+            <div class="oe_span12">
+            <h1 class="text-info" style="text-align: center;padding-bottom: 40px;"><strong>Data File Sample.</strong></h1>
+            <h3 class="text-info" style="font-size: 25px;">Given below is the sample data file, Please use given format to create data file.</h3>
+                <br/>
+                <dl style="padding-left:30px;">
+                  <dt style="color:#31708f;">Partner </dt>
+                  <dd style="color:#31708f;">- Customer/Supplier name for payment.</dd>
+                  <dt style="color:#31708f;">Payment Amount </dt>
+                  <dd style="color:#31708f;">-Amount of payment for customer/supplier payment.</dd>
+                  <dt style="color:#31708f;">Payment Journal</dt>
+                  <dd style="color:#31708f;">-Payment journal type for customer/supplier payment. </dd>
+                  <dt style="color:#31708f;">Payment Date </dt>
+                  <dd style="color:#31708f;">- Payment date for customer/supplier payment.</dd>
+                  <dt style="color:#31708f;">Memo </dt>
+                  <dd style="color:#31708f;">- Invoice payment receipt number for customer/supplier payment.</dd>          
+
+                </dl>
+                <img class="img-border img-responsive thumbnail" style="border: 3px solid black;" src="demo_file.png">
+            </div>
+        </div>
+    </section>
+
+<section class="oe_container lead">
+        <div class="oe_row oe_spaced">
+            <div class="oe_span12">
+            <h1 class="text-info" style="text-align: center;padding-bottom: 40px;"><strong>Import Payment Menu</strong></h1>
+            <h3 class="text-info" style="font-size: 25px;">To import Customer/Supplier Payment Go To Invoicing -> Import -> Import Payment.<br/></h3>
+                <br/>
+                <img class="img-border img-responsive thumbnail" style="border: 3px solid black;" src="import_menu.png">
+            </div>
+        </div>
+</section>  
+
+<section class="oe_container oe_dark">
+        <div class="oe_row oe_spaced">
+            <div class="oe_span12">
+            <h1 class="text-info" style="text-align: center;padding-bottom: 40px;"><strong>Import Payment Wizard</strong></h1>
+            <h3 class="text-info" style="font-size: 25px;">In this wizard you have to upload properly formated XLS file you want to import.</h3>
+                <br/>
+                <img class="img-border img-responsive thumbnail" style="border: 3px solid black;" src="payment_wizard.png">
+            </div>
+        </div>
+    </section>  
+
+
+<section class="oe_container lead">
+        <div class="oe_row oe_spaced">
+            <div class="oe_span12">
+            <h1 class="text-info" style="text-align: center;padding-bottom: 40px;"><strong>Import Payment Option</strong></h1>
+            <h3 class="text-info" style="font-size: 25px;">If you want to upload customer payment then select "Customer Payment"</h3>
+                <br/>
+                <img class="img-border img-responsive thumbnail" style="border: 3px solid black;" src="customer_payment.png">
+            </div>
+        </div>
+</section> 
+
+<section class="oe_container oe_dark">
+        <div class="oe_row oe_spaced">
+            <div class="oe_span12">
+            <h1 class="text-info" style="text-align: center;padding-bottom: 40px;"><strong>Views</strong></h1>
+           <h3 class="text-info" style="font-size: 25px;">This is the example of newly created customer payments.</h3>
+                <br/>
+                <img class="img-border img-responsive thumbnail" style="border: 3px solid black;" src="sale_payment.png"><br/><br/>
+                
+            </div>
+        </div>
+    </section>  
+
+<section class="oe_container lead">
+        <div class="oe_row oe_spaced">
+            <div class="oe_span12">
+            <h3 class="text-info" style="font-size: 25px;">If you want to upload supplier(vendor) payment then select "Supplier Payment"</h3>
+                <br/>
+                <img class="img-border img-responsive thumbnail" style="border: 3px solid black;" src="payment_wizard_1.png">
+            </div>
+        </div>
+</section> 
+
+<section class="oe_container oe_dark">
+        <div class="oe_row oe_spaced">
+            <div class="oe_span12">
+            <h1 class="text-info" style="text-align: center;padding-bottom: 40px;"><strong>Views</strong></h1>
+           <h3 class="text-info" style="font-size: 25px;">This is the example of newly created supplier payments.</h3>
+                <br/>
+                <img class="img-border img-responsive thumbnail" style="border: 3px solid black;" src="purchase_payment.png"><br/><br/>
+               
+            </div>
+        </div>
+    </section>  
+
+            
+<section class="oe_container lead">
+        <div class="oe_row oe_spaced">
+            <div class="oe_span12">
+            <h3 class="text-info" style="font-size: 25px;">If you enter wrong customer/supplier then it will display following warning.</h3>
+                <br/>
+                <img class="img-border img-responsive thumbnail" style="border: 3px solid black;" src="warning_1.png">
+            </div>
+        </div>
+    </section>
+<section class="oe_container oe_dark">
+        <div class="oe_row oe_spaced">
+            <div class="oe_span12">
+            <h3 class="text-info" style="font-size: 25px;">If you enter wrong journal then it will display following warning.</h3>
+                <br/>
+                <img class="img-border img-responsive thumbnail" style="border: 3px solid black;" src="warning_2.png">
+            </div>
+        </div>
+    </section>
+
 
 <section class="container mt32">
 	<div class="row">
