@@ -79,6 +79,9 @@ class gen_inv(models.TransientModel):
     type = fields.Selection([('in', 'Customer'), ('out', 'Supplier')], string='Type', required=True, default='in')
     sequence_opt = fields.Selection([('custom', 'Use Excel/CSV Sequence Number'), ('system', 'Use System Default Sequence Number')], string='Sequence Option',default='custom')
     import_option = fields.Selection([('csv', 'CSV File'),('xls', 'XLS File')],string='Select',default='csv')
+    stage = fields.Selection(
+        [('draft', 'Import Draft Invoice'), ('confirm', 'Validate Invoice Automatically With Import')],
+        string="Invoice Stage Option", default='draft')
 
 
     @api.multi
@@ -86,20 +89,20 @@ class gen_inv(models.TransientModel):
         invoice_obj = self.env['account.invoice']
         if self.type == "in":
             invoice_search = invoice_obj.search([
-                                                 ('name', '=', values.get('invoice')),
-                                                 ('type', '=', 'out_invoice')
-                                                 ])
+                ('name', '=', values.get('invoice')),
+                ('type', '=', 'out_invoice')
+            ])
         else:
             invoice_search = invoice_obj.search([
-                                                 ('name', '=', values.get('invoice')),
-                                                  ('type', '=', 'in_invoice')
-                                                  ])
+                ('name', '=', values.get('invoice')),
+                ('type', '=', 'in_invoice')
+            ])
         if invoice_search:
             if invoice_search.partner_id.name == values.get('customer'):
                 if  invoice_search.currency_id.name == values.get('currency'):
                     if  invoice_search.user_id.name == values.get('salesperson'):
-                        lines = self.make_invoice_line(values, invoice_search)
-                        return lines
+                        self.make_invoice_line(values, invoice_search)
+                        return invoice_search
                     else:
                         raise Warning(_('User(Salesperson) is different for "%s" .\n Please define same.') % values.get('invoice'))
                 else:
@@ -111,7 +114,7 @@ class gen_inv(models.TransientModel):
             currency_id = self.find_currency(values.get('currency'))
             salesperson_id = self.find_sales_person(values.get('salesperson'))
             inv_date = self.find_invoice_date(values.get('date'))
-            
+
             if self.type == "in":
                 type_inv = "out_invoice"
                 if partner_id.property_account_receivable_id:
@@ -133,29 +136,29 @@ class gen_inv(models.TransientModel):
             if values.get('seq_opt') == 'system':
                 journal = self.env['account.invoice']._default_journal()
                 if journal.sequence_id:
-                        # If invoice is actually refund and journal has a refund_sequence then use that one or use the regular one
-                        sequence = journal.sequence_id
-                        name = sequence.with_context(ir_sequence_date=datetime.today().date().strftime("%Y-%m-%d")).next_by_id()
+                    # If invoice is actually refund and journal has a refund_sequence then use that one or use the regular one
+                    sequence = journal.sequence_id
+                    name = sequence.with_context(ir_sequence_date=datetime.today().date().strftime("%Y-%m-%d")).next_by_id()
                 else:
                     raise UserError(_('Please define a sequence on the journal.'))
             else:
                 name = values.get('invoice')
             inv_id = invoice_obj.create({
-                                         'account_id' : account_id.id,
-                                        'partner_id' : partner_id.id,
-                                        'currency_id' : currency_id.id,
-                                        'user_id':salesperson_id.id,
-                                        'name':name,
-                                        'custom_seq': True if values.get('seq_opt') == 'custom' else False,
-                                        'system_seq': True if values.get('seq_opt') == 'system' else False,
-                                        'type' : type_inv,
-                                        'date_invoice':inv_date
-                                        })
-            lines = self.make_invoice_line(values, inv_id)
+                'account_id' : account_id.id,
+                'partner_id' : partner_id.id,
+                'currency_id' : currency_id.id,
+                'user_id':salesperson_id.id,
+                'name':name,
+                'custom_seq': True if values.get('seq_opt') == 'custom' else False,
+                'system_seq': True if values.get('seq_opt') == 'system' else False,
+                'type' : type_inv,
+                'date_invoice':inv_date
+            })
+            self.make_invoice_line(values, inv_id)
             inv_id.compute_taxes()
-            return lines
-            
-            
+            return inv_id
+
+
 
     @api.multi
     def make_invoice_line(self, values, inv_id):
@@ -172,7 +175,7 @@ class gen_inv(models.TransientModel):
                     if not tax:
                         raise Warning(_('"%s" Tax not in your system') % name)
                     tax_ids.append(tax.id)
-                
+
             elif ',' in  values.get('tax'):
                 tax_names = values.get('tax').split(',')
                 for name in tax_names:
@@ -215,7 +218,7 @@ class gen_inv(models.TransientModel):
                     account = account_search.value_reference
                     account = account.split(",")[1]
                     account = self.env['account.account'].browse(account)
-            
+
         else:
             if values.get('account') == '':
                 raise Warning(_(' You can not left blank account field if you select Excel/CSV Account Option'))
@@ -227,17 +230,17 @@ class gen_inv(models.TransientModel):
                     account_id = self.env['account.account'].search([('code','=',acc[0])])
                 if account_id:
                     account = account_id
-                else: 
+                else:
                     raise Warning(_(' "%s" Account is not available.') % values.get('account'))
         res = invoice_line_obj.create({
-                'product_id' : product_id.id,
-                'quantity' : values.get('quantity'),
-                'price_unit' : values.get('price'),
-                'name' : values.get('description'),
-                'account_id' : account.id,
-                'uom_id' : product_uom.id,
-                'invoice_id' : inv_id.id
-                })
+            'product_id' : product_id.id,
+            'quantity' : values.get('quantity'),
+            'price_unit' : values.get('price'),
+            'name' : values.get('description'),
+            'account_id' : account.id,
+            'uom_id' : product_uom.id,
+            'invoice_id' : inv_id.id
+        })
         if tax_ids:
             res.write({'invoice_line_tax_ids':([(6,0,tax_ids)])})
         return True
@@ -269,9 +272,9 @@ class gen_inv(models.TransientModel):
             return partner_search
         else:
             partner_id = partner_obj.create({
-                                             'name' : name})
+                'name' : name})
             return partner_id
-    
+
     @api.multi
     def find_invoice_date(self, date):
         DATETIME_FORMAT = "%Y-%m-%d"
@@ -285,28 +288,31 @@ class gen_inv(models.TransientModel):
             if self.account_opt == 'default':
                 keys = ['invoice', 'customer', 'currency', 'product', 'quantity', 'uom', 'description', 'price','salesperson','tax','date']
             else:
-                keys = ['invoice', 'customer', 'currency', 'product','account', 'quantity', 'uom', 'description', 'price','salesperson','tax','date']	 				
+                keys = ['invoice', 'customer', 'currency', 'product','account', 'quantity', 'uom', 'description', 'price','salesperson','tax','date']
             csv_data = base64.b64decode(self.file)
             data_file = io.StringIO(csv_data.decode("utf-8"))
             data_file.seek(0)
             file_reader = []
             csv_reader = csv.reader(data_file, delimiter=',')
-            
+
             try:
                 file_reader.extend(csv_reader)
             except Exception:
                 raise exceptions.Warning(_("Invalid file!"))
             values = {}
             for i in range(len(file_reader)):
-	            field = list(map(str, file_reader[i]))
-	            values = dict(zip(keys, field))
-	            if values:
-	                if i == 0:
-	                    continue
-	                else:
-	                    values.update({'type':self.type,'option':self.import_option,'seq_opt':self.sequence_opt})
-	                    res = self.make_invoice(values)
-        else: 
+                field = list(map(str, file_reader[i]))
+                values = dict(zip(keys, field))
+                if values:
+                    if i == 0:
+                        continue
+                    else:
+                        values.update({'type':self.type,'option':self.import_option,'seq_opt':self.sequence_opt})
+                        res = self.make_invoice(values)
+                        if self.stage == 'confirm':
+                            if res.state in ['draft']:
+                                res.action_invoice_open()
+        else:
             fp = tempfile.NamedTemporaryFile(delete= False,suffix=".xlsx")
             fp.write(binascii.a2b_base64(self.file))
             fp.seek(0)
@@ -365,7 +371,10 @@ class gen_inv(models.TransientModel):
                         else:
                             raise Warning(_('Your File has less column please refer sample file'))
                     res = self.make_invoice(values)
- 
+                    if self.stage == 'confirm':
+                        if res.state in ['draft']:
+                            res.action_invoice_open()
+
 
 
         return res
