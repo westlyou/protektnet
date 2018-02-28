@@ -9,5 +9,12 @@ from .import product
 from .import partner
 from .import picking
 from . import payment
+from . import import_order_lines
+from . import import_po_lines
+from . import import_invoice_lines
+from . import bank_statement
+from . import import_image
+from . import account_move
+from . import supp_info
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

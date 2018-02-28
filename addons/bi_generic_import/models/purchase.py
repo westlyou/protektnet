@@ -114,7 +114,7 @@ class gen_purchase(models.TransientModel):
             if ';' in  values.get('tax'):
                 tax_names = values.get('tax').split(';')
                 for name in tax_names:
-                    tax= self.env['account.tax'].search([('name', '=', name),('type_tax_use','=','sale')])
+                    tax= self.env['account.tax'].search([('name', '=', name),('type_tax_use','=','purchase')])
                     if not tax:
                         raise Warning(_('"%s" Tax not in your system') % name)
                     tax_ids.append(tax.id)
@@ -122,13 +122,13 @@ class gen_purchase(models.TransientModel):
             elif ',' in  values.get('tax'):
                 tax_names = values.get('tax').split(',')
                 for name in tax_names:
-                    tax= self.env['account.tax'].search([('name', '=', name),('type_tax_use','=','sale')])
+                    tax= self.env['account.tax'].search([('name', '=', name),('type_tax_use','=','purchase')])
                     if not tax:
                         raise Warning(_('"%s" Tax not in your system') % name)
                     tax_ids.append(tax.id)
             else:
                 tax_names = values.get('tax')
-                tax= self.env['account.tax'].search([('name', '=', tax_names),('type_tax_use','=','sale')])
+                tax= self.env['account.tax'].search([('name', '=', tax_names),('type_tax_use','=','purchase')])
                 if not tax:
                     raise Warning(_('"%s" Tax not in your system') % tax_names)
                 tax_ids.append(tax.id)

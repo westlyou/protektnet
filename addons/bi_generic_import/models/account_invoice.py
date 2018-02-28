@@ -371,6 +371,7 @@ class gen_inv(models.TransientModel):
                         else:
                             raise Warning(_('Your File has less column please refer sample file'))
                     res = self.make_invoice(values)
+                    res.compute_taxes()
                     if self.stage == 'confirm':
                         if res.state in ['draft']:
                             res.action_invoice_open()
