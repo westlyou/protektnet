@@ -11,6 +11,12 @@
                     <field name="import_option" widget="radio" />
                 </group>
                 <group>
+                    <field name="product_option" widget="radio" />
+                </group>
+                <group>
+                    <field name="product_search" widget="radio" attrs="{'invisible': [('product_option', '=', 'create')]}"/>
+                </group>
+                <group>
                     <field name="file" filename="name"/>
                 </group>
                 <footer>

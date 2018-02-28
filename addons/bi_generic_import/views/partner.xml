@@ -11,6 +11,9 @@
                     <field name="import_option" widget="radio" />
                 </group>
                 <group>
+                    <field name="partner_option" widget="radio" />
+                </group>
+                <group>
                     <field name="file" filename="name"/>
                 </group>
                 <footer>
