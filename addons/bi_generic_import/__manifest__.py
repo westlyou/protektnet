@@ -2,10 +2,10 @@
 # Part of BrowseInfo. See LICENSE file for full copyright and licensing details.
 
 {
-    'name': 'Odoo all import for Sales, Purchase, Invoice, Inventory, Payment, Picking, Product and Customer.',
+    'name': 'Odoo all import for Sales, Purchase, Invoice, Inventory, Customer/Supplier Payment, Bank Statement, Journal Entry, Picking, Product, Customer.',
     'version': '11.0.0.0',
     'sequence': 4,
-    'summary': 'Easy to import all odoo data i.e Invoice, Sale, Inventory, Purchase,Payment, Picking, Product and Customer',
+    'summary': 'Easy to import all odoo data i.e Invoice, Sale, Inventory, Purchase,Payment, Picking, Product and Customer.',
     'price': 129,
     'currency': 'EUR',
     'category' : 'Extra Tools',
@@ -55,6 +55,7 @@
     """,
     'author': 'BrowseInfo',
     'website': '',
+    'live_test_url':'https://www.youtube.com/watch?v=bG7ImzFkSfo',
     'depends': ['base', 'sale_management', 'account', 'purchase', 'stock','product_expiry'],
     'data': [
              "views/account_invoice.xml",
@@ -65,6 +66,13 @@
              "views/partner.xml",
              "views/picking_view.xml",
              "views/customer_payment.xml",
+             "views/import_order_lines_view.xml",
+             "views/import_po_lines_view.xml",
+             "views/import_invoice_lines_view.xml",
+             "views/bank_statement.xml",
+             "views/import_image_view.xml",
+             "views/account_move.xml",
+             "views/supp_info.xml",
              ],
 	'qweb': [
 		],
