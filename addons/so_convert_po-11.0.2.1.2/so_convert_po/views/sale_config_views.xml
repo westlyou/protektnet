@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_config_settings_view_form_sale_inherit" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.sale.inherit</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="sale.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <div data-key="sale_management" position="inside">
+                <h2>Purchase</h2>
+                <div class="row mt16 o_settings_container">
+                    <div class="col-xs-12 col-md-12 o_setting_box">
+                        <div class="o_setting_left_pane"/>
+                        <div class="o_setting_right_pane">
+                            <label string="Default State"/>
+                            <div class="text-muted">
+                                For Purchase Orders converted from Sale Orders
+                            </div>
+                            <div class="content-group">
+                                <div class="row mt16">
+                                    <label for="so_state" class="col-md-3 o_light_label" string="State"/>
+                                    <field name="so_state"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-4 o_setting_box">
+                        <div class="o_setting_left_pane">
+                            <field name="so_draft_allow_convert_po"/>
+                        </div>
+                        <div class="o_setting_right_pane">
+                            <label for="so_draft_allow_convert_po"/>
+                            <div class="text-muted">
+                                Convert button will available in Quotation
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-12 col-md-4 o_setting_box">
+                        <div class="o_setting_left_pane">
+                            <field name="so_sent_allow_convert_po"/>
+                        </div>
+                        <div class="o_setting_right_pane">
+                            <label for="so_sent_allow_convert_po"/>
+                            <div class="text-muted">
+                                Convert button will available in Quotation Sent
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-12 col-md-4 o_setting_box">
+                        <div class="o_setting_left_pane">
+                            <field name="so_sale_allow_convert_po"/>
+                        </div>
+                        <div class="o_setting_right_pane">
+                            <label for="so_sale_allow_convert_po"/>
+                            <div class="text-muted">
+                                Convert button will available in Sale Order
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </field>
+    </record>
+</odoo>

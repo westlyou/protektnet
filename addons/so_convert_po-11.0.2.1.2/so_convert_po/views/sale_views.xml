@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_order_form_inherit" model="ir.ui.view">
+        <field name="name">sale.order.form.inherit.inherit</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <group name="sales_person" position="after">
+                <group>
+                    <field name="allow_convert" invisible="True"/>
+                </group>
+            </group>
+            <xpath expr="//header" position="inside">
+                <button string="Convert To Purchase Order"
+                        name="action_convert_to_purchase_order"
+                        type="object"
+                        attrs="{'invisible': [
+                            '|',
+                            ('purchase_order_id', '!=', False),
+                            ('allow_convert', '=', False),
+                        ]}"/>
+                <button string="Related Purchase Order"
+                        name="action_show_related_purchase_order"
+                        type="object"
+                        attrs="{'invisible': [('purchase_order_id', '=', False)]}"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>
