@@ -45,6 +45,7 @@ class SaleOrder(models.Model):
             'x_start_date': self.x_studio_field_nJisW,
             'x_end_date': self.	x_studio_field_vqN4P,
             'x_serial': self.x_studio_field_wJcd2,
+            'x_ingeniero_encargado': self.x_studio_field_DRLTc,
 
         })
         self.purchase_order_id.name += " - " + self.name
