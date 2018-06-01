@@ -29,6 +29,13 @@ try:
 except ImportError:
     _logger.debug('Cannot `import base64`.')
 
+TYPE2JOURNAL = {
+    'out_invoice': 'sale',
+    'in_invoice': 'purchase',
+    'out_refund': 'sale',
+    'in_refund': 'purchase',
+}
+
 class AccountMove(models.Model):
     _inherit = "account.move"
 
@@ -82,6 +89,7 @@ class gen_inv(models.TransientModel):
     stage = fields.Selection(
         [('draft', 'Import Draft Invoice'), ('confirm', 'Validate Invoice Automatically With Import')],
         string="Invoice Stage Option", default='draft')
+    import_prod_option = fields.Selection([('name', 'Name'),('code', 'Code'),('barcode', 'Barcode')],string='Import Product By ',default='name')        
 
 
     @api.multi
@@ -120,21 +128,52 @@ class gen_inv(models.TransientModel):
                 if partner_id.property_account_receivable_id:
                     account_id = partner_id.property_account_receivable_id
                 else:
-                    account_search = self.env['ir.property'].search([('name', '=', 'property_account_income_categ_id')])
+                    account_search = self.env['ir.property'].search([('name', '=', 'property_account_receivable_id')])
                     account_id = account_search.value_reference
+                    if not account_id:
+                        raise UserError(_('Please define Customer account.'))
                     account_id = account_id.split(",")[1]
                     account_id = self.env['account.account'].browse(account_id)
             else:
-                if partner_id.property_account_receivable_id:
+                if partner_id.property_account_payable_id:
                     account_id = partner_id.property_account_payable_id
                 else:
-                    account_search = self.env['ir.property'].search([('name', '=', 'property_account_expense_categ_id')])
+                    account_search = self.env['ir.property'].search([('name', '=', 'property_account_payable_id')])
                     account_id = account_search.value_reference
+                    if not account_id:
+                        raise UserError(_('Please define Vendor account.'))
                     account_id = account_id.split(",")[1]
                     account_id = self.env['account.account'].browse(account_id)
                 type_inv = "in_invoice"
+                
+            if type_inv == "in_invoice":
+                journal_type = 'purchase'                   
+            else:
+                journal_type = 'sale'
+                
+            if self._context.get('default_journal_id', False):
+                journal = self.env['account.journal'].browse(self._context.get('default_journal_id'))
+            inv_type = journal_type
+            inv_types = inv_type if isinstance(inv_type, list) else [inv_type]
+            company_id = self._context.get('company_id', self.env.user.company_id.id)
+            domain = [
+                ('type', 'in', [journal_type]),
+                ('company_id', '=', company_id),
+            ]
+            journal = self.env['account.journal'].search(domain, limit=1)
+            
             if values.get('seq_opt') == 'system':
-                journal = self.env['account.invoice']._default_journal()
+                #journal = self.env['account.invoice']._default_journal()
+                if self._context.get('default_journal_id', False):
+                    journal = self.env['account.journal'].browse(self._context.get('default_journal_id'))
+                inv_type = journal_type
+                inv_types = inv_type if isinstance(inv_type, list) else [inv_type]
+                company_id = self._context.get('company_id', self.env.user.company_id.id)
+                domain = [
+                    ('type', 'in', [journal_type]),
+                    ('company_id', '=', company_id),
+                ]
+                journal = self.env['account.journal'].search(domain, limit=1)
                 if journal.sequence_id:
                     # If invoice is actually refund and journal has a refund_sequence then use that one or use the regular one
                     sequence = journal.sequence_id
@@ -152,7 +191,8 @@ class gen_inv(models.TransientModel):
                 'custom_seq': True if values.get('seq_opt') == 'custom' else False,
                 'system_seq': True if values.get('seq_opt') == 'system' else False,
                 'type' : type_inv,
-                'date_invoice':inv_date
+                'date_invoice':inv_date,
+                'journal_id' : journal.id
             })
             self.make_invoice_line(values, inv_id)
             inv_id.compute_taxes()
@@ -164,39 +204,78 @@ class gen_inv(models.TransientModel):
     def make_invoice_line(self, values, inv_id):
         product_obj = self.env['product.product']
         invoice_line_obj = self.env['account.invoice.line']
-        product_search = product_obj.search([('default_code', '=', values.get('product'))])
-        product_uom = self.env['product.uom'].search([('name', '=', values.get('uom'))])
-        tax_ids = []
-        if values.get('tax'):
-            if ';' in  values.get('tax'):
-                tax_names = values.get('tax').split(';')
-                for name in tax_names:
-                    tax= self.env['account.tax'].search([('name', '=', name),('type_tax_use','=','sale')])
-                    if not tax:
-                        raise Warning(_('"%s" Tax not in your system') % name)
-                    tax_ids.append(tax.id)
 
-            elif ',' in  values.get('tax'):
-                tax_names = values.get('tax').split(',')
-                for name in tax_names:
-                    tax= self.env['account.tax'].search([('name', '=', name),('type_tax_use','=','sale')])
-                    if not tax:
-                        raise Warning(_('"%s" Tax not in your system') % name)
-                    tax_ids.append(tax.id)
-            else:
-                tax_names = values.get('tax').split(',')
-                tax= self.env['account.tax'].search([('name', '=', tax_names),('type_tax_use','=','sale')])
-                if not tax:
-                    raise Warning(_('"%s" Tax not in your system') % tax_names)
-                tax_ids.append(tax.id)
+        if self.import_prod_option == 'barcode':
+          product_search = product_obj.search([('barcode',  '=',values['product'])])
+        elif self.import_prod_option == 'code':
+            product_search = product_obj.search([('default_code', '=',values['product'])])
+        else:
+            product_search = product_obj.search([('name', '=',values['product'])])
+
+        product_uom = self.env['product.uom'].search([('name', '=', values.get('uom'))])
+        if not product_uom:
+            raise Warning(_(' "%s" Product UOM category is not available.') % values.get('uom'))
+
         if product_search:
             product_id = product_search
         else:
-            product_id = product_obj.search([('name', '=', values.get('product'))])
-            if not product_id:
-                product_id = product_obj.create({'name': values.get('product')})
-        if not product_uom:
-            raise Warning(_(' "%s" Product UOM category is not available.') % values.get('uom'))
+            if self.import_prod_option == 'name':
+                product_id = product_obj.create({
+                                                    'name':values.get('product'),
+                                                    'lst_price':float(values.get('price')),
+                                                    'uom_id':product_uom.id,
+                                                 })
+            else:
+                raise Warning(_('%s product is not found" .\n If you want to create product then first select Import Product By Name option .') % values.get('product'))
+
+        tax_ids = []
+        if inv_id.type == 'out_invoice':
+            if values.get('tax'):
+                if ';' in  values.get('tax'):
+                    tax_names = values.get('tax').split(';')
+                    for name in tax_names:
+                        tax= self.env['account.tax'].search([('name', '=', name),('type_tax_use','=','sale')])
+                        if not tax:
+                            raise Warning(_('"%s" Tax not in your system') % name)
+                        tax_ids.append(tax.id)
+
+                elif ',' in  values.get('tax'):
+                    tax_names = values.get('tax').split(',')
+                    for name in tax_names:
+                        tax= self.env['account.tax'].search([('name', '=', name),('type_tax_use','=','sale')])
+                        if not tax:
+                            raise Warning(_('"%s" Tax not in your system') % name)
+                        tax_ids.append(tax.id)
+                else:
+                    tax_names = values.get('tax').split(',')
+                    tax= self.env['account.tax'].search([('name', '=', tax_names),('type_tax_use','=','sale')])
+                    if not tax:
+                        raise Warning(_('"%s" Tax not in your system') % tax_names)
+                    tax_ids.append(tax.id)
+        else:
+            if values.get('tax'):
+                if ';' in values.get('tax'):
+                    tax_names = values.get('tax').split(';')
+                    for name in tax_names:
+                        tax = self.env['account.tax'].search([('name', '=', name), ('type_tax_use', '=', 'purchase')])
+                        if not tax:
+                            raise Warning(_('"%s" Tax not in your system') % name)
+                        tax_ids.append(tax.id)
+
+                elif ',' in values.get('tax'):
+                    tax_names = values.get('tax').split(',')
+                    for name in tax_names:
+                        tax = self.env['account.tax'].search([('name', '=', name), ('type_tax_use', '=', 'purchase')])
+                        if not tax:
+                            raise Warning(_('"%s" Tax not in your system') % name)
+                        tax_ids.append(tax.id)
+                else:
+                    tax_names = values.get('tax').split(',')
+                    tax = self.env['account.tax'].search([('name', '=', tax_names), ('type_tax_use', '=', 'purchase')])
+                    if not tax:
+                        raise Warning(_('"%s" Tax not in your system') % tax_names)
+                    tax_ids.append(tax.id)
+
         if self.account_opt == 'default':
             if inv_id.type == 'out_invoice':
                 if product_id.property_account_income_id:
@@ -232,6 +311,7 @@ class gen_inv(models.TransientModel):
                     account = account_id
                 else:
                     raise Warning(_(' "%s" Account is not available.') % values.get('account'))
+                    
         res = invoice_line_obj.create({
             'product_id' : product_id.id,
             'quantity' : values.get('quantity'),

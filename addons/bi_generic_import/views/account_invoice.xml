@@ -38,6 +38,9 @@
                         </group>
                     </group>
                     <group>
+                        <field name="import_prod_option" widget='radio'/>
+                      </group>
+                    <group>
                     <group>
                         <field name="file" filename="name"/>
                     </group>

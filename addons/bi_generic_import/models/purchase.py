@@ -46,6 +46,7 @@ class gen_purchase(models.TransientModel):
     stage = fields.Selection(
         [('draft', 'Import Draft Purchase'), ('confirm', 'Confirm Purchase Automatically With Import')],
         string="Purchase Stage Option", default='draft')
+    import_prod_option = fields.Selection([('name', 'Name'),('code', 'Code'),('barcode', 'Barcode')],string='Import Product By ',default='name')        
 
     @api.multi
     def make_purchase(self, values):
@@ -106,9 +107,56 @@ class gen_purchase(models.TransientModel):
     def make_purchase_line(self, values, pur_id):
         product_obj = self.env['product.product']
         account = False
-        invoice_line_obj = self.env['purchase.order.line']
-        product_search = product_obj.search([('default_code', '=', values.get('product'))])
+        purchase_line_obj = self.env['purchase.order.line']
+        current_time=datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+
+        if self.import_prod_option == 'barcode':
+          product_search = product_obj.search([('barcode',  '=',values['product'])])
+        elif self.import_prod_option == 'code':
+            product_search = product_obj.search([('default_code', '=',values['product'])])
+        else:
+            product_search = product_obj.search([('name', '=',values['product'])])
+
         product_uom = self.env['product.uom'].search([('name', '=', values.get('uom'))])
+        if product_uom.id == False:
+            raise Warning(_(' "%s" Product UOM category is not available.') % values.get('uom'))
+
+        if product_search:
+            product_id = product_search
+        else:
+            if self.import_prod_option == 'name':
+                product_id = product_obj.create({
+                                                    'name':values.get('product'),
+                                                    'lst_price':float(values.get('price')),
+                                                    'uom_id':product_uom.id,
+                                                    'uom_po_id':product_uom.id
+                                                 })
+            else:
+                raise Warning(_('%s product is not found" .\n If you want to create product then first select Import Product By Name option .') % values.get('product'))
+
+        if pur_id.state == 'draft':
+                po_order_lines = purchase_line_obj.create({
+                                                    'order_id':pur_id.id,
+                                                    'product_id':product_id.id,
+                                                    'name':values.get('description'),
+                                                    'date_planned':current_time,
+                                                    'product_qty':values.get('quantity'),
+                                                    'product_uom':product_uom.id,
+                                                    'price_unit':values.get('price')
+                                                    })
+        elif pur_id.state == 'sent':
+            po_order_lines = purchase_line_obj.create({
+                                                'order_id':pur_id.id,
+                                                'product_id':product_id.id,
+                                                'name':values.get('description'),
+                                                'date_planned':current_time,
+                                                'product_qty':values.get('quantity'),
+                                                'product_uom':product_uom.id,
+                                                'price_unit':values.get('price')
+                                                })
+        elif pur_id.state != 'sent' or pur_id.state != 'draft':
+            raise Warning(_('We cannot import data in validated or confirmed order.')) 
+
         tax_ids = []
         if values.get('tax'):
             if ';' in  values.get('tax'):
@@ -127,52 +175,16 @@ class gen_purchase(models.TransientModel):
                         raise Warning(_('"%s" Tax not in your system') % name)
                     tax_ids.append(tax.id)
             else:
-                tax_names = values.get('tax')
-                tax= self.env['account.tax'].search([('name', '=', tax_names),('type_tax_use','=','purchase')])
-                if not tax:
-                    raise Warning(_('"%s" Tax not in your system') % tax_names)
-                tax_ids.append(tax.id)
-        if product_search:
-            product_id = product_search
-        else:
-            product_id = product_obj.search([('name', '=', values.get('product'))])
-            if not product_id:
-                product_id = product_obj.create({'name': values.get('product'),
-                                                 'uom_id':product_uom.id,
-                                                 'uom_po_id':product_uom.id
-                                                 })
-        if product_uom.id == False:
-            raise Warning(_(' "%s" Product UOM category is not available.') % values.get('uom'))
+                tax_names = values.get('tax').split(',')
+                for name in tax_names:
+                    tax = self.env['account.tax'].search([('name', '=', name), ('type_tax_use', '=', 'purchase')])
+                    if not tax:
+                        raise Warning(_('"%s" Tax not in your system') % name)
+                    tax_ids.append(tax.id)
 
-        if product_id.property_account_expense_id:
-            account = product_id.property_account_expense_id
-        elif product_id.categ_id.property_account_expense_categ_id:
-            account = product_id.categ_id.property_account_expense_categ_id
-        else:
-            account_search = self.env['ir.property'].search([('name', '=', 'property_account_expense_categ_id')])
-            account = account_search.value_reference
-            account = account.split(",")[1]
-            account = self.env['account.account'].browse(account)
-        dict = {
-            'product_id' : product_id.id,
-            'quantity' : values.get('quantity'),
-            'price_unit' : values.get('price'),
-            'name' : values.get('description'),
-            'account_id' : account.id,
-            'product_uom' : product_uom.id,
-            'purchase_id' : pur_id.id
-        }
-        res = invoice_line_obj.create({
-            'product_id' : product_id.id,
-            'product_qty' : values.get('quantity'),
-            'price_unit' : values.get('price'),
-            'name' : values.get('description'),
-            'product_uom' : product_uom.id,
-            'order_id' : pur_id.id,
-            'date_planned': datetime.now()
-        })
         if tax_ids:
-            res.write({'taxes_id':([(6, 0, tax_ids)])})
+            po_order_lines.write({'taxes_id':([(6, 0, tax_ids)])})
+
         return True
 
     @api.multi

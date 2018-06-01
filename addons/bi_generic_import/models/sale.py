@@ -45,6 +45,7 @@ class gen_sale(models.TransientModel):
     sequence_opt = fields.Selection([('custom', 'Use Excel/CSV Sequence Number'), ('system', 'Use System Default Sequence Number')], string='Sequence Option',default='custom')
     import_option = fields.Selection([('csv', 'CSV File'),('xls', 'XLS File')],string='Select',default='csv')
     stage = fields.Selection([('draft','Import Draft Quotation'),('confirm','Confirm Quotation Automatically With Import')], string="Quotation Stage Option",default='draft')
+    import_prod_option = fields.Selection([('name', 'Name'),('code', 'Code'),('barcode', 'Barcode')],string='Import Product By ',default='name')        
 
     @api.multi
     def make_sale(self, values):
@@ -87,8 +88,32 @@ class gen_sale(models.TransientModel):
     def make_order_line(self, values, sale_id):
         product_obj = self.env['product.product']
         order_line_obj = self.env['sale.order.line']
-        product_search = product_obj.search([('default_code', '=', values.get('product'))])
+        current_time=datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+
+        if self.import_prod_option == 'barcode':
+          product_search = product_obj.search([('barcode',  '=',values['product'])])
+        elif self.import_prod_option == 'code':
+            product_search = product_obj.search([('default_code', '=',values['product'])])
+        else:
+            product_search = product_obj.search([('name', '=',values['product'])])
+
         product_uom = self.env['product.uom'].search([('name', '=', values.get('uom'))])
+        if product_uom.id == False:
+            raise Warning(_(' "%s" Product UOM category is not available.') % values.get('uom'))
+
+        if product_search:
+            product_id = product_search
+        else:
+            if self.import_prod_option == 'name':
+                product_id = product_obj.create({
+                                                    'name':values.get('product'),
+                                                    'lst_price':float(values.get('price')),
+                                                    'uom_id':product_uom.id,
+                                                    'uom_po_id':product_uom.id
+                                                 })
+            else:
+                raise Warning(_('%s product is not found" .\n If you want to create product then first select Import Product By Name option .') % values.get('product'))
+
         tax_ids = []
         if values.get('tax'):
             if ';' in  values.get('tax'):
@@ -107,30 +132,23 @@ class gen_sale(models.TransientModel):
                         raise Warning(_('"%s" Tax not in your system') % name)
                     tax_ids.append(tax.id)
             else:
-                tax_names = values.get('tax')
-                tax= self.env['account.tax'].search([('name', '=', tax_names),('type_tax_use','=','sale')])
-                if not tax:
-                    raise Warning(_('"%s" Tax not in your system') % tax_names)
-                tax_ids.append(tax.id)
-        if product_search:
-            product_id = product_search
-        else:
-            product_id = product_obj.search([('name', '=', values.get('product'))])
-            if not product_id:
-                product_id = product_obj.create({'name': values.get('product'),
-                                                 })
-        if not product_uom:
-            raise Warning(_(' "%s" Product UOM category is not available.') % values.get('uom'))
-        res = order_line_obj.create({
-            'product_id' : product_id.id,
-            'product_uom_qty' : values.get('quantity'),
-            'price_unit' : values.get('price'),
-            'name' : values.get('description'),
-            'uom_id' : product_uom.id,
-            'order_id' : sale_id.id
-        })
+                tax_names = values.get('tax').split(',')
+                for name in tax_names:
+                    tax = self.env['account.tax'].search([('name', '=', name), ('type_tax_use', '=', 'sale')])
+                    if not tax:
+                        raise Warning(_('"%s" Tax not in your system') % name)
+                    tax_ids.append(tax.id)
+
+        so_order_lines = order_line_obj.create({
+                                            'order_id':sale_id.id,
+                                            'product_id':product_id.id,
+                                            'name':values.get('description'),
+                                            'product_uom_qty':values.get('quantity'),
+                                            'product_uom':product_uom.id,
+                                            'price_unit':values.get('price')
+                                            })
         if tax_ids:
-            res.write({'tax_id':([(6,0,tax_ids)])})
+            so_order_lines.write({'tax_id':([(6,0,tax_ids)])})
         return True
 
 

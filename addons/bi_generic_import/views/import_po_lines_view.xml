@@ -8,8 +8,15 @@
 			<field name="arch" type="xml">
 				<form>
 					<group>
+					    <field name="import_option" widget="radio"/>
 						<field name="purchase_order_file"/>
 					</group>
+					<group>
+				        	<field name="import_prod_option" widget='radio'/>
+				    	</group>
+					<group>
+				        	<field name="product_details_option" widget='radio'/>
+				    	</group>
 					<footer>
 						<button string="Import" name="import_pol" class="oe_highlight" type="object"/>
 					</footer>

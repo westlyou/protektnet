@@ -8,10 +8,21 @@
 			<field name="arch" type="xml">
 				<form>
 					<group>
+					    <field name="import_option" widget="radio"/>
 						<field name="sale_order_file"/>
+					</group>
+					<group>
+					    <group>
+    					    <field name="import_prod_option" widget="radio"/>
+    					</group>
+    					<group>
+    					    <field name="product_details_option" widget="radio"/>
+    					</group>
 					</group>
 					<footer>
 						<button string="Import" name="import_sol" class="oe_highlight" type="object"/>
+						or
+                        <button name="cancel" string="Cancel" class="oe_link"/> 
 					</footer>
 				</form>
 			</field>
