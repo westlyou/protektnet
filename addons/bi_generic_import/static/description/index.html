@@ -3,13 +3,13 @@
 	<div class="mt32 mb32">
 		<div class="col-md-12">
 			<h2 class="oe_slogan" style="font-size: 35px;">
-				<b>All in one Import for Sales, Purchase, Invoice, Inventory, Customer/Supplier Payment, Bank Statement, Journal Entry, Picking, Product, Customer.</b>
+				<b>All in one Import for Sales, Purchase, Invoice, Inventory,Bill of material, Customer/Supplier Payment, Bank Statement, Journal Entry, Picking, Product, Customer.</b>
 			</h2>
 			<h3 class="oe_slogn" style="text-align: center;">
 				Importing all kind of data now easy never been before, Importing
 				different sort of data is always been headache,Module is like VLC
 				player of Odoo.<br />
-				<br />It can import all important data whether its Sales, Purchase, Invoice, Inventory, Customer/Supplier Payment, Bank Statement, Journal Entry, Picking, Product, Customer, How resourceful it
+				<br />It can import all important data whether its Sales, Purchase, Invoice, Inventory, Bill of material,Customer/Supplier Payment, Bank Statement, Journal Entry, Picking, Product, Customer, How resourceful it
 				is ,It can reduce you work efforts and makes your life hassle free.
 			</h3>
 
@@ -42,7 +42,7 @@
 					</div>
 					<div class="panel-body" style="padding-top:0px;">
 							<div class="row" style="margin-left:-15px;margin-right:-21px;">
-					    <div class="column" style="float: left;width: 50.00%;padding: 10px;height: 485px;border-style:solid;border-color:#528df3 !important;">
+					    <div class="column" style="float: left;width: 50.00%;padding: 10px;height: 512px;border-style:solid;border-color:#528df3 !important;">
                             <ul class="list-unstyled" style="list-style-type:square;padding-left:16px;color: #31708f;">
                             <strong >
                                 <li>Invoice, Sales, Purchase</li>
@@ -55,13 +55,13 @@
                                 <li>Sale Order, Purchase Order Lines</li>
                                 <li>Invoice Lines</li>
                                 <li>Import External Sequence for Sale Order, Purchase Order, Invoice</li>
+                                <li>Import Bill of material</li>
                             </strong>
                             </ul>
                           </div>
-                          <div class="column" style="float: left;width: 49.33%;padding: 10px;height: 485px;border-style:solid;border-left:none;border-color:#528df3 !important;">
+                          <div class="column" style="float: left;width: 49.33%;padding: 10px;height: 512px;border-style:solid;border-left:none;border-color:#528df3 !important;">
                           <ul class="list-unstyled" style="list-style-type:square;padding-left:16px;color: #31708f;">
                             <strong >
-                                <li>Import/Update Products with Image</li>
                                 <li>Import/Update Products with Vendor</li>
                                 <li>Import/Update Partner/Customer/Supplier</li>
                                 <li>Import Order With Date</li>   
@@ -318,6 +318,23 @@
 <section class="oe_container oe_dark">
 	<div class="oe_row oe_spaced">
 		<div class="oe_span12">
+		    <h1 class="text-info"
+				style="text-align: center; padding-bottom: 40px;">You have 3 different options to import invoice order.</h1>
+			    <div class="col-md-4">	
+			    <h3 class="text-info" style="font-size: 20px;">Import with Code.</h3>
+			    <img class="img-border img-responsive thumbnail"
+				style="border: 3px solid black;" src="import_code_xls_product_invoice.png">
+				</div>
+				<div class="col-md-4">	
+			    <h3 class="text-info" style="font-size: 20px;">Import with Barcode.</h3>
+			    <img class="img-border img-responsive thumbnail"
+				style="border: 3px solid black;" src="import_barcode_xls_product_invoice.png">
+				</div>
+				<div class="col-md-4">	
+				 <h3 class="text-info" style="font-size: 20px;">Import with Name.</h3>
+				 <img class="img-border img-responsive thumbnail"
+				style="border: 3px solid black;" src="inv_tax.png">
+				</div>
 			<dl style="padding-left: 30px;">
 				<dt style="color: #31708f;">INVOICE ID</dt>
 				<dd style="color: #31708f;">- Invoice number for the invoice.</dd>
@@ -354,9 +371,9 @@
 			<h3 class="text-info" style="font-size: 25px;">Tax column is
 				important you have to add "Tax column" though there is no need of
 				adding tax.</h3>
-			<img border="1" border-color:
-				black; class="img-border img-responsive thumbnail"
-				style="border: 3px solid black;" src="inv_tax.png"><br />
+			<h3 class="text-info" style="font-size: 25px;">1. When code is selected in Import option, please select file that contains code of products.</h3>
+			<h3 class="text-info" style="font-size: 25px;">2. When barcode is selected in Import option, please select file that contains barcode of products.</h3>
+			<h3 class="text-info" style="font-size: 25px;">3. When Name is selected in Import option, please select file that contains name of products.</h3>
 		</div>
 	</div>
 </section>
@@ -398,7 +415,10 @@
 		    <h3 class="text-info" style="font-size: 25px;text-decoration: underline;font-weight: bold;">3. Account Option : </h3><h3 class="text-info" style="font-size: 25px;">If you want to
 				import Account from XLS/CSV so you have option for "Account Option" regarding this in import invoice wizard.</h3>
 				
-		    <h3 class="text-info" style="font-size: 25px;text-decoration: underline;font-weight: bold;">4. Type : </h3><h3 class="text-info" style="font-size: 25px;">You have also option for import invoice for Customer or Vendors.</h3>				
+		    <h3 class="text-info" style="font-size: 25px;text-decoration: underline;font-weight: bold;">4. Type : </h3><h3 class="text-info" style="font-size: 25px;">You have also option for import invoice for Customer or Vendors.</h3>	
+		    <h3 class="text-info" style="font-size: 25px;text-decoration: underline;font-weight: bold;"> 5. Import Product By :</h3>
+            <h3 class="text-info" style="font-size: 25px;">You have also option to import products by it's Name/ Barcode or Code(Internal Reference).</h3>
+            <h3 class="text-info" style="font-size: 25px;">If you want to create product while importing sale order then you have must select import with "Name".</h3>				
 			<br /> <img class="img-border img-responsive thumbnail"
 				style="border: 3px solid black;" src="import_invoice_wizard.png">
 		</div>
@@ -520,6 +540,34 @@
         <div class="oe_row oe_spaced">
             <div class="oe_span12">
             <h1 class="text-info" style="text-align: center;padding-bottom: 40px;"><strong>Data File Sample.</strong></h1>
+            <h1 class="text-info"
+				style="text-align: center; padding-bottom: 40px;">You have 3 different options to import invoice line.</h1>
+			    <h3 class="text-info" style="font-size: 25px;">If you want to import product with "Take Details From The Product" option then follow given XLS format.</h3><br/>
+			    <div class="col-md-4">	
+			    <h3 class="text-info" style="font-size: 20px;">Import with Code.</h3>
+			    <img class="img-border img-responsive thumbnail"
+				style="border: 3px solid black;" src="import_code_xls_product.png">
+				</div>
+				<div class="col-md-4">	
+			    <h3 class="text-info" style="font-size: 20px;">Import with Barcode.</h3>
+			    <img class="img-border img-responsive thumbnail"
+				style="border: 3px solid black;" src="import_barcode_xls_product.png">
+				</div>
+				<div class="col-md-4">	
+				 <h3 class="text-info" style="font-size: 20px;">Import with Name.</h3>
+				 <img class="img-border img-responsive thumbnail"
+				style="border: 3px solid black;" src="1_excel_product.png">
+				</div>
+			<h3 class="text-info" style="font-size: 25px;">If you want to import product with "Take Details From The XLS File" option then follow given XLS format.</h3><br/>
+			    <h3 class="text-info" style="font-size: 20px;">Import with Code.</h3>
+			    <img class="img-border img-responsive thumbnail"
+				style="border: 3px solid black;" src="import_code_xls.png">
+			    <h3 class="text-info" style="font-size: 20px;">Import with Barcode.</h3>
+			    <img class="img-border img-responsive thumbnail"
+				style="border: 3px solid black;" src="import_barcode_xls.png">
+				 <h3 class="text-info" style="font-size: 20px;">Import with Name.</h3>
+				 <img class="img-border img-responsive thumbnail"
+				style="border: 3px solid black;" src="1_excel.png">
             <h3 class="text-info" style="font-size: 25px;">Given below is the sample of import file,It is mandatory to use given XLS format to import order lines.<br/><br/>You need to maintain the column order.<br/><br/>If there is need of adding "Tax" you can add it but if there is no need of adding "Tax" you have to leave it blank.</h3>
                 <br/>
                 <dl style="padding-left:30px;">
@@ -536,7 +584,9 @@
                   <dt style="color:#31708f;">TAX</dt>
                   <dd style="color:#31708f;">-Tax for product</dd>
                 </dl>
-                <img class="img-border img-responsive thumbnail" style="border: 3px solid black;" src="1_excel.png">
+                <h3 class="text-info" style="font-size: 25px;">1. When code is selected in Import option, please select file that contains code of products.</h3>
+			<h3 class="text-info" style="font-size: 25px;">2. When barcode is selected in Import option, please select file that contains barcode of products.</h3>
+			<h3 class="text-info" style="font-size: 25px;">3. When Name is selected in Import option, please select file that contains name of products.</h3>
             </div>
         </div>
     </section>
@@ -547,32 +597,51 @@
             <h1 class="text-info" style="text-align: center;padding-bottom: 40px;"><strong>Import Invoice Order Lines Menu.</strong></h1>
             <h3 class="text-info" style="font-size: 25px;">Figure shows button for importing data of Invoice Order Lines.</h3>
                 <br/>
-                <img class="img-border img-responsive thumbnail" style="border: 3px solid black;" src="2_record.png">
+                <img class="img-border img-responsive thumbnail" style="border: 3px solid black;" src="2_record_invoice.png">
             </div>
         </div>
 </section> 
 
-<!--<section class="oe_container oe_dark">
+<section class="oe_container oe_dark">
         <div class="oe_row oe_spaced">
             <div class="oe_span12">
             <h1 class="text-info" style="text-align: center;padding-bottom: 40px;"><strong>Import Invoice Order Lines Wizard.</strong></h1>
             <h3 class="text-info" style="font-size: 25px;">In this wizard you have to upload properly formated XLS file which you want to import.</h3>
+            <h3 class="text-info" style="font-size: 25px;text-decoration: underline;font-weight: bold;"> 1. Product Details Option :</h3>
+            <h3 class="text-info" style="font-size: 25px;"> While importing invoice order line, If you select "Take Details From The Product" option then product and product quantity will be taken from selected XLS file, Other product details(UOM, Price) will be taken from already created products.</h3>
+            
+            <h3 class="text-info" style="font-size: 25px;">If you select "Take Details From The XLS File" option then all details will be taken from selected XLS file.</h3>
+            
+            <h3 class="text-info" style="font-size: 25px;text-decoration: underline;font-weight: bold;"> 2. Import Product By :</h3>
+            <h3 class="text-info" style="font-size: 25px;">You have also option to import products by it's Name/ Barcode or Code(Internal Reference).</h3>
+            <h3 class="text-info" style="font-size: 25px;">If you want to create product while importing invoice line then you have must select import with "Name".</h3>
                 <br/>
-                <img class="img-border img-responsive thumbnail" style="border: 3px solid black;" src="3_wizard.png">
-            </div>
-        </div>
-    </section> -->
-    
-<section class="oe_container oe_dark">
-        <div class="oe_row oe_spaced">
-            <div class="oe_span12">
-            <h1 class="text-info" style="text-align: center;padding-bottom: 40px;"><strong>Views</strong></h1>
-            <h3 class="text-info" style="font-size: 25px;">This is the view of invoice order lines created from given data file.</h3>
-                <br/>
-                <img class="img-border img-responsive thumbnail" style="border: 3px solid black;" src="4_record.png">
+                <img class="img-border img-responsive thumbnail" style="border: 3px solid black;" src="3_wizard_product_invoice.png">
             </div>
         </div>
     </section> 
+    
+<section class="oe_container lead">
+        <div class="oe_row oe_spaced">
+            <div class="oe_span12">
+            <h1 class="text-info" style="text-align: center;padding-bottom: 40px;"><strong>Views</strong></h1>
+            <h3 class="text-info" style="font-size: 25px;">After importing CSV/XLS with "Take Details From The Product" option then you can see the imported product details is taken from already created product.</h3>
+                <br/>
+                <img class="img-border img-responsive thumbnail" style="border: 3px solid black;" src="4_record_product_invoice.png">
+            </div>
+        </div>
+    </section> 
+
+<section class="oe_container oe_dark">
+	<div class="oe_row oe_spaced">
+		<div class="oe_span12">
+			<h1 class="text-info" style="text-align: center; padding-bottom: 40px;"><strong>If you select "Take Details From The XLS File" option then you can see the imported product details is taken from XLS file.</strong></h1>
+			<br />
+			<img class="img-border img-responsive thumbnail" style="border: 3px solid black;" src="3_wizard_xls_invoice.png"><br/><br/>
+			<img class="img-border img-responsive thumbnail" style="border: 3px solid black;" src="4_record_xls_invoice.png">
+		</div>
+	</div>
+</section>  
     
 <!--<section class="oe_container oe_dark">
         <div class="oe_row oe_spaced">
@@ -973,6 +1042,26 @@
 <section class="oe_container oe_dark">
 	<div class="oe_row oe_spaced">
 		<div class="oe_span12">
+		<h1 class="text-info" style="text-align: center;padding-bottom: 40px;"><strong>Data File Sample.</strong></h1>
+		    <h3 class="text-info" style="font-size: 25px;">Given below is
+				the sample of import file.</h3>
+            <h1 class="text-info"
+				style="text-align: center; padding-bottom: 40px;">You have 3 different options to import sale order.</h1>
+			    <div class="col-md-4">	
+			    <h3 class="text-info" style="font-size: 20px;">Import with Code.</h3>
+			    <img class="img-border img-responsive thumbnail"
+				style="border: 3px solid black;" src="import_code_xls_product_so.png">
+				</div>
+				<div class="col-md-4">	
+			    <h3 class="text-info" style="font-size: 20px;">Import with Barcode.</h3>
+			    <img class="img-border img-responsive thumbnail"
+				style="border: 3px solid black;" src="import_barcode_xls_product_so.png">
+				</div>
+				<div class="col-md-4">	
+				 <h3 class="text-info" style="font-size: 20px;">Import with Name.</h3>
+				 <img class="img-border img-responsive thumbnail"
+				style="border: 3px solid black;" src="excel.png">
+				</div>
 			<dl style="padding-left: 30px;">
 				<dt style="color: #31708f;">ORDER</dt>
 				<dd style="color: #31708f;">- Sale order number</dd>
@@ -1009,9 +1098,9 @@
 			<h3 class="text-info" style="font-size: 25px;">Tax column is
 				important you have to add "Tax column" though there is no need of
 				adding tax.</h3>
-			<img border="1" border-color:
-				black; class="img-border img-responsive thumbnail"
-				style="border: 3px solid black;" src="excel.png"><br />
+			<h3 class="text-info" style="font-size: 25px;">1. When code is selected in Import option, please select file that contains code of products.</h3>
+			<h3 class="text-info" style="font-size: 25px;">2. When barcode is selected in Import option, please select file that contains barcode of products.</h3>
+			<h3 class="text-info" style="font-size: 25px;">3. When Name is selected in Import option, please select file that contains name of products.</h3>
 		</div>
 	</div>
 </section>
@@ -1050,6 +1139,10 @@
             <h3 class="text-info" style="font-size: 25px;">If you select
 				"Confirm Quotation Automatically With Import" option then sale order will be import in Sale Order stage.</h3>							
 
+			<h3 class="text-info" style="font-size: 25px;text-decoration: underline;font-weight: bold;"> 3. Import Product By :</h3>
+            <h3 class="text-info" style="font-size: 25px;">You have also option to import products by it's Name/ Barcode or Code(Internal Reference).</h3>
+            <h3 class="text-info" style="font-size: 25px;">If you want to create product while importing sale order then you have must select import with "Name".</h3>
+            
 			<br /> <img class="img-border img-responsive thumbnail"
 				style="border: 3px solid black;" src="sales_wizard.png">
 		</div>
@@ -1167,6 +1260,34 @@
         <div class="oe_row oe_spaced">
             <div class="oe_span12">
             <h1 class="text-info" style="text-align: center;padding-bottom: 40px;"><strong>Data File Sample.</strong></h1>
+            <h1 class="text-info"
+				style="text-align: center; padding-bottom: 40px;">You have 3 different options to import sale order line.</h1>
+            <h3 class="text-info" style="font-size: 25px;">If you want to import product with "Take Details From The Product" option then follow given XLS format.</h3><br/>
+			    <div class="col-md-4">	
+			    <h3 class="text-info" style="font-size: 20px;">Import with Code.</h3>
+			    <img class="img-border img-responsive thumbnail"
+				style="border: 3px solid black;" src="import_code_xls_product.png">
+				</div>
+				<div class="col-md-4">	
+			    <h3 class="text-info" style="font-size: 20px;">Import with Barcode.</h3>
+			    <img class="img-border img-responsive thumbnail"
+				style="border: 3px solid black;" src="import_barcode_xls_product.png">
+				</div>
+				<div class="col-md-4">	
+				 <h3 class="text-info" style="font-size: 20px;">Import with Name.</h3>
+				 <img class="img-border img-responsive thumbnail"
+				style="border: 3px solid black;" src="1_excel_product.png">
+				</div>
+			<h3 class="text-info" style="font-size: 25px;">If you want to import product with "Take Details From The XLS File" option then follow given XLS format.</h3><br/>
+			    <h3 class="text-info" style="font-size: 20px;">Import with Code.</h3>
+			    <img class="img-border img-responsive thumbnail"
+				style="border: 3px solid black;" src="import_code_xls.png">
+			    <h3 class="text-info" style="font-size: 20px;">Import with Barcode.</h3>
+			    <img class="img-border img-responsive thumbnail"
+				style="border: 3px solid black;" src="import_barcode_xls.png">
+				 <h3 class="text-info" style="font-size: 20px;">Import with Name.</h3>
+				 <img class="img-border img-responsive thumbnail"
+				style="border: 3px solid black;" src="1_excel.png">
             <h3 class="text-info" style="font-size: 25px;">Given below is the sample of import file,It is mandatory to use given XLS format to import order lines.<br/><br/>You need to maintain the column order.<br/><br/>If there is need of adding "Tax" you can add it but if there is no need of adding "Tax" you have to leave it blank.</h3>
                 <br/>
                 <dl style="padding-left:30px;">
@@ -1183,7 +1304,9 @@
                   <dt style="color:#31708f;">TAX</dt>
                   <dd style="color:#31708f;">-Tax for product</dd>
                 </dl>
-                <img class="img-border img-responsive thumbnail" style="border: 3px solid black;" src="1_excel.png">
+                <h3 class="text-info" style="font-size: 25px;">1. When code is selected in Import option, please select file that contains code of products.</h3>
+			<h3 class="text-info" style="font-size: 25px;">2. When barcode is selected in Import option, please select file that contains barcode of products.</h3>
+			<h3 class="text-info" style="font-size: 25px;">3. When Name is selected in Import option, please select file that contains name of products.</h3>
             </div>
         </div>
     </section>
@@ -1204,8 +1327,17 @@
             <div class="oe_span12">
             <h1 class="text-info" style="text-align: center;padding-bottom: 40px;"><strong>Import Sales Order Lines Wizard.</strong></h1>
             <h3 class="text-info" style="font-size: 25px;">In this wizard you have to upload properly formated XLS file which you want to import.</h3>
+                <h3 class="text-info" style="font-size: 25px;text-decoration: underline;font-weight: bold;"> 1. Product Details Option :</h3>
+            <h3 class="text-info" style="font-size: 25px;"> While importing sale order line, If you select "Take Details From The Product" option then product and product quantity will be taken from selected XLS file, Other product details(UOM, Price) will be taken from already created products.</h3>
+            
+            <h3 class="text-info" style="font-size: 25px;">If you select "Take Details From The XLS File" option then all details will be taken from selected XLS file.</h3>
+            
+            <h3 class="text-info" style="font-size: 25px;text-decoration: underline;font-weight: bold;"> 2. Import Product By :</h3>
+            <h3 class="text-info" style="font-size: 25px;">You have also option to import products by it's Name/ Barcode or Code(Internal Reference).</h3>
+            
+            <h3 class="text-info" style="font-size: 25px;">If you want to create product while importing sale order line then you have must select import with "Name".</h3>
                 <br/>
-                <img class="img-border img-responsive thumbnail" style="border: 3px solid black;" src="3_wizard.png">
+                <img class="img-border img-responsive thumbnail" style="border: 3px solid black;" src="3_wizard_product_so.png">
             </div>
         </div>
     </section> 
@@ -1214,12 +1346,23 @@
         <div class="oe_row oe_spaced">
             <div class="oe_span12">
             <h1 class="text-info" style="text-align: center;padding-bottom: 40px;"><strong>Views</strong></h1>
-            <h3 class="text-info" style="font-size: 25px;">This is the view of saleorder lines created from given data file.</h3>
+            <h3 class="text-info" style="font-size: 25px;">After importing CSV/XLS with "Take Details From The Product" option then you can see the imported product details is taken from already created product.</h3>
                 <br/>
-                <img class="img-border img-responsive thumbnail" style="border: 3px solid black;" src="4_record_SOline.png">
+                <img class="img-border img-responsive thumbnail" style="border: 3px solid black;" src="4_record_product_so.png">
             </div>
         </div>
     </section>
+
+<section class="oe_container oe_dark">
+	<div class="oe_row oe_spaced">
+		<div class="oe_span12">
+			<h1 class="text-info" style="text-align: center; padding-bottom: 40px;"><strong>If you select "Take Details From The XLS File" option then you can see the imported product details is taken from XLS file.</strong></h1>
+			<br />
+			<img class="img-border img-responsive thumbnail" style="border: 3px solid black;" src="3_wizard_xls_so.png"><br/><br/>
+			<img class="img-border img-responsive thumbnail" style="border: 3px solid black;" src="4_record_xls_so.png">
+		</div>
+	</div>
+</section>    
 
 <section class="oe_container oe_dark">
         <div class="oe_row oe_spaced">
@@ -1544,154 +1687,6 @@
 	<div class="row">
 		<h4 class="oe_slogan" style="text-align: center;">
 			<span align="center" class="label label-success "
-				style="background-color: #528df3;font-size:25px;"> <span
-				class="fa fa-star fa-spin"></span> Import Product Images
-			</span>
-		</h4>
-	</div>
-</section>
-
-<section class="oe_container oe_dark">
-	<div class="oe_row oe_spaced">
-		<div class="oe_span12">
-			<h3 class="text-info" style="font-size: 25px; text-align: center">In
-				Sales you can add product template and product through Import
-				Product Images</h3>
-			<img border="1"
-				border-color:black; class="img-border img-responsive thumbnail"
-				style="border: 3px solid black;" src="v11_product_image_001.png"><br />
-		</div>
-		<div class="oe_span12">
-			<h3 class="text-info" style="font-size: 25px; text-align: center">In
-				popup select model as product and operation as create product and
-				select an excel file.</h3>
-			<img border="1"
-				border-color:black; class="img-border img-responsive thumbnail"
-				style="border: 3px solid black;" src="v11_product_image_002.png"><br />
-		</div>
-	</div>
-</section>
-<section class="oe_container oe_lead">
-	<div class="oe_row oe_spaced">
-		<div class="oe_span12">
-			<h3 class="text-info" style="font-size: 25px; text-align: center">In
-				excel file you can add columns as product,product code and image
-				path.</h3>
-			<img border="1"
-				border-color:black; class="img-border img-responsive thumbnail"
-				style="border: 3px solid black;" src="1st-excel.png"><br />
-		</div>
-		<div class="oe_span12">
-			<h3 class="text-info" style="font-size: 25px;">After add excel
-				file you can see the product variants that you add through excel
-				file.</h3>
-			<img border="1"
-				border-color:black; class="img-border img-responsive thumbnail"
-				style="border: 3px solid black;" src="v11_product_image_003.png"><br />
-		</div>
-	</div>
-</section>
-
-<section class="oe_container oe_dark">
-	<div class="oe_row oe_spaced">
-		<div class="oe_span12">
-			<h3 class="text-info" style="font-size: 25px; text-align: center">If you
-				want to update the product image than select models as product and
-				operations as update product and select the excel file.</h3>
-			<img border="1"
-				border-color:black; class="img-border img-responsive thumbnail"
-				style="border: 3px solid black;" src="v11_product_image_004.png"><br />
-		</div>
-		<div class="oe_span12">
-			<h3 class="text-info" style="font-size: 25px; text-align: center">Selected
-				excel file for update product.</h3>
-			<img border="1"
-				border-color:black; class="img-border img-responsive thumbnail"
-				style="border: 3px solid black;" src="1st excel-after.png"><br />
-		</div>
-	</div>
-</section>
-
-<section class="oe_container oe_lead">
-	<div class="oe_row oe_spaced">
-		<div class="oe_span12">
-			<h3 class="text-info" style="font-size: 25px; text-align: center">After
-				add excel file you can see updated product variants that you update
-				through excel file.</h3>
-			<img border="1"
-				border-color:black; class="img-border img-responsive thumbnail"
-				style="border: 3px solid black;" src="v11_product_image_005.png"><br />
-		</div>
-		<div class="oe_span12">
-			<h3 class="text-info" style="font-size: 25px; text-align: center">You
-				can also add product templates.</h3>
-			<h3 class="text-info" style="font-size: 25px; text-align: center">In
-				popup select models as product templates and operation as create
-				product.</h3>
-			<img border="1"
-				border-color:black; class="img-border img-responsive thumbnail"
-				style="border: 3px solid black;" src="v11_product_image_006.png"><br />
-		</div>
-	</div>
-</section>
-
-<section class="oe_container oe_dark">
-	<div class="oe_row oe_spaced">
-		<div class="oe_span12">
-			<h3 class="text-info" style="font-size: 25px; text-align: center">Selected
-				excel file for product templates.</h3>
-			<img border="1"
-				border-color:black; class="img-border img-responsive thumbnail"
-				style="border: 3px solid black;" src="2nd excel.png"><br />
-		</div>
-		<div class="oe_span12">
-			<h3 class="text-info" style="font-size: 25px; text-align: center">After
-				upload excel file you can see the product templates in product
-				templates as shown in figure.</h3>
-			<img border="1"
-				border-color:black; class="img-border img-responsive thumbnail"
-				style="border: 3px solid black;" src="v11_product_image_007.png"><br />
-		</div>
-	</div>
-</section>
-
-<section class="oe_container oe_lead">
-	<div class="oe_row oe_spaced">
-		<div class="oe_span12">
-			<h3 class="text-info" style="font-size: 25px; text-align: center">If you
-				want to update the product template than select model as product
-				template and operations as update product and select the excel file.
-			</h3>
-			<img border="1"
-				border-color:black; class="img-border img-responsive thumbnail"
-				style="border: 3px solid black;" src="v11_product_image_008.png"><br />
-		</div>
-		<div class="oe_span12">
-			<h3 class="text-info" style="font-size: 25px; text-align: center">Selected
-				excel file for Product Templates.</h3>
-			<img border="1"
-				border-color:black; class="img-border img-responsive thumbnail"
-				style="border: 3px solid black;" src="2nde excel-after.png"><br />
-		</div>
-	</div>
-</section>
-
-<section class="oe_container oe_dark">
-	<div class="oe_span12">
-		<h3 class="text-info" style="font-size: 25px; text-align: center">After
-			upload excel file you can see the updated product templates in
-			Product as shown in figure.</h3>
-		<img border="1"
-			border-color:black; class="img-border img-responsive thumbnail"
-			style="border: 3px solid black;" src="v11_product_image_009.png"><br />
-	</div>
-</section>
-
-
-<section class="container mt32">
-	<div class="row">
-		<h4 class="oe_slogan" style="text-align: center;">
-			<span align="center" class="label label-success "
 				style="background-color: #F79B5B;font-size:25px;"> <span
 				class="fa fa-star fa-spin"></span> Warehouse
 			</span>
@@ -1950,6 +1945,26 @@
 <section class="oe_container oe_dark">
 	<div class="oe_row oe_spaced">
 		<div class="oe_span12">
+		    <h1 class="text-info" style="text-align: center;padding-bottom: 40px;"><strong>Data File Sample.</strong></h1>
+		    <h3 class="text-info" style="font-size: 25px;">Given below is
+				the sample of import file.</h3>
+            <h1 class="text-info"
+				style="text-align: center; padding-bottom: 40px;">You have 3 different options to import purchase order.</h1>
+			    <div class="col-md-4">	
+			    <h3 class="text-info" style="font-size: 20px;">Import with Code.</h3>
+			    <img class="img-border img-responsive thumbnail"
+				style="border: 3px solid black;" src="import_code_xls_product_po.png">
+				</div>
+				<div class="col-md-4">	
+			    <h3 class="text-info" style="font-size: 20px;">Import with Barcode.</h3>
+			    <img class="img-border img-responsive thumbnail"
+				style="border: 3px solid black;" src="import_barcode_xls_product_po.png">
+				</div>
+				<div class="col-md-4">	
+				 <h3 class="text-info" style="font-size: 20px;">Import with Name.</h3>
+				 <img class="img-border img-responsive thumbnail"
+				style="border: 3px solid black;" src="purchase_tax.png">
+				</div>
 			<dl style="padding-left: 30px;">
 				<dt style="color: #31708f;">PURCHASE ID</dt>
 				<dd style="color: #31708f;">- Purchase number for the purchase
@@ -1976,8 +1991,6 @@
 				<dd style="color: #31708f;">- Date of purchase order.</dd>
 			</dl>
 
-			<h3 class="text-info" style="font-size: 25px;">Given below is
-				the sample of import file.</h3>
 			<h3 class="text-info" style="font-size: 25px;">The "PURCHASE ID"
 				should be same, as you can see in the image, "PURCHASE ID" is same
 				for different product list.This defines single order with different
@@ -1985,9 +1998,10 @@
 			<h3 class="text-info" style="font-size: 25px;">Tax column is
 				important you have to add "Tax column" though there is no need of
 				adding tax.</h3>
-			<img border="1" border-color:
-				black; class="img-border img-responsive thumbnail"
-				style="border: 3px solid black;" src="purchase_tax.png"><br />
+				
+			<h3 class="text-info" style="font-size: 25px;">1. When code is selected in Import option, please select file that contains code of products.</h3>
+			<h3 class="text-info" style="font-size: 25px;">2. When barcode is selected in Import option, please select file that contains barcode of products.</h3>
+			<h3 class="text-info" style="font-size: 25px;">3. When Name is selected in Import option, please select file that contains name of products.</h3>
 		</div>
 	</div>
 </section>
@@ -2026,6 +2040,10 @@
             <h3 class="text-info" style="font-size: 25px;">If you select
 				"Confirm Purchase Automatically With Import" option then purchase order will be import in Purchase Order stage.</h3>			
 				
+			<h3 class="text-info" style="font-size: 25px;text-decoration: underline;font-weight: bold;"> 3. Import Product By :</h3>
+            <h3 class="text-info" style="font-size: 25px;">You have also option to import products by it's Name/ Barcode or Code(Internal Reference).</h3>
+            <h3 class="text-info" style="font-size: 25px;">If you want to create product while importing purchase order then you have must select import with "Name".</h3>
+            
 			<br /> <img class="img-border img-responsive thumbnail"
 				style="border: 3px solid black;" src="pur_wizard.png">
 		</div>
@@ -2146,11 +2164,39 @@
         <div class="oe_row oe_spaced">
             <div class="oe_span12">
             <h1 class="text-info" style="text-align: center;padding-bottom: 40px;"><strong>Data File Sample.</strong></h1>
+            <h1 class="text-info"
+				style="text-align: center; padding-bottom: 40px;">You have 3 different options to import purchase order line.</h1>
+			<h3 class="text-info" style="font-size: 25px;">If you want to import product with "Take Details From The Product" option then follow given XLS format.</h3><br/>
+			    <div class="col-md-4">	
+			    <h3 class="text-info" style="font-size: 20px;">Import with Code.</h3>
+			    <img class="img-border img-responsive thumbnail"
+				style="border: 3px solid black;" src="import_code_xls_product.png">
+				</div>
+				<div class="col-md-4">	
+			    <h3 class="text-info" style="font-size: 20px;">Import with Barcode.</h3>
+			    <img class="img-border img-responsive thumbnail"
+				style="border: 3px solid black;" src="import_barcode_xls_product.png">
+				</div>
+				<div class="col-md-4">	
+				 <h3 class="text-info" style="font-size: 20px;">Import with Name.</h3>
+				 <img class="img-border img-responsive thumbnail"
+				style="border: 3px solid black;" src="1_excel_product.png">
+				</div>
+			<h3 class="text-info" style="font-size: 25px;">If you want to import product with "Take Details From The XLS File" option then follow given XLS format.</h3><br/>
+			    <h3 class="text-info" style="font-size: 20px;">Import with Code.</h3>
+			    <img class="img-border img-responsive thumbnail"
+				style="border: 3px solid black;" src="import_code_xls.png">
+			    <h3 class="text-info" style="font-size: 20px;">Import with Barcode.</h3>
+			    <img class="img-border img-responsive thumbnail"
+				style="border: 3px solid black;" src="import_barcode_xls.png">
+				 <h3 class="text-info" style="font-size: 20px;">Import with Name.</h3>
+				 <img class="img-border img-responsive thumbnail"
+				style="border: 3px solid black;" src="1_excel.png">
             <h3 class="text-info" style="font-size: 25px;">Given below is the sample of import file,It is mandatory to use given XLS format to import order lines.<br/><br/>You need to maintain the column order.<br/><br/>If there is need of adding "Tax" you can add it but if there is no need of adding "Tax" you have to leave it blank.</h3>
                 <br/>
                 <dl style="padding-left:30px;">
                   <dt style="color:#31708f;">PRODUCT</dt>
-                  <dd style="color:#31708f;">-Product name for sale order line.</dd>
+                  <dd style="color:#31708f;">-Product name for Purchase order line.</dd>
                   <dt style="color:#31708f;">QUANTITY</dt>
                   <dd style="color:#31708f;">- Quantity for above product.</dd>
                   <dt style="color:#31708f;">UOM</dt>
@@ -2162,7 +2208,9 @@
                   <dt style="color:#31708f;">TAX</dt>
                   <dd style="color:#31708f;">-Tax for product</dd>
                 </dl>
-                <img class="img-border img-responsive thumbnail" style="border: 3px solid black;" src="1_excel.png">
+                <h3 class="text-info" style="font-size: 25px;">1. When code is selected in Import option, please select file that contains code of products.</h3>
+			<h3 class="text-info" style="font-size: 25px;">2. When barcode is selected in Import option, please select file that contains barcode of products.</h3>
+			<h3 class="text-info" style="font-size: 25px;">3. When Name is selected in Import option, please select file that contains name of products.</h3>
             </div>
         </div>
     </section>
@@ -2183,8 +2231,16 @@
             <div class="oe_span12">
             <h1 class="text-info" style="text-align: center;padding-bottom: 40px;"><strong>Import Purchase Order Lines Wizard.</strong></h1>
             <h3 class="text-info" style="font-size: 25px;">In this wizard you have to upload properly formated XLS file which you want to import.</h3>
+                <h3 class="text-info" style="font-size: 25px;text-decoration: underline;font-weight: bold;"> 1. Product Details Option :</h3>
+            <h3 class="text-info" style="font-size: 25px;"> While importing purchase order line, If you select "Take Details From The Product" option then product and product quantity will be taken from selected XLS file, Other product details(UOM, Price) will be taken from already created products.</h3>
+            
+            <h3 class="text-info" style="font-size: 25px;">If you select "Take Details From The XLS File" option then all details will be taken from selected XLS file.</h3>
+            
+            <h3 class="text-info" style="font-size: 25px;text-decoration: underline;font-weight: bold;"> 2. Import Product By :</h3>
+            <h3 class="text-info" style="font-size: 25px;">You have also option to import products by it's Name/ Barcode or Code(Internal Reference).</h3>
+            <h3 class="text-info" style="font-size: 25px;">If you want to create product while importing purchase order line then you have must select import with "Name".</h3>
                 <br/>
-                <img class="img-border img-responsive thumbnail" style="border: 3px solid black;" src="3_wizard.png">
+                <img class="img-border img-responsive thumbnail" style="border: 3px solid black;" src="3_wizard_product_po.png">
             </div>
         </div>
     </section> 
@@ -2193,12 +2249,23 @@
         <div class="oe_row oe_spaced">
             <div class="oe_span12">
             <h1 class="text-info" style="text-align: center;padding-bottom: 40px;"><strong>Views</strong></h1>
-            <h3 class="text-info" style="font-size: 25px;">This is the view of purchase order lines created from given data file.</h3>
+            <h3 class="text-info" style="font-size: 25px;">After importing CSV/XLS with "Take Details From The Product" option then you can see the imported product details is taken from already created product.</h3>
                 <br/>
-                <img class="img-border img-responsive thumbnail" style="border: 3px solid black;" src="4_record.png">
+                <img class="img-border img-responsive thumbnail" style="border: 3px solid black;" src="4_record_product_po.png">
             </div>
         </div>
     </section>  
+
+<section class="oe_container oe_dark">
+	<div class="oe_row oe_spaced">
+		<div class="oe_span12">
+			<h1 class="text-info" style="text-align: center; padding-bottom: 40px;"><strong>If you select "Take Details From The XLS File" option then you can see the imported product details is taken from XLS file.</strong></h1>
+			<br />
+			<img class="img-border img-responsive thumbnail" style="border: 3px solid black;" src="3_wizard_xls_po.png"><br/><br/>
+			<img class="img-border img-responsive thumbnail" style="border: 3px solid black;" src="4_record_xls_po.png">
+		</div>
+	</div>
+</section>  
 
 <!--<section class="oe_container oe_dark">
         <div class="oe_row oe_spaced">
@@ -2384,6 +2451,161 @@
 		</div>
 	</div>
 </section>
+
+
+
+
+
+
+<section class="container mt32">
+	<div class="row">
+		<h4 class="oe_slogan" style="text-align: center;">
+			<span align="center" class="label label-success"
+				style="background-color: #528df3;font-size:25px;"> <span
+				class="fa fa-star fa-spin"></span> Import Bill of material
+			</span>
+		</h4>
+	</div>
+</section>
+<br>
+
+
+
+
+
+
+
+
+
+
+
+
+<section class="oe_container oe_dark">
+        <div class="oe_row oe_spaced">
+            <div class="oe_span12">
+  <h1 class="text-info" style="text-align: center;padding-bottom: 40px;"><strong>Data File Sample.</strong></h1>
+            <h3 class="text-info" style="font-size: 25px;">Given below is the sample of import file.</h3>
+                 <br/>
+                <dl style="padding-left:30px;">
+                  <dt style="color:#31708f;">Main Product Name</dt>
+                  <dd style="color:#31708f;">- Name Product Name </dd>
+                  <dt style="color:#31708f;">Reference</dt>
+                  <dd style="color:#31708f;">- Reference for bill of material</dd>
+                  <dt style="color:#31708f;">Quantity</dt>
+                  <dd style="color:#31708f;">- Quantity of main product.</dd>
+                  <dt style="color:#31708f;">Product of of material</dt>
+                  <dd style="color:#31708f;">- Name of the the product used in manufacturing of main product .</dd>
+                  <dt style="color:#31708f;">Quantity of sub product</dt>
+                  <dd style="color:#31708f;">- Quantity of main product.</dd>
+                  <dt style="color:#31708f;">Unit of measurement</dt>
+                  <dd style="color:#31708f;">-UOM for sub product .</dd>
+                </dl>
+            
+                <h3 class="text-info" style="font-size: 25px;">Given below is the sample of import file.</h3>
+                <img border="1" border-color: black; class="img-border img-responsive thumbnail" style="border: 3px solid black;" src="bom_excel.png"><br/>
+            </div>
+        </div>
+    </section>
+    
+<section class="oe_container lead">
+        <div class="oe_row oe_spaced">
+            <div class="oe_span12">
+            <h1 class="text-info" style="text-align: center;padding-bottom: 40px;"><strong>Menu for import data of Bill of material .</strong></h1>
+                <br/>
+                <img class="img-border img-responsive thumbnail" style="border: 3px solid black;" src="import_bom_menu.png">
+            </div>
+        </div>
+    </section>
+    
+<br/>
+
+<section class="oe_container oe_dark">
+        <div class="oe_row oe_spaced">
+            <div class="oe_span12">
+            <h1 class="text-info" style="text-align: center;padding-bottom: 40px;"><strong>Import Bill of material Wizard.</strong></h1>
+            <h3 class="text-info" style="font-size: 25px;">In this wizard you have to upload properly formated CSV or XLS file you want to import with Bill of material type.</h3>
+                <br/>
+                <img class="img-border img-responsive thumbnail" style="border: 3px solid black;" src="import_bom_wizard.png">
+            </div>
+        </div>
+</section>  
+
+<section class="oe_container lead">
+        <div class="oe_row oe_spaced">
+            <div class="oe_span12">
+            <h1 class="text-info" style="text-align: center;padding-bottom: 40px;"><strong>Views.</strong></h1>
+            <h3 class="text-info" style="font-size: 25px;">This is the tree view of Bill of material created from given data file.</h3>
+                <br/>
+                <img class="img-border img-responsive thumbnail" style="border: 3px solid black;" src="bom_view.png">
+            </div>
+        </div>
+</section>    
+
+
+
+
+
+
+<section class="oe_container oe_dark">
+        <div class="oe_row oe_spaced">
+            <div class="oe_span12">
+            <h3 class="text-info" style="font-size: 25px;">This is the form view of Bill of material created from given data file.</h3>
+                <br/>
+                <img class="img-border img-responsive thumbnail" style="border: 3px solid black;" src="bom_form_view.png">
+            </div>
+        </div>
+</section>  
+
+
+
+
+
+<section class="oe_container lead">
+        <div class="oe_row oe_spaced">
+            <div class="oe_span12">
+            <h1 class="text-info" style="text-align: center;padding-bottom: 40px;"><strong>Waning.</strong></h1>
+            <h3 class="text-info" style="font-size: 25px;">Product does not exist.</h3>
+                <br/>
+                <img class="img-border img-responsive thumbnail" style="border: 3px solid black;" src="no_product.png">
+            </div>
+        </div>
+</section>   
+
+
+
+<section class="oe_container oe_dark">
+        <div class="oe_row oe_spaced">
+            <div class="oe_span12">
+            <h3 class="text-info" style="font-size: 25px;">For same BOM product code wrong information of product is there.</h3>
+                <br/>
+                <img class="img-border img-responsive thumbnail" style="border: 3px solid black;" src="wrong_product.png">
+            </div>
+        </div>
+</section>    
+
+
+
+<section class="oe_container lead">
+        <div class="oe_row oe_spaced">
+            <div class="oe_span12">
+            <h3 class="text-info" style="font-size: 25px;">UOM is not there in the system.</h3>
+                <br/>
+                <img class="img-border img-responsive thumbnail" style="border: 3px solid black;" src="bom_wrong_uom.png">
+            </div>
+        </div>
+</section>    
+ 
+
+
+	
+
+
+
+
+
+
+
+
 
 
 
