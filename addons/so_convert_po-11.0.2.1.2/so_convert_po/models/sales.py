@@ -46,6 +46,7 @@ class SaleOrder(models.Model):
             'x_end_date': self.	x_studio_field_vqN4P,
             'x_serial': self.x_studio_field_wJcd2,
             'x_ingeniero_encargado': self.x_studio_field_DRLTc,
+            
 
         })
         self.purchase_order_id.name += " - " + self.name
@@ -57,5 +58,6 @@ class SaleOrder(models.Model):
                 'product_id': line.product_id.id,
                 'product_qty': line.product_uom_qty,
                 'product_uom': line.product_uom.id,
+                'price_unit': line.price_unit,
                 'x_serial': line.x_studio_field_6P3b4,
             })
