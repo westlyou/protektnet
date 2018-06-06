@@ -42,6 +42,11 @@ class SaleOrder(models.Model):
             'partner_id': self.partner_id.id,
             'user_id': self.user_id.id,
             'sale_order_id': self.id,
+            'x_start_date': self.x_studio_field_nJisW,
+            'x_end_date': self.	x_studio_field_vqN4P,
+            'x_serial': self.x_studio_field_wJcd2,
+            'x_ingeniero_encargado': self.x_studio_field_DRLTc,
+
         })
         self.purchase_order_id.name += " - " + self.name
         for line in self.order_line:
@@ -52,5 +57,5 @@ class SaleOrder(models.Model):
                 'product_id': line.product_id.id,
                 'product_qty': line.product_uom_qty,
                 'product_uom': line.product_uom.id,
-                'price_unit': line.price_unit,
+                'x_serial': line.x_studio_field_6P3b4,
             })
