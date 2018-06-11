@@ -46,8 +46,7 @@ class SaleOrder(models.Model):
             'x_end_date': self.	x_studio_field_vqN4P,
             'x_serial': self.x_studio_field_wJcd2,
             'x_ingeniero_encargado': self.x_studio_field_DRLTc,
-            
-
+            'x_additional_discount': self.x_additional_discount,
         })
         self.purchase_order_id.name += " - " + self.name
         for line in self.order_line:
