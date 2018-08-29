@@ -1,0 +1,41 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* internal_thread
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 11.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-01-26 16:18+0000\n"
+"PO-Revision-Date: 2017-01-26 16:18+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: internal_thread
+#: model:ir.model,name:internal_thread.model_mail_compose_message
+msgid "Email composition wizard"
+msgstr "Мастер составления эл. почты"
+
+#. module: internal_thread
+#: model:mail.message.subtype,description:internal_thread.mt_internal_mes
+msgid "Internal Comment"
+msgstr "Внутренний комментарий"
+
+#. module: internal_thread
+#: model:mail.message.subtype,name:internal_thread.mt_internal_mes
+msgid "Internal messages"
+msgstr "Внутренние сообщения"
+
+#. module: internal_thread
+#: model:ir.model,name:internal_thread.model_mail_message
+msgid "Message"
+msgstr "Сообщение"
+
+#. module: internal_thread
+#: model:ir.model.fields,field_description:internal_thread.field_mail_compose_message_send_only_internal
+msgid "Send only for selected users"
+msgstr "Отправить только выбранным пользователям"

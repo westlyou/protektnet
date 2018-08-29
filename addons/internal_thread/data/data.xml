@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="mt_internal_mes" model="mail.message.subtype">
+        <field name="name">Internal messages</field>
+        <field name="description">Internal Comment</field>
+        <field name="default" eval="False"/>
+        <field name="hidden" eval="True"/>
+    </record>
+
+</odoo>
