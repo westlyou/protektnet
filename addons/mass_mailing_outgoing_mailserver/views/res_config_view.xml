@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : https://store.webkul.com/license.html/ -->
+<odoo>
+    <data>
+        <record id="inherit_outgoing_view_mass_mailing_configuration" model="ir.ui.view">
+            <field name="name">Configure Mass Mailing</field>
+            <field name="model">res.config.settings</field>
+            <field name="inherit_id" ref="mass_mailing.res_config_settings_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@id='mailing_list']" position="after">
+                    <h2>Outgoing Mail Server</h2>
+                        <div id="outgoing_server" class="row mt16 o_settings_container">
+                            <div class="col-md-6 o_setting_box col-xs-12" >
+                                <div class="o_setting_right_pane">
+                                    <label for="outgoing_mail_server"/>
+                                    <field name="outgoing_mail_server" />
+                                </div>
+                            </div>
+                        </div>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
