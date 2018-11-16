@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="sale_order_limit_credit_view" model="ir.ui.view">
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="after">
+                <field invisible="1" name="blocked_client"/>
+                <div attrs="{'invisible': [('blocked_client','=',False)]}" class="alert alert-info" role="alert" style="margin-bottom:0px;">The client is currently blocked due to pending invoices. Please contact him for prompt payment.
+                </div>
+            </xpath>
+            <xpath expr="//header" position="attributes">
+                <attribute name="attrs">{'invisible': [('blocked_client', '=', 'True')]}</attribute>
+            </xpath>
+        </field>
+    </record>
+</odoo>

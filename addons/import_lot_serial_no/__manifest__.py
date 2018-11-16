@@ -2,7 +2,7 @@
 # Part of BrowseInfo. See LICENSE file for full copyright and licensing details.
 {
     'name': 'Import Serial Number and lot number in picking(Shipment/Delivery) from Excel File',
-    'version': '11.0.0.3',
+    'version': '11.0.1.0.0',
     'summary': 'This module helps to import serial number/Lot number with incoming shipment/delivery order using csv or excel file',
     'description': """
 	BrowseInfo developed a new odoo/OpenERP module apps.

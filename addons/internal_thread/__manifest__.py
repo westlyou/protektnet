@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'Private Thread',
-    'version': '1.1',
+    'version': '11.0.1.0.0',
     'category': 'Discuss',
     'summary': 'A tool for private communication with colleagues',
     'description': '''
@@ -20,7 +20,7 @@ This app let avoid excess emails but simultaneously notify required partners.
     ''',
     'price': '49.00',
     'currency': 'EUR',
-    'auto_install': False,
+    'auto_install': True,
     'application': True,
     'author': 'IT Libertas',
     'website': 'https://odootools.com',

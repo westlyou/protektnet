@@ -69,6 +69,7 @@ class gen_sale(models.TransientModel):
             elif values.get('seq_opt') == 'custom':
                 name = values.get('order')
             partner_id = self.find_partner(values.get('customer'))
+            import ipdb; ipdb.set_trace()
             currency_id = self.find_currency(values.get('pricelist'))
             user_id  = self.find_user(values.get('user'))
             order_date = self.make_order_date(values.get('date'))
