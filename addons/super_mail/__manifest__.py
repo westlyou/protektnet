@@ -19,7 +19,6 @@ A technical module to redefine functionality of default message_post
     ],
     'data': [
         'data/data.xml',
-        'security/ir.model.access.csv',
     ],
     'qweb': [
     ],
