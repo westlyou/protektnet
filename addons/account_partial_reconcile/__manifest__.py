@@ -13,6 +13,7 @@
     'installable': True,
     'depends': [
         'base',
+        'account',
     ],
     'data': [
     ],

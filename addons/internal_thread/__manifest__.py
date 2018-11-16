@@ -30,7 +30,6 @@ This app let avoid excess emails but simultaneously notify required partners.
     'data': [
         'views/thread.xml',
         'data/data.xml',
-        'security/ir.model.access.csv',
     ],
     'qweb': [
     ],
