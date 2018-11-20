@@ -20,7 +20,10 @@ class SaleOrder(models.Model):
         days_passed = [(fields.Date.from_string(
             fields.Date.today()) - fields.Date.from_string(date)
         ).days for date in invoice_due.mapped('date_due')]
-        dates = any(day > self.company_id.credit_days_limit
-                    for day in days_passed)
+        days_company = self.company_id.credit_days_limit
+        days_partner = self.partner_id.credit_days_limit
+        days_limit = (
+            days_company if days_company == days_partner else days_partner)
+        dates = any(day > days_limit for day in days_passed)
         if self.partner_id.credit_limit < amount_credit or dates:
             self.blocked_client = True

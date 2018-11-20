@@ -7,8 +7,6 @@
 			<field name="arch" type="xml">
 				<field name="trust" position="after">
 					<field name="credit_limit" />
-				</field>
-				<field name="credit_limit" position="after">
 					<field name="credit_on_hold" />
 				</field>
 			</field>
@@ -21,8 +19,6 @@
 			<field name="arch" type="xml">
 				<field name="payment_term_id" position="after">
 					<field name="credit_limit_id" />
-				</field>
-				<field name="credit_limit_id" position="after">
 					<field name="total_receivable" />
 				</field>
 			</field>
