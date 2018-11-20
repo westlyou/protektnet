@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="sale_order_limit_credit_partner_view" model="ir.ui.view">
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"></field>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='trust']" position="after">
+                <field name="credit_days_limit" />
+            </xpath>
+        </field>
+    </record>
+</odoo>
