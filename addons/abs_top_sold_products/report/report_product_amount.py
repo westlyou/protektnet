@@ -25,17 +25,16 @@ from dateutil.parser import parse
 from odoo.exceptions import UserError
 
 
-
 class ReportProductsAmount(models.AbstractModel):
     _name = 'report.abs_top_sold_products.report_products_amount'
-    
+
     @api.model
     def get_report_values(self, docids, data=None):
         self.model = self.env.context.get('active_model')
         docs = self.env[self.model].browse(self.env.context.get('active_id'))
         product_records = {}
         sorted_product_records = []
-        sales = self.env['sale.order'].search([('state','in',('sale','done')),('date_order','>=',docs.start_date),('date_order','<=',docs.end_date)])
+        sales = self.env['sale.order'].search([('state', 'in', ('sale', 'done')),('date_order','>=',docs.start_date),('date_order','<=',docs.end_date)])
         for s in sales:
             orders = self.env['sale.order.line'].search([('order_id','=',s.id)])
             for order in orders:
