@@ -18,6 +18,7 @@
     'uninstall_hook': 'uninstall_hook',
     'depends': [
         'base',
+        'web'
     ],
     'data': [
         'security/ir.model.access.csv',
