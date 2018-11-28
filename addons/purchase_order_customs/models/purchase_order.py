@@ -13,17 +13,19 @@ class PurchaseOrder(models.Model):
         if self.company_id.id == self.env.ref('__export__.res_company_4').id:
             self.partner_id = self.env.ref('__export__.res_partner_890').id
 
+
 class PurchaseOrderLine(models.Model):
     _inherit = "purchase.order.line"
 
     @api.onchange('product_id')
     def _onchange_product_id(self):
-        vendor = self.product_id.seller_ids.with_context(
-            vendor=self.partner_id).filtered(
-                lambda r: r.name == r._context.get('vendor'))
-        if not vendor:
-            raise ValidationError(
-                _('This product "%s" does not have a price set for this '
-                  'seller "%s". Please contact the administrator.') % (
-                    self.product_id.name, self.order_id.partner_id.name))
-        self.price_unit = vendor.price
+        if self.product_id:
+            vendor = self.product_id.seller_ids.with_context(
+                vendor=self.partner_id).filtered(
+                    lambda r: r.name == r._context.get('vendor'))
+            if not vendor:
+                raise ValidationError(
+                    _('This product "%s" does not have a price set for this '
+                      'seller "%s". Please contact the administrator.') % (
+                        self.product_id.name, self.order_id.partner_id.name))
+            self.price_unit = vendor.price
