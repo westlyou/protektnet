@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="censere_customs_account_payment_form" model="ir.ui.view">
+        <field name="name">censere_customs.account_payment_form</field>
+        <field name="model">account.payment</field>
+        <field name="inherit_id" ref="account.view_account_payment_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='l10n_mx_edi_payment_method_id']" position="after">
+                <field name="payment_difference"/>
+                <field name="l10n_mx_edi_cfdi_name"/>
+            </xpath>
+            <xpath expr="//field[@name='payment_date']" position="before">
+                <field name="create_date"/>
+            </xpath>
+            <xpath expr="//field[@name='l10n_mx_edi_pac_status']" position="attributes">
+                <attribute name="attrs">{&quot;invisible&quot;: [[&quot;state&quot;,&quot;not in&quot;,[&quot;posted&quot;,&quot;sent&quot;,&quot;reconciled&quot;,&quot;cancelled&quot;]]]}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='l10n_mx_edi_origin']" position="after">
+                <field name="payment_difference_handling"/>
+            </xpath>
+            <xpath expr="//field[@name='payment_transaction_id']" position="after">
+                <field name="invoice_ids">
+                    <tree decoration-info="state == 'draft'" decoration-muted="state == 'cancel'" string="Invoice">
+                        <field can_create="true" can_write="true" modifiers="{&quot;required&quot;: true, &quot;readonly&quot;: [[&quot;state&quot;, &quot;not in&quot;, [&quot;draft&quot;]]]}" name="partner_id" on_change="1" string="Vendor" studio_groups="[{&quot;id&quot;: 1, &quot;display_name&quot;: &quot;Employees / Employee&quot;, &quot;name&quot;: &quot;Employee&quot;}]"/>
+                        <field modifiers="{&quot;readonly&quot;: [[&quot;state&quot;, &quot;not in&quot;, [&quot;draft&quot;]]]}" name="date_invoice" on_change="1" string="Bill Date"/>
+                        <field modifiers="{&quot;readonly&quot;: true}" name="number"/>
+                        <field modifiers="{&quot;readonly&quot;: [[&quot;state&quot;, &quot;not in&quot;, [&quot;draft&quot;]]]}" name="reference"/>
+                        <field can_create="true" can_write="true" invisible="1" modifiers="{&quot;column_invisible&quot;: true, &quot;readonly&quot;: true}" name="commercial_partner_id"/>
+                        <field invisible="1" modifiers="{&quot;column_invisible&quot;: true, &quot;readonly&quot;: [[&quot;state&quot;, &quot;not in&quot;, [&quot;draft&quot;]]]}" name="name"/>
+                        <field can_create="true" can_write="true" invisible="1" modifiers="{&quot;column_invisible&quot;: true, &quot;required&quot;: true, &quot;readonly&quot;: [[&quot;state&quot;, &quot;not in&quot;, [&quot;draft&quot;]]]}" name="journal_id" on_change="1"/>
+                        <field can_create="true" can_write="true" modifiers="{&quot;required&quot;: true, &quot;readonly&quot;: [[&quot;state&quot;, &quot;not in&quot;, [&quot;draft&quot;]]]}" name="company_id" on_change="1" options="{'no_create': True}" studio_groups="[{&quot;id&quot;: 5, &quot;display_name&quot;: &quot;Extra Rights / Multi Companies&quot;, &quot;name&quot;: &quot;Multi Companies&quot;}]"/>
+                        <field modifiers="{&quot;readonly&quot;: [[&quot;state&quot;, &quot;not in&quot;, [&quot;draft&quot;]]]}" name="date_due"/>
+                        <field modifiers="{&quot;readonly&quot;: [[&quot;state&quot;, &quot;not in&quot;, [&quot;draft&quot;]]]}" name="origin"/>
+                        <field modifiers="{&quot;readonly&quot;: true}" name="amount_total_signed" string="Total" sum="Total"/>
+                        <field modifiers="{&quot;readonly&quot;: true}" name="residual_signed" string="To Pay" sum="To pay"/>
+                        <field can_create="true" can_write="true" invisible="1" modifiers="{&quot;column_invisible&quot;: true, &quot;required&quot;: true, &quot;readonly&quot;: [[&quot;state&quot;, &quot;not in&quot;, [&quot;draft&quot;]]]}" name="currency_id" on_change="1"/>
+                        <field can_create="true" can_write="true" invisible="1" modifiers="{&quot;column_invisible&quot;: true, &quot;readonly&quot;: true}" name="company_currency_id"/>
+                        <field modifiers="{&quot;readonly&quot;: true}" name="state" on_change="1"/>
+                        <field invisible="context.get('type',True)" modifiers="{&quot;column_invisible&quot;: true, &quot;readonly&quot;: true}" name="type" on_change="1"/>
+                    </tree>
+                </field>
+            </xpath>
+        </field>
+    </record>
+    <record id="censere_customs_account_payment_tree" model="ir.ui.view">
+        <field name="name">censere_customs.account_payment_tree</field>
+        <field name="model">account.payment</field>
+        <field name="inherit_id" ref="account.view_account_payment_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='state']" position="after">
+                <field name="l10n_mx_edi_pac_status"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

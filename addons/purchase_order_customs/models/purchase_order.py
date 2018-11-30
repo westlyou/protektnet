@@ -5,6 +5,7 @@
 from odoo import _, api, models
 from odoo.exceptions import ValidationError
 
+
 class PurchaseOrder(models.Model):
     _inherit = "purchase.order"
 

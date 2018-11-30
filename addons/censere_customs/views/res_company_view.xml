@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="censere_customs_res_company_form" model="ir.ui.view">
+        <field name="name">censere_customs.res_company_form</field>
+        <field name="model">res.company</field>
+        <field name="inherit_id" ref="base.view_company_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='vat']" position="attributes">
+                <attribute name="string">RFC</attribute>
+            </xpath>
+            <xpath expr="//field[@name='report_header']" position="after">
+                <field name="l10n_mx_edi_pac"/>
+                <field name="l10n_mx_edi_pac_username"/>
+                <field name="l10n_mx_edi_pac_test_env"/>
+            </xpath>
+            <xpath expr="//field[@name='report_footer']" position="after">
+                <field name="external_report_layout"/>
+                <field name="anglo_saxon_accounting"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>
