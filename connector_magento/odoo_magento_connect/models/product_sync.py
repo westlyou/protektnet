@@ -171,7 +171,6 @@ class MagentoSynchronization(models.TransientModel):
             mageAttributeIds = []
             mapTmplModel = self.env['magento.product.template']
             attrPriceModel = self.env['product.attribute.price']
-            import ipdb; ipdb.set_trace()
             templateId = templateObj.id
             templateSku = templateObj.default_code or 'Template Ref %s' % templateId
             if not templateObj.product_variant_ids:
