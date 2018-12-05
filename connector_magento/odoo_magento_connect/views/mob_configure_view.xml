@@ -53,7 +53,7 @@
 										<group>
 											<label for="pwd"/>
 											<div>
-												<b class="o_address_city"><field name="pwd" placeholder="Example: password"/></b>
+												<b class="o_address_city"><field name="pwd" placeholder="Example: password" password="True"/></b>
 											</div>
 										</group>
 									</group>

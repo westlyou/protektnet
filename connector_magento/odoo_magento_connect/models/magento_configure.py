@@ -300,10 +300,10 @@ class MagentoConfigure(models.Model):
         try:
             responseApi = requests.post(url, data=Cred, headers=headers, verify=False)
             response = json.loads(responseApi.text)
-            if responseApi.ok :
+            if responseApi.ok:
                 token = "Bearer " + response
                 text = 'Test Connection with magento is successful, now you can proceed with synchronization.'
-            else :
+            else:
                 text = ('Magento Connection Error: %s') % response.get('message')
         except Exception as e:
             text = ('Error!\nMagento Connection Error: %s') % e

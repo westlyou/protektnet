@@ -13,7 +13,7 @@ from urllib.parse import quote
 
 from PIL import Image
 
-from odoo import _, api, fields, models
+from odoo import _, api, models
 from odoo.exceptions import UserError
 
 
@@ -171,6 +171,7 @@ class MagentoSynchronization(models.TransientModel):
             mageAttributeIds = []
             mapTmplModel = self.env['magento.product.template']
             attrPriceModel = self.env['product.attribute.price']
+            import ipdb; ipdb.set_trace()
             templateId = templateObj.id
             templateSku = templateObj.default_code or 'Template Ref %s' % templateId
             if not templateObj.product_variant_ids:
@@ -205,6 +206,7 @@ class MagentoSynchronization(models.TransientModel):
                             'instance_id': instanceId
                         }
                         mapTmplModel.with_context(ctx).create(odooMapData)
+                        mapTmplModel.create_template_mapping(odooMapData)
                         return [1, mageProdIds[0]]
                     else:
                         return [0, templateId]
