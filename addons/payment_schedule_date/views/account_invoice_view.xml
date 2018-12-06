@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="payment_schedule_date_account_invoice" model="ir.ui.view">
+        <field name="name">payment.schedule.date.account.invoice</field>
+        <field name="model">account.invoice</field>
+        <field name="inherit_id" ref="account.invoice_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='date_due']" position="replace">
+                <field attrs="{'readonly': [('state','=','paid')]}" force_save="1" name="date_due"/>
+                <field attrs="{'readonly': ['|',('payment_term_id','!=',False), ('state','=','paid')]}" force_save="1" name="payment_date"/>
+            </xpath>
+        </field>
+    </record>
+    <template id="report_invoice_document_payment_schedule" inherit_id="account.report_invoice_document">
+        <xpath expr="//div[hasclass('page')]/div[hasclass('mt32')]/div[3]" position="replace">
+            <div class="col-xs-2" t-if="o.payment_date and o.type == 'out_invoice' and (o.state == 'open' or o.state == 'paid')">
+                <strong>Due Date:</strong>
+                <p t-field="o.payment_date"/>
+            </div>
+        </xpath>
+    </template>
+</odoo>
