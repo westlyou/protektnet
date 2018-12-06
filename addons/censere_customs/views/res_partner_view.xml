@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="censere_customs_res_partner_select" model="ir.ui.view">
+        <field name="name">censere_customs.res_partner_select</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_res_partner_filter"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='parent_id']" position="after">
+                <field name="state_id"/>
+            </xpath>
+        </field>
+    </record>
+    <record id="censere_customs_res_partner_tree" model="ir.ui.view">
+        <field name="name">censere_customs.res_partner_tree</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='email']" position="after">
+                <field name="currency_id"/>
+                <field name="sale_order_count"/>
+                <field name="total_invoiced"/>
+                <field name="commercial_partner_country_id"/>
+                <field name="company_name"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

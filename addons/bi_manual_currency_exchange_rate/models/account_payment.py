@@ -161,4 +161,21 @@ class account_payment(models.Model):
 
         move.post()
         return move
+
+
+class account_register_payment(models.TransientModel):
+    _inherit = 'account.register.payments'
+
+    manual_currency_rate_active = fields.Boolean('Apply Manual Exchange')
+    manual_currency_rate = fields.Float('Rate', digits=(12, 6))
+
+    @api.multi
+    def _prepare_payment_vals(self, invoices):
+        res = super(account_register_payment, self)._prepare_payment_vals(
+            invoices)
+        res.update({
+            'manual_currency_rate_active': self.manual_currency_rate_active,
+            'manual_currency_rate': self.manual_currency_rate,
+        })
+        return res
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

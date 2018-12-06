@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="censere_customs_filter_invoices" model="ir.ui.view">
+        <field name="name">censere_customs.filter_invoices</field>
+        <field name="model">account.invoice</field>
+        <field name="inherit_id" ref="account.view_account_invoice_filter_inherit_invoices"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='number']" position="after">
+                <field name="id"/>
+                <field name="move_name"/>
+                <field name="name"/>
+                <field name="origin"/>
+            </xpath>
+            <xpath expr="//search[1]/separator[5]" position="after">
+                <filter domain="['&amp;',('date_invoice', '&gt;=', datetime.datetime.now().strftime('%Y-%m-01 00:00:00')),('date_invoice', '&lt;=',(context_today()+relativedelta(months=1)).strftime('%Y-%m-01'))]" string="Current Month"/>
+                <filter domain="['&amp;',('date_invoice', '&gt;=', (context_today()-relativedelta(months=1)).strftime('%Y-%m-01 00:00:00')),('date_invoice', '&lt;=',(context_today()+relativedelta(months=2)).strftime('%Y-%m-01'))]" string="Current Bimester"/>
+            </xpath>
+        </field>
+    </record>
+    <record id="censere_customs_tree_invoices" model="ir.ui.view">
+        <field name="name">censere_customs.tree_invoices</field>
+        <field name="model">account.invoice</field>
+        <field name="inherit_id" ref="account.invoice_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='partner_id']" position="before">
+                <field name="id"/>
+                <field name="l10n_mx_edi_cfdi_customer_rfc"/>
+            </xpath>
+            <xpath expr="//field[@name='origin']" position="after">
+                <field name="amount_untaxed"/>
+            </xpath>
+            <xpath expr="//field[@name='residual_signed']" position="after">
+                <field name="amount_untaxed_signed" string="Subtotal MX" sum="Subtotal MX"/>
+                <field name="amount_total_company_signed" string="Total MX"/>
+                <field name="residual_company_signed" string="Amount Due MX" sum="Amount Due MX"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>
