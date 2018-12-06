@@ -16,7 +16,9 @@ class AccountInvoice(models.Model):
             date_invoice = fields.Date.context_today(self)
         if self.payment_term_id:
             pterm = self.payment_term_id
-            pterm_list = pterm.with_context(currency_id=self.company_id.currency_id.id).compute(value=1, date_ref=date_invoice)[0]
+            pterm_list = pterm.with_context(
+                currency_id=self.company_id.currency_id.id).compute(
+                value=1, date_ref=date_invoice)[0]
             self.payment_date = max(line[0] for line in pterm_list)
         elif self.payment_date and (date_invoice > self.payment_date):
             self.payment_date = date_invoice
