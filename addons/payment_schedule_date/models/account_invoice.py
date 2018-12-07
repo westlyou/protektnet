@@ -14,6 +14,7 @@ class AccountInvoice(models.Model):
         date_invoice = self.date_invoice
         if not date_invoice:
             date_invoice = fields.Date.context_today(self)
+            self.date_invoice = date_invoice
         if self.payment_term_id:
             pterm = self.payment_term_id
             pterm_list = pterm.with_context(
