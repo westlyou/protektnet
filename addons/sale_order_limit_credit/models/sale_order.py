@@ -23,7 +23,8 @@ class SaleOrder(models.Model):
             days_passed = [(
                 fields.Date.from_string(fields.Date.today()) -
                 fields.Date.from_string(date)).days
-                for date in invoice_due.mapped('date_due') if date is not False
+                for date in invoice_due.mapped('payment_date') if date is not
+                False
             ]
             days_company = rec.company_id.credit_days_limit
             days_partner = rec.partner_id.credit_days_limit

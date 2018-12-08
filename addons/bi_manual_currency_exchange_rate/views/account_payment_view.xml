@@ -35,9 +35,6 @@
                     <field name="manual_currency_rate" attrs="{'invisible': [('manual_currency_rate_active', '=', False)],'required':[('manual_currency_rate_active', '=', True)]}"/>
                 </field>
             </field>
-            </record>
-
-            
+            </record>      
     </data>
 </odoo>
-   
