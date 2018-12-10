@@ -11,6 +11,7 @@ class Picking(models.Model):
 
     @api.multi
     def action_cancel_draft(self):
+        import ipdb; ipdb.set_trace()
         if not len(self.ids):
             return False
         move_obj = self.env['stock.move']

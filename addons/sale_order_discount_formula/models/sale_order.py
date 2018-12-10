@@ -47,7 +47,6 @@ class SaleOrderLine(models.Model):
             if discount and discount[0] == '+':
                 discount = discount[1:]
             return discount
-
         for line in self:
             if line.multiple_discount:
                 if self._validate_discount(line.multiple_discount):
