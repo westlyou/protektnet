@@ -11,7 +11,6 @@ class Picking(models.Model):
 
     @api.multi
     def action_cancel_draft(self):
-        import ipdb; ipdb.set_trace()
         if not len(self.ids):
             return False
         move_obj = self.env['stock.move']
@@ -22,6 +21,12 @@ class Picking(models.Model):
             ids2 = [move.id for move in pick.move_lines]
             moves = move_obj.browse(ids2)
             moves.sudo().action_draft()
+        self.move_lines.mapped('move_line_ids').mapped(
+            'lot_id').mapped('quant_ids').write({'lot_id': False})
+        self.move_lines.mapped('move_line_ids').mapped('lot_id').unlink()
+        self.move_lines.mapped('move_line_ids').write({
+            'quantity_done': 0,
+        })
         return True
 
 

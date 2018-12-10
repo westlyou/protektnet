@@ -2,7 +2,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 {
-    'name': "Sale Order Multiple Discount",
+    'name': "Account Invoice Multiple Discount",
     'summary': "Express discounts on SO lines as mathematical expressions",
     'author': 'Onestein, Odoo Community Association (OCA)',
     'website': 'http://www.onestein.eu',

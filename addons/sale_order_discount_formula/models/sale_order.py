@@ -1,15 +1,23 @@
 # Copyright 2018 Onestein (<http://www.onestein.eu>)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from odoo import fields, models, api, _
-from odoo.exceptions import ValidationError, Warning
 import re
+
+from odoo import _, api, fields, models
+from odoo.exceptions import ValidationError, Warning
 
 
 class SaleOrderLine(models.Model):
     _inherit = "sale.order.line"
 
     multiple_discount = fields.Char('Discount (%)')
+
+    @api.model
+    def fields_get(self, fields=None, attributes=None):
+        fields = super(SaleOrderLine, self).fields_get(
+            fields, attributes=attributes)
+        fields['discount']['string'] = _('Real Discount (%)')
+        return fields
 
     @api.model
     def _validate_discount(self, discount):
@@ -66,10 +74,10 @@ class SaleOrderLine(models.Model):
                     elif token == '+':
                         last_sign = 1
                     else:
-                        numeric_tokens.append(float(token)*last_sign)
+                        numeric_tokens.append(float(token) * last_sign)
                 marginal_discount = 1
                 for token in numeric_tokens:
-                    marginal_discount = marginal_discount * (1-(token/100))
+                    marginal_discount = marginal_discount * (1 - (token / 100))
                 total_discount = 1 - marginal_discount
                 line.discount = total_discount * 100
 
@@ -101,3 +109,9 @@ class SaleOrderLine(models.Model):
         res = super(SaleOrderLine, self)._prepare_invoice_line(qty)
         res['multiple_discount'] = self.multiple_discount
         return res
+
+    @api.onchange('product_id', 'price_unit', 'product_uom',
+                  'product_uom_qty', 'tax_id')
+    def _onchange_discount(self):
+        super(SaleOrderLine, self)._onchange_discount()
+        self.onchange_multiple_discount()

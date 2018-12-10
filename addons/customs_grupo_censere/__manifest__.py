@@ -11,7 +11,9 @@
     'application': False,
     'installable': True,
     'depends': [
+        'l10n_mx_edi',
     ],
     'data': [
+        'views/res_partner_view.xml',
     ],
 }

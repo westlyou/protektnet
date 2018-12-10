@@ -8,7 +8,12 @@
                 <attribute name="invisible">1</attribute>
             </xpath>
             <xpath expr="//field[@name='order_line']/tree//field[@name='discount']" position="after">
-                <field name="multiple_discount" groups="sale.group_discount_per_so_line"/>
+                <field groups="sale.group_discount_per_so_line" name="multiple_discount"/>
+            </xpath>
+            <xpath expr="//field[@name='order_line']/form/group/group/field[@name='price_unit']" position="after">
+                <label for="multiple_discount" groups="sale.group_discount_per_so_line"/>
+                <div groups="sale.group_discount_per_so_line" name="multiple_discount">
+                    <field class="oe_inline" name="multiple_discount"/>%</div>
             </xpath>
         </field>
     </record>

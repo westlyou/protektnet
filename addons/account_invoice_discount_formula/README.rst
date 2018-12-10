@@ -3,7 +3,7 @@
    :alt: License: AGPL-3
 
 ============================
-Sale Order Multiple Discount
+Account Invoice Multiple Discount
 ============================
 
 Often the total discount on a sale order line is the result of multiple cumulative discounts offered

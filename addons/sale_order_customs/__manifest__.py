@@ -10,7 +10,7 @@
     'license': 'AGPL-3',
     'version': '11.0.1.0.0',
     'depends': [
-        'sale'
+        'sale',
     ],
     'data': [
         'views/sale_order_view.xml',
