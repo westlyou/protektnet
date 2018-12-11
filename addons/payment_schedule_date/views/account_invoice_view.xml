@@ -11,6 +11,16 @@
             </xpath>
         </field>
     </record>
+     <record id="censere_customs_tree_invoices" model="ir.ui.view">
+        <field name="name">censere_customs.tree_invoices</field>
+        <field name="model">account.invoice</field>
+        <field name="inherit_id" ref="account.invoice_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='date_due']" position="replace">
+                <field name="payment_date"/>
+            </xpath>
+        </field>
+    </record>
     <template id="report_invoice_document_payment_schedule" inherit_id="account.report_invoice_document">
         <xpath expr="//div[hasclass('page')]/div[hasclass('mt32')]/div[3]" position="replace">
             <div class="col-xs-2" t-if="o.payment_date and o.type == 'out_invoice' and (o.state == 'open' or o.state == 'paid')">
