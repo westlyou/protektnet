@@ -14,6 +14,7 @@
         'l10n_mx_edi',
         'sale_stock',
         'sale',
+        'stock',
         'bi_manual_currency_exchange_rate',
     ],
     'data': [
