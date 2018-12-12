@@ -10,7 +10,7 @@ class SaleOrder(models.Model):
 
     delevery_status = fields.Selection(
         [('done', 'Done'),
-         ('waiting', 'waiting'),
+         ('waiting', 'Waiting'),
          ('confirmed', 'Confirmed'), ],
         string='Delevery Status',
         compute='_compute_delevery_status',
