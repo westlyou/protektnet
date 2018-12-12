@@ -115,3 +115,8 @@ class SaleOrderLine(models.Model):
     def _onchange_discount(self):
         super(SaleOrderLine, self)._onchange_discount()
         self.onchange_multiple_discount()
+
+    @api.depends('product_uom_qty', 'discount', 'price_unit', 'tax_id')
+    def _compute_amount(self):
+        self.onchange_multiple_discount()
+        super(SaleOrderLine, self)._compute_amount()
