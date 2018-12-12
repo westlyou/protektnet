@@ -6,6 +6,7 @@ from datetime import datetime
 from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT
 from odoo.tools.float_utils import float_round, float_is_zero
 
+
 class Picking(models.Model):
     _inherit = 'stock.picking'
 
@@ -21,12 +22,6 @@ class Picking(models.Model):
             ids2 = [move.id for move in pick.move_lines]
             moves = move_obj.browse(ids2)
             moves.sudo().action_draft()
-        self.move_lines.mapped('move_line_ids').mapped(
-            'lot_id').mapped('quant_ids').write({'lot_id': False})
-        self.move_lines.mapped('move_line_ids').mapped('lot_id').unlink()
-        self.move_lines.mapped('move_line_ids').write({
-            'quantity_done': 0,
-        })
         return True
 
 

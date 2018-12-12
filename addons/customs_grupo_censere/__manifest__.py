@@ -12,8 +12,12 @@
     'installable': True,
     'depends': [
         'l10n_mx_edi',
+        'sale_stock',
+        'sale',
+        'bi_manual_currency_exchange_rate',
     ],
     'data': [
         'views/res_partner_view.xml',
+        'views/sale_order_view.xml',
     ],
 }

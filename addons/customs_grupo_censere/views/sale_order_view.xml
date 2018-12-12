@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="sale_order_customs_grupo_censere_view" model="ir.ui.view">
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_tree"/>
+        <field name="sequence">90</field>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='invoice_status']" position="before">
+                <field name="delevery_status"/>
+            </xpath>
+        </field>
+    </record>
+    <record id="sale_order_customs_view" model="ir.ui.view">
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="sequence">90</field>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='sale_manual_currency_rate_active']" position="after">
+                <field name="guide_number"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>
