@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 ##########################################################################
 #
-#   Copyright (c) 2015-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>)
-#   See LICENSE file for full copyright and licensing details.
-#   License URL : <https://store.webkul.com/license.html/>
+#  Copyright (c) 2015-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>)
+#  See LICENSE file for full copyright and licensing details.
+#  License URL : <https://store.webkul.com/license.html/>
 #
 ##########################################################################
 
@@ -14,7 +14,7 @@ class MagentoSynchronization(models.TransientModel):
     _inherit = "magento.synchronization"
 
     #############################################
-    ##   Export Attributes and values          ##
+    #    Export Attributes and values           #
     #############################################
 
     @api.multi
@@ -32,8 +32,9 @@ class MagentoSynchronization(models.TransientModel):
             ctx['instance_id'] = instanceId = connection[2]
             attributeMapObjs = attributeMappingModel.with_context(
                 ctx).search([('instance_id', '=', instanceId)])
-            mapDict = dict(attributeMapObjs.mapped(lambda mapObj: \
-                (mapObj.erp_id,[mapObj.mage_id,mapObj.mage_attribute_code])))
+            mapDict = dict(attributeMapObjs.mapped(
+                lambda mapObj: (mapObj.erp_id, [mapObj.mage_id,
+                                mapObj.mage_attribute_code])))
             mapArray = mapDict.keys()
             attributeObjs = attributeModel.search([])
             if attributeObjs:
@@ -41,10 +42,12 @@ class MagentoSynchronization(models.TransientModel):
                     odooId = attributeObj.id
                     if odooId not in mapArray:
                         name = attributeObj.name
-                        attributeCode = name.lower().replace(" ", "_").replace("-", "_")[:29]
+                        attributeCode = name.lower().replace(
+                            " ", "_").replace("-", "_")[:29]
                         attributeCode = attributeCode.strip()
                         label = attributeObj.name
-                        attributeResponse = self.with_context(ctx).create_product_attribute(
+                        attributeResponse = self.with_context(
+                            ctx).create_product_attribute(
                             url, token, odooId, attributeCode, label)
                     else:
                         mapData = mapDict.get(odooId)
@@ -60,30 +63,38 @@ class MagentoSynchronization(models.TransientModel):
                             valueName = valueObj.name
                             valueId = valueObj.id
                             attributeValueData[valueName] = valueId
-                            if not valueMappingModel.with_context(ctx).search([('erp_id', '=', valueId), ('instance_id', '=', instanceId)], limit=1):
+                            if not valueMappingModel.with_context(ctx).search([
+                                    ('erp_id', '=', valueId),
+                                    ('instance_id', '=', instanceId)],
+                                    limit=1):
                                 position = valueObj.sequence
-                                valueResponse = self.with_context(ctx).create_attribute_value(
-                                    url, token, attributeCode, valueId, valueName, position)
+                                valueResponse = self.with_context(
+                                    ctx).create_attribute_value(
+                                    url, token, attributeCode, valueId,
+                                    valueName, position)
                         self.with_context(ctx).map_attribute_values(
                             url, token, attributeCode, attributeValueData)
                         attributeCount += 1
             else:
-                displayMessage = "No Attribute(s) Found To Be Export At Magento!!!"
+                displayMessage = (
+                    "No Attribute(s) Found To Be Export At Magento!!!")
             if attributeCount:
-                displayMessage += "\n %s Attribute(s) and their value(s) successfully Synchronized To Magento." % (
-                    attributeCount)
+                displayMessage += (
+                    "\n %s Attribute(s) and their value(s) successfully "
+                    "Synchronized To Magento." % (attributeCount))
             return self.display_message(displayMessage)
 
     @api.model
     def create_product_attribute(self, url, token, odooId, attributeCode, label):
         if token:
-            attrributeData = {"attribute": {
-                'attributeCode': attributeCode,
-                'scope': 'global',
-                'frontendInput': 'select',
-                'isRequired': 0,
-                'frontendLabels': [{'storeId': 0, 'label': label}]
-               }
+            attrributeData = {
+                "attribute": {
+                    'attributeCode': attributeCode,
+                    'scope': 'global',
+                    'frontendInput': 'select',
+                    'isRequired': 0,
+                    'frontendLabels': [{'storeId': 0, 'label': label}]
+                }
             }
             attributeResponse = self.callMagentoApi(
                 baseUrl=url,
@@ -93,7 +104,8 @@ class MagentoSynchronization(models.TransientModel):
                 data=attrributeData
             )
             mageAttributeId = 0
-            if attributeResponse and attributeResponse.get('attribute_id', 0) > 0:
+            if (attributeResponse and
+                    attributeResponse.get('attribute_id', 0) > 0):
                 mageAttributeId = attributeResponse['attribute_id']
                 returnData = [1, mageAttributeId]
             else:
@@ -103,24 +115,25 @@ class MagentoSynchronization(models.TransientModel):
                     method='get',
                     token=token,
                 )
-                if attributeResponse and attributeResponse.get('attribute_id') > 0:
+                if (attributeResponse and
+                        attributeResponse.get('attribute_id') > 0):
                     mageAttributeId = attributeResponse['attribute_id']
                     returnData = [1, mageAttributeId]
                 else:
                     returnData = [0, 'Attribute Not found at magento.']
-            if mageAttributeId :
+            if mageAttributeId:
                 erpMapData = {
                     'name': odooId,
                     'erp_id': odooId,
                     'mage_id': mageAttributeId,
-                    'mage_attribute_code':attributeCode, 
+                    'mage_attribute_code': attributeCode,
                     'instance_id': self._context.get('instance_id'),
                 }
                 self.env['magento.product.attribute'].create(erpMapData)
                 mapData = {'attribute': {
-                    'name':attributeCode,
-                    'magento_id': mageAttributeId, 
-                    'odoo_id': odooId, 
+                    'name': attributeCode,
+                    'magento_id': mageAttributeId,
+                    'odoo_id': odooId,
                     'created_by': 'Odoo'
                 }}
                 self.callMagentoApi(
@@ -133,7 +146,8 @@ class MagentoSynchronization(models.TransientModel):
             return returnData
 
     @api.model
-    def create_attribute_value(self, url, token, attributeCode, erpAttrId, name, position='0'):
+    def create_attribute_value(self, url, token, attributeCode,
+                               erpAttrId, name, position='0'):
         if token:
             name = name.strip()
             optionsData = {"option": {
@@ -152,7 +166,8 @@ class MagentoSynchronization(models.TransientModel):
             return optionResponse
 
     @api.model
-    def map_attribute_values(self, url, token, attributeCode, attributeValueData):
+    def map_attribute_values(self, url, token, attributeCode,
+                             attributeValueData):
         mapValueModel = self.env['magento.product.attribute.value']
         optionResponse = self.callMagentoApi(
             baseUrl=url,
@@ -167,7 +182,7 @@ class MagentoSynchronization(models.TransientModel):
                     mageId = mageOption['value']
                     mageLabel = mageOption['label']
                     mapValueObj = mapValueModel.search([
-                        ('mage_id', '=', int(mageId)), 
+                        ('mage_id', '=', int(mageId)),
                         ('instance_id', '=', self._context.get('instance_id'))
                     ], limit=1)
                     if not mapValueObj and attributeValueData.get(mageLabel):
@@ -180,9 +195,9 @@ class MagentoSynchronization(models.TransientModel):
                         }
                         mapValueModel.create(erpMapData)
                         mapData = {'option': {
-                            'name': mageLabel, 
-                            'magento_id': mageId, 
-                            'odoo_id': odooId, 
+                            'name': mageLabel,
+                            'magento_id': mageId,
+                            'odoo_id': odooId,
                             'created_by': 'Odoo'
                         }}
                         self.callMagentoApi(

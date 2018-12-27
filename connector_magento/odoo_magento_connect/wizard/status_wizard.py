@@ -1,15 +1,15 @@
 # -*- coding: utf-8 -*-
 ##########################################################################
 #
-#   Copyright (c) 2015-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>)
-#   See LICENSE file for full copyright and licensing details.
-#   License URL : <https://store.webkul.com/license.html/>
+#  Copyright (c) 2015-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>)
+#  See LICENSE file for full copyright and licensing details.
+#  License URL : <https://store.webkul.com/license.html/>
 #
 ##########################################################################
 
 from odoo import api, fields, models
 
-######################## Mapping update Model(Used from server action) ###
+# ####################### Mapping update Model(Used from server action) ###
 
 
 class MappingUpdate(models.TransientModel):
@@ -21,18 +21,19 @@ class MappingUpdate(models.TransientModel):
     @api.model
     def open_update_wizard(self):
         partial = self.create({})
-        return {'name': ("Bulk Action"),
-                'view_mode': 'form',
-                'view_id': False,
-                'view_type': 'form',
-                'res_model': 'mapping.update',
-                'res_id': partial.id,
-                'type': 'ir.actions.act_window',
-                'nodestroy': True,
-                'target': 'new',
-                'context': self._context,
-                'domain': '[]',
-                }
+        return {
+            'name': ("Bulk Action"),
+            'view_mode': 'form',
+            'view_id': False,
+            'view_type': 'form',
+            'res_model': 'mapping.update',
+            'res_id': partial.id,
+            'type': 'ir.actions.act_window',
+            'nodestroy': True,
+            'target': 'new',
+            'context': self._context,
+            'domain': '[]',
+        }
 
     @api.multi
     def update_mapping_status(self):
@@ -51,7 +52,8 @@ class MappingUpdate(models.TransientModel):
             'view_mode': 'form',
             'view_type': 'form',
             'res_model': 'message.wizard',
-            'view_id': self.env.ref('odoo_magento_connect.message_wizard_form1').id,
+            'view_id': self.env.ref(
+                'odoo_magento_connect.message_wizard_form1').id,
             'res_id': partial.id,
             'type': 'ir.actions.act_window',
             'nodestroy': True,

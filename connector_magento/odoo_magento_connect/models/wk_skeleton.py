@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 ##########################################################################
 #
-#   Copyright (c) 2015-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>)
-#   See LICENSE file for full copyright and licensing details.
-#   License URL : <https://store.webkul.com/license.html/>
+#  Copyright (c) 2015-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>)
+#  See LICENSE file for full copyright and licensing details.
+#  License URL : <https://store.webkul.com/license.html/>
 #
 ##########################################################################
 
@@ -15,7 +15,8 @@ class WkSkeleton(models.TransientModel):
 
     @api.model
     def turn_odoo_connection_off(self):
-        """ To be inherited by bridge module for making connection Inactive on Odoo End"""
+        """ To be inherited by bridge module for making
+        connection Inactive on Odoo End"""
         res = super(WkSkeleton, self).turn_odoo_connection_off()
         activeConObj = self.env['magento.configure'].search(
             [('active', '=', True)])
@@ -26,7 +27,8 @@ class WkSkeleton(models.TransientModel):
 
     @api.model
     def turn_odoo_connection_on(self):
-        """ To be inherited by bridge module for making connection Active on Odoo End"""
+        """ To be inherited by bridge module for making connection
+        Active on Odoo End"""
         res = super(WkSkeleton, self).turn_odoo_connection_on()
         activeConObj = self.env['magento.configure'].search(
             [('active', '=', True)])
@@ -43,13 +45,14 @@ class WkSkeleton(models.TransientModel):
         if 'picking_id' in ctx and 'carrier_tracking_ref' in ctx \
                 and 'carrier_code' in ctx and 'mage_ship_number' in ctx:
             pickingData = {
-                'carrier_tracking_ref' : ctx.get('carrier_tracking_ref',  False),
-                'carrier_code' : ctx.get('carrier_code', 'custom'),
-                'magento_shipment' : ctx.get('mage_ship_number', False)
+                'carrier_tracking_ref': ctx.get(
+                    'carrier_tracking_ref',  False),
+                'carrier_code': ctx.get('carrier_code', 'custom'),
+                'magento_shipment': ctx.get('mage_ship_number', False)
             }
         elif 'mage_ship_number' in ctx:
             pickingData = {
-                'magento_shipment' : ctx.get('mage_ship_number')
+                'magento_shipment': ctx.get('mage_ship_number')
             }
 
         if pickingData:
@@ -106,17 +109,19 @@ class WkSkeleton(models.TransientModel):
         odooProductId = IrConfigPrmtr.get_param(configProd)
         if not odooProductId:
             tempDict = {
-                'sale_ok' : False,
-                'name' : data.get('name'),
-                'type' : 'service',
-                'list_price' : 0.0,
+                'sale_ok': False,
+                'name': data.get('name'),
+                'type': 'service',
+                'list_price': 0.0,
             }
             defProductDesc = {
-                'D': "Service Type product used by Magento Odoo Bridge for Discount Purposes",
-                'V': "Service Type product used by Magento Odoo Bridge for Gift Voucher Purposes",
+                'D': ("Service Type product used by Magento Odoo "
+                      "Bridge for Discount Purposes"),
+                'V': ("Service Type product used by Magento Odoo "
+                      "Bridge for Gift Voucher Purposes"),
             }[virtualName]
             tempDict.update({
-                'description' : defProductDesc
+                'description': defProductDesc
             })
             odooProductId = self.env['product.product'].create(tempDict).id
             IrConfigPrmtr.set_param(configProd, odooProductId)

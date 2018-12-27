@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 ##########################################################################
 #
-#   Copyright (c) 2015-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>)
-#   See LICENSE file for full copyright and licensing details.
-#   License URL : <https://store.webkul.com/license.html/>
+#  Copyright (c) 2015-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>)
+#  See LICENSE file for full copyright and licensing details.
+#  License URL : <https://store.webkul.com/license.html/>
 #
 ##########################################################################
 
@@ -15,7 +15,7 @@ class MagentoSynchronization(models.TransientModel):
     _inherit = "magento.synchronization"
 
     ########################################
-    ##     Category Synchronizations      ##
+    #      Category Synchronizations       #
     ########################################
 
     @api.model
@@ -56,41 +56,56 @@ class MagentoSynchronization(models.TransientModel):
                 expCategoryObjs = self.with_context(
                     ctx).get_map_updt_category_objs(categoryObjs)
                 if not expCategoryObjs:
-                    raise UserError(
-                        _('Information!\nAll category(s) has been already exported on magento.'))
+                    raise UserError(_(
+                        'Information!\nAll category(s) has been already '
+                        'exported on magento.'))
                 for expCategoryObj in expCategoryObjs:
                     categId = self.with_context(ctx).sync_categories(
                         url, token, expCategoryObj)
                     if categId:
                         successIds.append(expCategoryObj.id)
-                text = "\nThe Listed category ids %s has been created on magento." % (
-                    sorted(successIds))
-                mageSyncHistoryModel.create(
-                    {'status': 'yes', 'action_on': 'category', 'action': 'b', 'error_message': text})
+                text = ("\nThe Listed category ids %s has "
+                        "been created on magento." % (sorted(successIds)))
+                mageSyncHistoryModel.create({
+                    'status': 'yes',
+                    'action_on': 'category',
+                    'action': 'b',
+                    'error_message': text
+                })
 
             if ctx.get('sync_opr') == 'update':
                 updtMapObjs = self.with_context(
                     ctx).get_map_updt_category_objs(categoryObjs)
                 if not updtMapObjs:
-                    raise UserError(
-                        _('Information!\nAll category(s) has been already updated on magento.'))
+                    raise UserError(_(
+                        'Information!\nAll category(s) has been already '
+                        'updated on magento.'))
                 categUpdate = self.with_context(ctx)._update_specific_category(
                     updtMapObjs, url, token)
                 if categUpdate[0]:
                     successUpdtIds = categUpdate[0]
-                    text1 = '\nThe Listed category ids %s has been successfully updated to Magento. \n' % sorted(
-                        successUpdtIds)
-                    mageSyncHistoryModel.create(
-                        {'status': 'yes', 'action_on': 'category', 'action': 'c', 'error_message': text1})
+                    text1 = ('\nThe Listed category ids %s has been '
+                             'successfully updated to Magento. \n' % sorted(
+                                successUpdtIds))
+                    mageSyncHistoryModel.create({
+                        'status': 'yes',
+                        'action_on': 'category',
+                        'action': 'c',
+                        'error_message': text1
+                    })
                 if categUpdate[1]:
                     updtErrorIds = categUpdate[1]
-                    text2 = '\nThe Listed category ids %s does not updated on magento.' % sorted(
-                        updtErrorIds)
-                    mageSyncHistoryModel.create(
-                        {'status': 'no', 'action_on': 'category', 'action': 'c', 'error_message': text2})
+                    text2 = ('\nThe Listed category ids %s does not updated '
+                             'on magento.' % sorted(updtErrorIds))
+                    mageSyncHistoryModel.create({
+                        'status': 'no',
+                        'action_on': 'category',
+                        'action': 'c',
+                        'error_message': text2
+                    })
             displayMessage = text + text1 + text2
             return self.display_message(displayMessage)
-        ########## update specific category ##########
+        # ######### update specific category ##########
 
     @api.model
     def _update_specific_category(self, updtMapObjs, url, token):
@@ -108,7 +123,8 @@ class MagentoSynchronization(models.TransientModel):
                 erpParentId = categObj.parent_id or False
                 if erpParentId:
                     existMapObj = magCategModel.search(
-                        [('cat_name', '=', erpParentId.id), ('instance_id', '=', instanceId)])
+                        [('cat_name', '=', erpParentId.id),
+                         ('instance_id', '=', instanceId)])
                     if existMapObj:
                         magParentId = existMapObj[0].mag_category_id
                     else:
@@ -126,8 +142,11 @@ class MagentoSynchronization(models.TransientModel):
                     token=token,
                     data=categoryData
                 )
-                if categoryResponse :
-                    categoryUpdateData = {'categoryId': mageId,'name': categObj.name}
+                if categoryResponse:
+                    categoryUpdateData = {
+                        'categoryId': mageId,
+                        'name': categObj.name
+                    }
                     self.callMagentoApi(
                         baseUrl=url,
                         url='/V1/odoomagentoconnect/category',
@@ -148,7 +167,8 @@ class MagentoSynchronization(models.TransientModel):
         instanceId = ctx.get('instance_id')
         if erpCategoryObj:
             mappedCategoryObj = mageCategoryModel.search(
-                [('cat_name', '=', erpCategoryObj.id), ('instance_id', '=', instanceId)])
+                [('cat_name', '=', erpCategoryObj.id),
+                 ('instance_id', '=', instanceId)])
             if not mappedCategoryObj:
                 name = erpCategoryObj.name
                 if erpCategoryObj.parent_id:
@@ -195,16 +215,16 @@ class MagentoSynchronization(models.TransientModel):
             mageCatgId = categoryResponse.get('id')
             # 	##########  Mapping Entry  ###########
             erpMapData = {
-                'cat_name' : erpCatgId,
-                'oe_category_id' : erpCatgId,
-                'mag_category_id' : mageCatgId,
-                'created_by' : 'odoo',
-                'instance_id' : instanceId,
+                'cat_name': erpCatgId,
+                'oe_category_id': erpCatgId,
+                'mag_category_id': mageCatgId,
+                'created_by': 'odoo',
+                'instance_id': instanceId,
             }
             self.env['magento.category'].create(erpMapData)
             mapData = {'category': {
-                'magento_id': mageCatgId, 
-                'odoo_id': erpCatgId, 
+                'magento_id': mageCatgId,
+                'odoo_id': erpCatgId,
                 'created_by': 'Odoo'
             }}
             self.callMagentoApi(
@@ -219,5 +239,5 @@ class MagentoSynchronization(models.TransientModel):
             return [0, categoryResponse]
 
     #############################################
-    ##      End Of Category Synchronizations   ##
+    #       End Of Category Synchronizations    #
     #############################################

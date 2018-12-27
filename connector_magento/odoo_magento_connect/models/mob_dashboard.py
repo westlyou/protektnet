@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 ##########################################################################
 #
-#   Copyright (c) 2015-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>)
-#   See LICENSE file for full copyright and licensing details.
-#   License URL : <https://store.webkul.com/license.html/>
+#  Copyright (c) 2015-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>)
+#  See LICENSE file for full copyright and licensing details.
+#  License URL : <https://store.webkul.com/license.html/>
 #
 ##########################################################################
 
@@ -92,7 +92,8 @@ class MobDashboard(models.Model):
     name = fields.Char(string="Dashboard Item")
     instance_id = fields.Many2one(
         'magento.configure', 'Magento Instance', ondelete='cascade',
-        default=lambda self: self.env['magento.configure'].search([('active', '=', True)], limit=1))
+        default=lambda self: self.env['magento.configure'].search([
+            ('active', '=', True)], limit=1))
     active = fields.Boolean(related="instance_id.active")
     item_name = fields.Selection(
         Itme_Type, string="Dashboard Item Name")
@@ -123,14 +124,14 @@ class MobDashboard(models.Model):
                 success = True
         totalConnections = activeConObjs.ids + inactiveConObjs.ids
         res = {
-            'totalcon' : len(totalConnections),
-            'total_ids' : totalConnections,
-            'active_ids' : activeConObjs.ids,
-            'inactive_ids' : inactiveConObjs.ids,
-            'active' : len(activeConObjs.ids),
-            'inactive' : len(inactiveConObjs.ids),
-            'def_id' : defId,
-            'success' : success
+            'totalcon': len(totalConnections),
+            'total_ids': totalConnections,
+            'active_ids': activeConObjs.ids,
+            'inactive_ids': inactiveConObjs.ids,
+            'active': len(activeConObjs.ids),
+            'inactive': len(inactiveConObjs.ids),
+            'def_id': defId,
+            'success': success
         }
         return res
 
@@ -153,9 +154,9 @@ class MobDashboard(models.Model):
     def _create_dashboard(self, instanceObj):
         for itemName in modelName.keys():
             vals = {
-                'name' : itemName.title(),
-                'instance_id' : instanceObj.id,
-                'item_name' : itemName,
+                'name': itemName.title(),
+                'instance_id': instanceObj.id,
+                'item_name': itemName,
             }
             self.create(vals)
         return True
@@ -481,16 +482,19 @@ class MobDashboard(models.Model):
                 start_week = first_day_of_week + timedelta(days=i * 7)
                 end_week = start_week + timedelta(days=6)
                 if start_week.month == end_week.month:
-                    label = str(start_week.day) + '-' + str(end_week.day) + ' ' + format_date(
-                        end_week, 'MMM', locale=self._context.get('lang', 'en_US'))
+                    label = (
+                        str(start_week.day) + '-' + str(end_week.day) +
+                        ' ' + format_date(
+                            end_week, 'MMM',
+                            locale=self._context.get('lang', 'en_US')))
                 else:
-                    label = format_date(
-                        start_week,
-                        'd MMM',
-                        locale=self._context.get('lang','en_US')) + '-' + format_date(
-                        end_week,
-                        'd MMM',
-                        locale=self._context.get('lang','en_US'))
+                    label = (
+                        format_date(
+                            start_week, 'd MMM',
+                            locale=self._context.get('lang', 'en_US')) + '-' +
+                        format_date(
+                            end_week, 'd MMM',
+                            locale=self._context.get('lang','en_US')))
             data.append({'label': label, 'value': 0.0,
                          'type': 'past' if i < 0 else 'future'})
 
@@ -505,8 +509,10 @@ class MobDashboard(models.Model):
                     fecthDate + " < '" + start_date.strftime(DF) + "')"
             else:
                 next_date = start_date + timedelta(days=7)
-                query += " UNION ALL (" + select_sql_clause + " and " + fecthDate + " >= '" + start_date.strftime(
-                    DF) + "' and " + fecthDate + " < '" + next_date.strftime(DF) + "')"
+                query += (
+                    " UNION ALL (" + select_sql_clause + " and " + fecthDate +
+                    " >= '" + start_date.strftime(DF) + "' and " + fecthDate +
+                    " < '" + next_date.strftime(DF) + "')")
                 start_date = next_date
 
         self.env.cr.execute(query, {'instance_id': self.instance_id.id})

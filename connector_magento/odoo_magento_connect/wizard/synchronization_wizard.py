@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 ##########################################################################
 #
-#   Copyright (c) 2015-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>)
-#   See LICENSE file for full copyright and licensing details.
-#   License URL : <https://store.webkul.com/license.html/>
+#  Copyright (c) 2015-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>)
+#  See LICENSE file for full copyright and licensing details.
+#  License URL : <https://store.webkul.com/license.html/>
 #
 ##########################################################################
 
@@ -13,8 +13,13 @@ from odoo import api, fields, models
 class SynchronizationWizard(models.TransientModel):
     _name = 'synchronization.wizard'
 
-    action = fields.Selection([('export', 'Export'), ('update', 'Update')], string='Action', default="export", required=True,
-                              help="""Export: Export all Odoo Category/Products at Magento. Update: Update all synced products/categories at magento, which requires to be update at magento""")
+    action = fields.Selection(
+        [('export', 'Export'), ('update', 'Update')],
+        string='Action', default="export",
+        required=True,
+        help="""Export: Export all Odoo Category/Products at Magento. "
+        "Update: Update all synced products/categories at magento, which "
+        "requires to be update at magento""")
 
     @api.multi
     def start_category_synchronization(self):
@@ -44,18 +49,20 @@ class SynchronizationWizard(models.TransientModel):
         partial = self.create({'action': 'update'})
         ctx = dict(self._context or {})
         ctx['mapping_categ'] = False
-        return {'name': "Synchronization Bulk Category",
-                'view_mode': 'form',
-                'view_id': False,
-                'view_type': 'form',
-                'res_model': 'synchronization.wizard',
-                'res_id': partial.id,
-                'type': 'ir.actions.act_window',
-                'nodestroy': True,
-                'target': 'new',
-                'context': ctx,
-                'domain': '[]',
-                }
+        res = {
+            'res_id': partial.id,
+            'name': "Synchronization Bulk Category",
+            'view_mode': 'form',
+            'view_id': False,
+            'view_type': 'form',
+            'res_model': 'synchronization.wizard',
+            'type': 'ir.actions.act_window',
+            'nodestroy': True,
+            'target': 'new',
+            'context': ctx,
+            'domain': '[]',
+        }
+        return res
 
     @api.multi
     def start_product_synchronization(self):

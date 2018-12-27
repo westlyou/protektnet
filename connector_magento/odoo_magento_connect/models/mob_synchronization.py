@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 ##########################################################################
 #
-#   Copyright (c) 2015-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>)
-#   See LICENSE file for full copyright and licensing details.
-#   License URL : <https://store.webkul.com/license.html/>
+#  Copyright (c) 2015-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>)
+#  See LICENSE file for full copyright and licensing details.
+#  License URL : <https://store.webkul.com/license.html/>
 #
 ##########################################################################
 
@@ -15,6 +15,7 @@ from odoo import api, models
 from odoo.http import request
 
 _logger = logging.getLogger(__name__)
+
 
 class MagentoSynchronization(models.TransientModel):
     _name = "magento.synchronization"
@@ -42,7 +43,8 @@ class MagentoSynchronization(models.TransientModel):
             'view_mode': 'form',
             'view_type': 'form',
             'res_model': 'message.wizard',
-            'view_id': self.env.ref('odoo_magento_connect.message_wizard_form1').id,
+            'view_id': self.env.ref(
+                'odoo_magento_connect.message_wizard_form1').id,
             'res_id': wizardObj.id,
             'type': 'ir.actions.act_window',
             'nodestroy': True,
@@ -75,7 +77,7 @@ class MagentoSynchronization(models.TransientModel):
                 updateDict = {
                     'name': setName
                 }
-                attributeIds = data.get('attribute_ids',[])
+                attributeIds = data.get('attribute_ids', [])
                 if attributeIds:
                     updateDict['attribute_ids'] = [
                         (6, 0, attributeIds)]
@@ -83,7 +85,6 @@ class MagentoSynchronization(models.TransientModel):
                     updateDict['attribute_ids'] = [[5]]
                 res = setMapObj.write(updateDict)
         return res
-
 
     def get_mage_region_id(self, url, token, region, countryCode):
         """
@@ -150,59 +151,66 @@ class MagentoSynchronization(models.TransientModel):
         return self.display_message(message)
 
     @api.model
-    def callMagentoApi(self, url, method, token='', data={}, params=[], filter=[], baseUrl=''):
-        _logger.debug("Call %r : %r ",method.upper(),url)
+    def callMagentoApi(self, url, method, token='', data={},
+                       params=[], filter=[], baseUrl=''):
+        _logger.debug("Call %r : %r ", method.upper(), url)
         action = 'a'
         connectionModel = self.env['magento.configure']
-        if not token :
+        if not token:
             connection = connectionModel._create_connection()
             if connection:
                 baseUrl = connection[0]
                 token = connection[1]
         if not baseUrl:
             if self._context.get('instance_id'):
-                connectionObj = connectionModel.browse(self._context.get('instance_id'))
-            else :
-                connectionObj = connectionModel.search([('active', '=', True)], limit=1)
+                connectionObj = connectionModel.browse(
+                    self._context.get('instance_id'))
+            else:
+                connectionObj = connectionModel.search(
+                    [('active', '=', True)], limit=1)
             baseUrl = connectionObj.name
 
         apiUrl = baseUrl + "/index.php/rest" + url
         token = token.replace('"', "")
         userAgent = request.httprequest.environ.get('HTTP_USER_AGENT', '')
-        headers = {'Authorization': token,
-                    'Content-Type': 'application/json', 'User-Agent': userAgent}
+        headers = {
+            'Authorization': token,
+            'Content-Type': 'application/json',
+            'User-Agent': userAgent
+        }
 
-        if method == 'get' :
+        if method == 'get':
             response = requests.get(
                 apiUrl, headers=headers, verify=False, params=params)
-        elif method == 'post' :
+        elif method == 'post':
             action = 'b'
             payload = json.dumps(data)
             response = requests.post(
-                apiUrl, headers=headers, data=payload, verify=False, params=params)
-        elif method == 'put' :
+                apiUrl, headers=headers, data=payload,
+                verify=False, params=params)
+        elif method == 'put':
             action = 'c'
             payload = json.dumps(data)
             response = requests.put(
-                apiUrl, headers=headers, data=payload, verify=False, params=params)
-        elif method == 'delete' :
+                apiUrl, headers=headers, data=payload,
+                verify=False, params=params)
+        elif method == 'delete':
             response = requests.delete(
                 apiUrl, headers=headers, verify=False, params=params)
-        else :
+        else:
             return "Wrong API method is selected."
         responseData = json.loads(response.text)
-        tmp = json.dumps(responseData,indent=4)
-        _logger.debug("Response: "+tmp)
+        tmp = json.dumps(responseData, indent=4)
+        _logger.debug("Response: " + tmp)
         if not response.ok:
             self.env['magento.sync.history'].create({
-                'status': 'no', 
-                'action_on': 'api', 
-                'action': action, 
-                'error_message': "Error in calling api "+ url +" :\n"+responseData.get('message') +
-                    "\n"+str(responseData.get('parameters'))
+                'status': 'no',
+                'action_on': 'api',
+                'action': action,
+                'error_message': (
+                    "Error in calling api " + url + " :\n" +
+                    responseData.get('message') + "\n" +
+                    str(responseData.get('parameters')))
             })
             return {}
         return responseData
-        
-
-# END

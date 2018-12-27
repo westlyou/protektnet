@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 ##########################################################################
 #
-#   Copyright (c) 2015-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>)
-#   See LICENSE file for full copyright and licensing details.
-#   License URL : <https://store.webkul.com/license.html/>
+#  Copyright (c) 2015-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>)
+#  See LICENSE file for full copyright and licensing details.
+#  License URL : <https://store.webkul.com/license.html/>
 #
 ##########################################################################
 
@@ -64,9 +64,9 @@ class MagentoProductTemplate(models.Model):
                                 attrPriceObj.write({'price_extra': priceExtra})
                         else:
                             attrPriceDict = {
-                                'product_tmpl_id' : templateId,
-                                'value_id' : valueId,
-                                'price_extra' : priceExtra,
+                                'product_tmpl_id': templateId,
+                                'value_id': valueId,
+                                'price_extra': priceExtra,
                             }
                             prodAttrPriceModel.create(attrPriceDict)
                 lineDict['value_ids'] = [(6, 0, valueIds)]
@@ -77,8 +77,8 @@ class MagentoProductTemplate(models.Model):
                     existAttrLineObj.write(lineDict)
             else:
                 lineDict.update({
-                    'attribute_id' : attributeId,
-                    'product_tmpl_id' : templateId
+                    'attribute_id': attributeId,
+                    'product_tmpl_id': templateId
                 })
                 prodattrLineModel.create(lineDict)
             return True
@@ -90,13 +90,13 @@ class MagentoProductTemplate(models.Model):
         if data.get('erp_product_id'):
             templateObj = self.env['product.product'].browse(
                 data.get('erp_product_id')).product_tmpl_id
-            if not templateObj.attribute_line_ids :
+            if not templateObj.attribute_line_ids:
                 odooMapDict = {
-                    'template_name' : templateObj.id,
-                    'erp_template_id' : templateObj.id,
-                    'mage_product_id' : data.get('mage_product_id'),
-                    'instance_id' : ctx.get('instance_id'),
-                    'created_by' : 'Manual Mapping'
+                    'template_name': templateObj.id,
+                    'erp_template_id': templateObj.id,
+                    'mage_product_id': data.get('mage_product_id'),
+                    'instance_id': ctx.get('instance_id'),
+                    'created_by': 'Manual Mapping'
                 }
                 res = self.create(odooMapDict)
         return True

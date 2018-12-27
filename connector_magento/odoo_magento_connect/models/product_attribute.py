@@ -1,14 +1,15 @@
 # -*- coding: utf-8 -*-
 ##########################################################################
 #
-#   Copyright (c) 2015-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>)
-#   See LICENSE file for full copyright and licensing details.
-#   License URL : <https://store.webkul.com/license.html/>
+#  Copyright (c) 2015-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>)
+#  See LICENSE file for full copyright and licensing details.
+#  License URL : <https://store.webkul.com/license.html/>
 #
 ##########################################################################
 
 
 from odoo import api, models
+from odoo.exceptions import UserError
 
 
 class ProductAttributeLine(models.Model):
@@ -31,7 +32,10 @@ class ProductAttributeLine(models.Model):
                 [('template_name', '=', vals['product_tmpl_id'])])
             if product_map_ids:
                 raise UserError(
-                    "Error !! You can't introduce new attribute because this product is already synced at Magento. This error is coming because Magento never allow to add new attribute inside configurable products.")
+                    "Error !! You can't introduce new attribute because this "
+                    "product is already synced at Magento. This error is "
+                    "coming because Magento never allow to add new attribute "
+                    "inside configurable products.")
         return super(ProductAttributeLine, self).create(vals)
 
 class ProductAttribute(models.Model):

@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 ##########################################################################
 #
-#   Copyright (c) 2015-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>)
-#   See LICENSE file for full copyright and licensing details.
-#   License URL : <https://store.webkul.com/license.html/>
+#  Copyright (c) 2015-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>)
+#  See LICENSE file for full copyright and licensing details.
+#  License URL : <https://store.webkul.com/license.html/>
 #
 ##########################################################################
 
@@ -30,15 +30,17 @@ class RegionWizard(models.TransientModel):
         regionData = {}
         stateData = {}
         try:
-            regionResponse = self.env['magento.synchronization'].callMagentoApi(
-                url='/V1/directory/countries/' + str(countryCode),
-                method='get',
-                token=token,
-                baseUrl=url
-            )
+            regionResponse = (
+                self.env['magento.synchronization'].callMagentoApi(
+                    url='/V1/directory/countries/' + str(countryCode),
+                    method='get',
+                    token=token,
+                    baseUrl=url
+                ))
             if not regionResponse:
-                raise UserError(
-                    _("Requested country is not available at Magento %r " % str(countryCode)))
+                raise UserError(_(
+                    "Requested country is not available at Magento %r " %
+                    str(countryCode)))
             regionData = regionResponse
         except xmlrpclib.Fault as e:
             raise UserError(_('Error %s') % e)
@@ -68,10 +70,12 @@ class RegionWizard(models.TransientModel):
             [('active', '=', True)])
         if len(connectionObjs) > 1:
             raise UserError(
-                _('Error!\nSorry, only one Active Configuration setting is allowed.'))
+                _('Error!\nSorry, only one Active Configuration '
+                  'setting is allowed.'))
         if not connectionObjs:
             raise UserError(
-                _('Error!\nPlease create the configuration part for connection!!!'))
+                _('Error!\nPlease create the configuration part '
+                  'for connection!!!'))
         else:
             connection = self.env['magento.configure']._create_connection()
             if connection:
@@ -89,16 +93,21 @@ class RegionWizard(models.TransientModel):
                             url, token, countryCode)
                         if totalRegionSynced == 0:
                             raise UserError(
-                                _('Error!\n There is no any region exist for country %s.') %
+                                _('Error!\n There is no any region exist for '
+                                  'country %s.') %
                                 (countryId.name))
                             return {
                                 'type': 'ir.actions.act_window_close',
                             }
                         else:
-                            text = "%s Region of %s are sucessfully Imported to Odoo." % (
+                            text = _("%s Region of %s are sucessfully Imported"
+                                     "to Odoo.") % (
                                 totalRegionSynced, countryId.name)
-                            return self.env['magento.synchronization'].display_message(text)
+                            return self.env[
+                                'magento.synchronization'].display_message(
+                                    text)
                     else:
                         raise UserError(
-                            _('Information!\nAll regions of %s are already imported to Odoo.') %
+                            _('Information!\nAll regions of %s are already '
+                              'imported to Odoo.') %
                             (countryId.name))

@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 ##########################################################################
 #
-#   Copyright (c) 2015-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>)
-#   See LICENSE file for full copyright and licensing details.
-#   License URL : <https://store.webkul.com/license.html/>
+#  Copyright (c) 2015-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>)
+#  See LICENSE file for full copyright and licensing details.
+#  License URL : <https://store.webkul.com/license.html/>
 #
 ##########################################################################
 
@@ -15,7 +15,8 @@ class ResPartner(models.Model):
 
     @api.multi
     def _handle_first_contact_creation(self):
-        """ On creation of first contact for a company (or root) that has no address, assume contact address
+        """ On creation of first contact for a company (or root)
+        that has no address, assume contact address
         was meant to be company address """
         parent = self.parent_id
         address_fields = self._address_fields()

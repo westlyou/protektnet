@@ -57,10 +57,13 @@ class MagentoSynchronization(models.TransientModel):
     @api.model
     def get_default_attribute_set(self):
         defaultAttrset = self.env['magento.attribute.set'].search(
-            [('set_id', '=', 4), ('instance_id', '=', self._context['instance_id'])], limit=1)
+            [('set_id', '=', 4),
+             ('instance_id', '=', self._context['instance_id'])],
+            limit=1)
         if not defaultAttrset:
             raise UserError(
-                _('Information!\nDefault Attribute set not Found, please sync all Attribute set from Magento!!!'))
+                _('Information!\nDefault Attribute set not Found, please '
+                  'sync all Attribute set from Magento!!!'))
         return defaultAttrset
 
     @api.model
@@ -71,7 +74,8 @@ class MagentoSynchronization(models.TransientModel):
         for attr in attributeLineObjs:
             templateAttributeIds.append(attr.attribute_id.id)
         attrSetObjs = attrSetModel.search(
-            [('instance_id', '=', self._context['instance_id'])], order="set_id asc")
+            [('instance_id', '=', self._context['instance_id'])],
+            order="set_id asc")
         for attrSetObj in attrSetObjs:
             setAttributeIds = attrSetObj.attribute_ids.ids
             commonAttributes = sorted(
@@ -102,14 +106,16 @@ class MagentoSynchronization(models.TransientModel):
                     [('type', '!=', 'service')]).ids
             if not templateIds:
                 raise UserError(
-                    _('Information!\nNo new product(s) Template found to be Sync.'))
+                    _('Information!\nNo new product(s) Template found to be '
+                      'Sync.'))
 
             if ctx.get('sync_opr') == 'export':
                 notMappedTemplateIds = self.with_context(
                     ctx).get_sync_template_ids(templateIds)
                 if not notMappedTemplateIds:
                     raise UserError(
-                        _('Information!\nListed product(s) has been already exported on magento.'))
+                        _('Information!\nListed product(s) has been already '
+                          'exported on magento.'))
                 connectionObj = self.env[
                     'magento.configure'].browse(instanceId)
                 warehouseId = connectionObj.warehouse_id.id
@@ -131,35 +137,56 @@ class MagentoSynchronization(models.TransientModel):
                     ctx).get_sync_template_ids(templateIds)
                 if not updtMappedTemplateObjs:
                     raise UserError(
-                        _('Information!\nListed product(s) has been already updated on magento.'))
+                        _('Information!\nListed product(s) has been already '
+                          'updated on magento.'))
                 for mappedTempObj in updtMappedTemplateObjs:
-                    prodUpdate = self.with_context(ctx)._update_specific_product_template(
-                        mappedTempObj, url, token)
+                    prodUpdate = self.with_context(
+                        ctx)._update_specific_product_template(
+                            mappedTempObj, url, token)
                     if prodUpdate[0] > 0:
                         successUpdtIds.append(prodUpdate[1])
                     else:
                         updtErrorIds.append(prodUpdate[1])
             if successExpIds:
-                text1 = "\nThe Listed product(s) %s successfully created on Magento." % (
-                    successExpIds)
-                syncHistoryModel.create(
-                    {'status': 'yes', 'action_on': 'product', 'action': 'b', 'error_message': text1})
+                text1 = ("\nThe Listed product(s) %s successfully created on "
+                         "Magento." % (successExpIds))
+                syncHistoryModel.create({
+                    'status': 'yes',
+                    'action_on': 'product',
+                    'action': 'b',
+                    'error_message': text1
+                })
             if errorIds:
-                text2 = '\nThe Listed Product(s) %s does not synchronized on magento.' % errorIds
-                syncHistoryModel.create(
-                    {'status': 'no', 'action_on': 'product', 'action': 'b', 'error_message': text2})
+                text2 = ('\nThe Listed Product(s) %s does not synchronized '
+                         'on magento.' % errorIds)
+                syncHistoryModel.create({
+                    'status': 'no',
+                    'action_on': 'product',
+                    'action': 'b',
+                    'error_message': text2
+                })
             if successUpdtIds:
-                text3 = '\nThe Listed Product(s) %s has been successfully updated to Magento. \n' % successUpdtIds
-                syncHistoryModel.create(
-                    {'status': 'yes', 'action_on': 'product', 'action': 'c', 'error_message': text3})
+                text3 = ('\nThe Listed Product(s) %s has been successfully '
+                         'updated to Magento. \n' % successUpdtIds)
+                syncHistoryModel.create({
+                    'status': 'yes',
+                    'action_on': 'product',
+                    'action': 'c',
+                    'error_message': text3
+                })
             if updtErrorIds:
-                text4 = '\nThe Listed Product(s) %s does not updated on magento.' % updtErrorIds
-                syncHistoryModel.create(
-                    {'status': 'no', 'action_on': 'product', 'action': 'c', 'error_message': text4})
+                text4 = ('\nThe Listed Product(s) %s does not updated on '
+                         'magento.' % updtErrorIds)
+                syncHistoryModel.create({
+                    'status': 'no',
+                    'action_on': 'product',
+                    'action': 'c',
+                    'error_message': text4
+                })
             dispMsz = text1 + text2 + text3 + text4
             return self.display_message(dispMsz)
     #############################################
-    ##          Specific template sync         ##
+    #          Specific template sync           #
     #############################################
 
     def _export_specific_template(self, templateObj, url, token):
@@ -172,27 +199,33 @@ class MagentoSynchronization(models.TransientModel):
             mapTmplModel = self.env['magento.product.template']
             attrPriceModel = self.env['product.attribute.price']
             templateId = templateObj.id
-            templateSku = templateObj.default_code or 'Template Ref %s' % templateId
+            templateSku = (
+                templateObj.default_code or 'Template Ref %s' % templateId)
             if not templateObj.product_variant_ids:
                 return [-2, str(templateId) + ' No Variant Ids Found!!!']
             else:
                 if not templateObj.attribute_set_id.id:
                     res = self.assign_attribute_Set([templateObj])
                     if not res:
-                        return [-1, str(templateId) +
-                                ' Attribute Set Name not matched with attributes!!!']
+                        return [
+                            -1,
+                            str(templateId) +
+                            ' Attribute Set Name not matched with '
+                            'attributes!!!']
 
                 attrSetObj = templateObj.attribute_set_id
                 attrSetObj = self.with_context(
                     ctx)._check_valid_attribute_set(attrSetObj, templateId)
                 if not attrSetObj:
                     return [-1, str(templateId) +
-                            ' Matching attribute set not found for this instance!!!']
+                            ' Matching attribute set not found for '
+                            'this instance!!!']
                 wkAttrLineObjs = templateObj.attribute_line_ids
                 if not wkAttrLineObjs:
                     templateSku = 'single_variant'
-                    mageProdIds = self.with_context(ctx)._sync_template_variants(
-                        templateObj, templateSku, url, token)
+                    mageProdIds = self.with_context(
+                        ctx)._sync_template_variants(
+                            templateObj, templateSku, url, token)
                     name = templateObj.name
                     price = templateObj.list_price or 0.0
                     if mageProdIds:
@@ -210,7 +243,8 @@ class MagentoSynchronization(models.TransientModel):
                         return [0, templateId]
                 else:
                     checkAttribute = self.with_context(
-                        ctx)._check_attribute_with_set(attrSetObj, wkAttrLineObjs)
+                        ctx)._check_attribute_with_set(
+                            attrSetObj, wkAttrLineObjs)
                     if checkAttribute[0] == -1:
                         return checkAttribute
                     mageSetId = templateObj.attribute_set_id.set_id
@@ -224,14 +258,17 @@ class MagentoSynchronization(models.TransientModel):
                             if not mageAttrIds:
                                 return [-1, str(templateId) +
                                         ' Attribute not syned at magento!!!']
-                            valDict = self.with_context(ctx)._search_single_values(
-                                templateId, attrLineObj.attribute_id.id)
+                            valDict = self.with_context(
+                                ctx)._search_single_values(
+                                    templateId, attrLineObj.attribute_id.id)
                             if valDict:
                                 ctx.update(valDict)
                             domain = [('product_tmpl_id', '=', templateId)]
-                        custom_attributes = [dict(attribute_code='tax_class_id',value=0)]
-                        mageProdIds = self.with_context(ctx)._sync_template_variants(
-                            templateObj, templateSku, url, token)
+                        custom_attributes = [
+                            dict(attribute_code='tax_class_id', value=0)]
+                        mageProdIds = self.with_context(
+                            ctx)._sync_template_variants(
+                                templateObj, templateSku, url, token)
                         optionsData = self._create_product_attribute_option(
                             wkAttrLineObjs)
                         stockData = {
@@ -251,8 +288,9 @@ class MagentoSynchronization(models.TransientModel):
                             custom_attributes=custom_attributes,
                             extension_attributes=extension_attributes
                         )
-                        getProductData = self.with_context(ctx)._get_product_array(
-                            url, token, templateObj, getProductData)
+                        getProductData = self.with_context(
+                            ctx)._get_product_array(
+                                url, token, templateObj, getProductData)
                         templateObj.write({'prod_type': 'configurable'})
                         productData = {"product": getProductData}
                         prodResponse = self.callMagentoApi(
@@ -274,8 +312,8 @@ class MagentoSynchronization(models.TransientModel):
                             )
                             mapTmplModel.with_context(ctx).create(odooMapData)
                             mapData = {'template': {
-                                'magento_id': magProdId, 
-                                'odoo_id': templateId, 
+                                'magento_id': magProdId,
+                                'odoo_id': templateId,
                                 'created_by': 'Odoo'
                             }}
                             mapResponse = self.callMagentoApi(
@@ -288,7 +326,8 @@ class MagentoSynchronization(models.TransientModel):
                             return [1, magProdId]
                         else:
                             return [
-                                0, str(templateId) + " Error during parent sync."]
+                                0, str(templateId) +
+                                " Error during parent sync."]
         else:
             return False
 
@@ -300,7 +339,7 @@ class MagentoSynchronization(models.TransientModel):
             getProductOptionData = {}
             mageAttrIds = self.with_context(
                 ctx)._check_attribute_sync(typeObj)
-            if not mageAttrIds :
+            if not mageAttrIds:
                 continue
             getProductOptionData['attribute_id'] = mageAttrIds[0]
             getProductOptionData['label'] = typeObj.attribute_id.name
@@ -323,7 +362,7 @@ class MagentoSynchronization(models.TransientModel):
             return attrSetObj
         return False
 
-    ############# sync template variants ########
+    # ############ sync template variants ########
     def _sync_template_variants(self, templateObj, templateSku, url, token):
         mageVariantIds = []
         mapProdModel = self.env['magento.product']
@@ -342,18 +381,19 @@ class MagentoSynchronization(models.TransientModel):
                     mageVariantIds.append(mageVrntId['id'])
         return mageVariantIds
 
-    ############# check single attribute lines ########
+    # ############ check single attribute lines ########
     def _search_single_values(self, templId, attrId):
         dic = {}
         attrLineModel = self.env['product.attribute.line']
         attrLineObj = attrLineModel.search(
-            [('product_tmpl_id', '=', templId), ('attribute_id', '=', attrId)], limit=1)
+            [('product_tmpl_id', '=', templId),
+             ('attribute_id', '=', attrId)], limit=1)
         if attrLineObj:
             if len(attrLineObj.value_ids) == 1:
                 dic[attrLineObj.attribute_id.name] = attrLineObj.value_ids.name
         return dic
 
-    ############# check attributes lines and set attributes are same ########
+    # ############ check attributes lines and set attributes are same ########
     def _check_attribute_with_set(self, attrSetObj, attrLineObjs):
         setAttrObjs = attrSetObj.attribute_ids
         if not setAttrObjs:
@@ -366,7 +406,7 @@ class MagentoSynchronization(models.TransientModel):
                         ' Attribute Set Name not matched with attributes!!!']
         return [1, '']
 
-    ############# check attributes syned return mage attribute ids ########
+    # ############ check attributes syned return mage attribute ids ########
     def _check_attribute_sync(self, attrLineObj):
         mapAttrModel = self.env['magento.product.attribute']
         mageAttributeIds = []
@@ -376,7 +416,7 @@ class MagentoSynchronization(models.TransientModel):
             mageAttributeIds.append(mageId)
         return mageAttributeIds
 
-    ############# fetch product details ########
+    # ############ fetch product details ########
     def _get_product_array(self, url, token, prodObj, getProductData):
         prodCategs = []
         for categobj in prodObj.categ_ids:
@@ -393,14 +433,15 @@ class MagentoSynchronization(models.TransientModel):
         )
         custom_attributes = [
             {"attribute_code": "description", "value": prodObj.description},
-            {"attribute_code": "short_description", "value": prodObj.description_sale},
+            {"attribute_code": "short_description",
+             "value": prodObj.description_sale},
             {"attribute_code": "category_ids", "value": prodCategs},
             {"attribute_code": "cost", "value": prodObj.standard_price or 0.00}
         ]
-        if 'custom_attributes' not in getProductData :
-            getProductData['custom_attributes']=custom_attributes
-        else :
-            getProductData['custom_attributes']+=custom_attributes
+        if 'custom_attributes' not in getProductData:
+            getProductData['custom_attributes'] = custom_attributes
+        else:
+            getProductData['custom_attributes'] += custom_attributes
         imageData = self._get_product_media(prodObj)
         if imageData:
             getProductData.update(media_gallery_entries=[imageData])
@@ -422,7 +463,7 @@ class MagentoSynchronization(models.TransientModel):
             'qty': productQty,
             'is_in_stock': stock
         }
-        if stockItemId :
+        if stockItemId:
             stockData.update(itemId=stockItemId)
         return stockData
 
@@ -442,17 +483,17 @@ class MagentoSynchronization(models.TransientModel):
                 'label': '',
                 'types': ["image", "small_image", "thumbnail", "swatch_image"],
                 'content': {
-                    'base64_encoded_data': proImage.decode("utf-8"), 
-                    'type': magentoImageType, 
+                    'base64_encoded_data': proImage.decode("utf-8"),
+                    'type': magentoImageType,
                     'name': 'OdooProductImage'
                 }
             }
             return imageData
-        else :
+        else:
             return False
 
     #############################################
-    ##          Specific product sync          ##
+    #           Specific product sync           #
     #############################################
     def _export_specific_product(self, vrntObj, templateSku, url, token):
         """
@@ -480,19 +521,25 @@ class MagentoSynchronization(models.TransientModel):
             if vrntObj.attribute_value_ids:
                 for valueObj in vrntObj.attribute_value_ids:
                     mageAttributeCode = attrMapModel.search(
-                        [('name', '=', valueObj.attribute_id.id)],limit=1).mage_attribute_code or False
+                        [('name', '=', valueObj.attribute_id.id)],
+                        limit=1).mage_attribute_code or False
                     mageValueId = attrValMapModel.search(
-                        [('name', '=', valueObj.id)],limit=1).mage_id or 0
+                        [('name', '=', valueObj.id)],
+                        limit=1).mage_id or 0
                     if mageAttributeCode and mageValueId:
                         custom_attributes.append({
-                            "attribute_code": mageAttributeCode, 
+                            "attribute_code": mageAttributeCode,
                             "value": mageValueId
                         })
                     searchDomain = domain + [('value_id', '=', valueObj.id)]
-                    attrValPriceObj = prodAttrPriceModel.search(searchDomain, limit=1)
+                    attrValPriceObj = prodAttrPriceModel.search(
+                        searchDomain, limit=1)
                     if attrValPriceObj:
                         priceExtra += attrValPriceObj.price_extra
-            custom_attributes.append({"attribute_code": 'tax_class_id', "value": 0}) 
+            custom_attributes.append({
+                "attribute_code": 'tax_class_id',
+                "value": 0
+            })
             stockData = self._get_product_qty(vrntObj)
             extension_attributes = {'stock_item': stockData}
             getProductData.update(
@@ -512,11 +559,11 @@ class MagentoSynchronization(models.TransientModel):
             return magProd
 
     #############################################
-    ##          single products create         ##
+    #           single products create          #
     #############################################
 
     def prodcreate(self, url, token, vrntObj,
-            prodtype, sku, getProductData):
+                   prodtype, sku, getProductData):
         stock = 0
         quantity = 0
         odooProdId = vrntObj.id
@@ -530,7 +577,8 @@ class MagentoSynchronization(models.TransientModel):
         )
         if prodResponse and prodResponse.get('id'):
             mageProdId = prodResponse.get('id')
-            magentoStockId = prodResponse['extension_attributes']['stock_item']['item_id']
+            magentoStockId = prodResponse[
+                'extension_attributes']['stock_item']['item_id']
             odooMapData = dict(
                 pro_name=odooProdId,
                 oe_product_id=odooProdId,
@@ -539,7 +587,10 @@ class MagentoSynchronization(models.TransientModel):
                 magento_stock_id=magentoStockId
             )
             self.env['magento.product'].create(odooMapData)
-            mapData = {'product': {'magento_id': mageProdId, 'odoo_id': odooProdId, 'created_by': 'Odoo'}}
+            mapData = {'product': {
+                'magento_id': mageProdId,
+                'odoo_id': odooProdId,
+                'created_by': 'Odoo'}}
             mapResponse = self.callMagentoApi(
                 baseUrl=url,
                 url='/V1/odoomagentoconnect/product',
@@ -550,7 +601,7 @@ class MagentoSynchronization(models.TransientModel):
         return prodResponse
 
     #############################################
-    ##      update specific product template   ##
+    #       update specific product template    #
     #############################################
     def _update_specific_product_template(self, mappedObj, url, token):
         ctx = dict(self._context or {})
@@ -562,7 +613,9 @@ class MagentoSynchronization(models.TransientModel):
         domain = [('instance_id', '=', ctx.get('instance_id'))]
         if tempObj and mageProdId:
             if tempObj.product_variant_ids:
-                templateSku = tempObj.default_code or 'Template Ref %s' % tempObj.id
+                templateSku = (
+                    tempObj.default_code or 'Template Ref %s' %
+                    tempObj.id)
                 mageProdIds = self._sync_template_variants(
                     tempObj, templateSku, url, token)
                 for vrntObj in tempObj.product_variant_ids:
@@ -582,7 +635,8 @@ class MagentoSynchronization(models.TransientModel):
                 stockData = {
                     'is_in_stock': True
                 }
-                extension_attributes = getProductData.get('extension_attributes', {})
+                extension_attributes = getProductData.get(
+                    'extension_attributes', {})
                 extension_attributes.update({
                     'configurable_product_links': mageProdIds,
                     'configurable_product_options': optionsData,
@@ -605,7 +659,7 @@ class MagentoSynchronization(models.TransientModel):
             return [1, tempObj.id]
 
     #############################################
-    ##          update specific product        ##
+    #           update specific product         #
     #############################################
     def _update_specific_product(self, prodMapObj, url, token):
         getProductData = {}
@@ -623,16 +677,18 @@ class MagentoSynchronization(models.TransientModel):
             if prodObj.attribute_value_ids:
                 for valueObj in prodObj.attribute_value_ids:
                     mageAttributeCode = attrMapModel.search(
-                        [('name', '=', valueObj.attribute_id.id)],limit=1).mage_attribute_code or False
+                        [('name', '=', valueObj.attribute_id.id)],
+                        limit=1).mage_attribute_code or False
                     mageValueId = attrValMapModel.search(
-                        [('name', '=', valueObj.id)],limit=1).mage_id or 0
+                        [('name', '=', valueObj.id)], limit=1).mage_id or 0
                     if mageAttributeCode and mageValueId:
                         custom_attributes.append({
-                            "attribute_code": mageAttributeCode, 
+                            "attribute_code": mageAttributeCode,
                             "value": mageValueId
                         })
                     searchDomain = domain + [('value_id', '=', valueObj.id)]
-                    attrValPriceObj = prodAttrPriceModel.search(searchDomain, limit=1)
+                    attrValPriceObj = prodAttrPriceModel.search(
+                        searchDomain, limit=1)
                     if attrValPriceObj:
                         priceExtra += attrValPriceObj.price_extra
             getProductData.update(
@@ -643,7 +699,8 @@ class MagentoSynchronization(models.TransientModel):
                 url, token, prodObj, getProductData)
             if instanceId.inventory_sync == 'enable':
                 stockData = self._get_product_qty(prodObj)
-                extension_attributes = getProductData.get('extension_attributes', {})
+                extension_attributes = getProductData.get(
+                    'extension_attributes', {})
                 extension_attributes.update(stock_item=stockData)
                 getProductData['extension_attributes'] = extension_attributes
 

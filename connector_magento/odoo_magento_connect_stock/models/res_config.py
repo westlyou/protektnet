@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 ##########################################################################
 #
-#   Copyright (c) 2015-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>)
-#   See LICENSE file for full copyright and licensing details.
-#   License URL : <https://store.webkul.com/license.html/>
+#  Copyright (c) 2015-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>)
+#  See LICENSE file for full copyright and licensing details.
+#  License URL : <https://store.webkul.com/license.html/>
 #
 ##########################################################################
 
@@ -30,8 +30,9 @@ class ResConfigSettings(models.TransientModel):
     def get_values(self):
         res = super(ResConfigSettings, self).get_values()
         IrConfigPrmtr = self.env['ir.config_parameter'].sudo()
-        stockAction = IrConfigPrmtr.get_param('odoo_magento_connect.mob_stock_action', default='qoh')
+        stockAction = IrConfigPrmtr.get_param(
+            'odoo_magento_connect.mob_stock_action', default='qoh')
         res.update({
-            'mob_stock_action' : stockAction,
+            'mob_stock_action': stockAction,
         })
         return res

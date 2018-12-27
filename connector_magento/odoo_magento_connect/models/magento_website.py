@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 ##########################################################################
 #
-#   Copyright (c) 2015-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>)
-#   See LICENSE file for full copyright and licensing details.
-#   License URL : <https://store.webkul.com/license.html/>
+#  Copyright (c) 2015-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>)
+#  See LICENSE file for full copyright and licensing details.
+#  License URL : <https://store.webkul.com/license.html/>
 #
 ##########################################################################
 
@@ -33,13 +33,14 @@ class MagentoWebsite(models.Model):
             method='get',
             token=token
         )
-        if storesResponse :
+        if storesResponse:
             magentoWebsites = storesResponse
         for magentoWebsite in magentoWebsites:
             if not magentoWebsite.get('id'):
                 continue
             websiteObjs = self.search(
-                [('website_id', '=', magentoWebsite['id']), ('instance_id', '=', instanceId)])
+                [('website_id', '=', magentoWebsite['id']),
+                 ('instance_id', '=', instanceId)])
             if websiteObjs:
                 websiteObj = websiteObjs
             else:

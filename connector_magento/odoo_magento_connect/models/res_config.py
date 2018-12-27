@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 ##########################################################################
 #
-#   Copyright (c) 2015-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>)
-#   See LICENSE file for full copyright and licensing details.
-#   License URL : <https://store.webkul.com/license.html/>
+#  Copyright (c) 2015-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>)
+#  See LICENSE file for full copyright and licensing details.
+#  License URL : <https://store.webkul.com/license.html/>
 #
 ##########################################################################
 
@@ -42,50 +42,66 @@ class ResConfigSettings(models.TransientModel):
         super(ResConfigSettings, self).set_values()
         IrConfigPrmtr = self.env['ir.config_parameter'].sudo()
         IrConfigPrmtr.set_param(
-            "odoo_magento_connect.mob_discount_product", self.mob_discount_product.id
+            "odoo_magento_connect.mob_discount_product",
+            self.mob_discount_product.id
         )
         IrConfigPrmtr.set_param(
-            "odoo_magento_connect.mob_coupon_product", self.mob_coupon_product.id
+            "odoo_magento_connect.mob_coupon_product",
+            self.mob_coupon_product.id
         )
         IrConfigPrmtr.set_param(
-            "odoo_magento_connect.mob_payment_term", self.mob_payment_term.id
+            "odoo_magento_connect.mob_payment_term",
+            self.mob_payment_term.id
         )
         IrConfigPrmtr.set_param(
-            "odoo_magento_connect.mob_sales_team", self.mob_sales_team.id
+            "odoo_magento_connect.mob_sales_team",
+            self.mob_sales_team.id
         )
         IrConfigPrmtr.set_param(
-            "odoo_magento_connect.mob_sales_person", self.mob_sales_person.id
+            "odoo_magento_connect.mob_sales_person",
+            self.mob_sales_person.id
         )
         IrConfigPrmtr.set_param(
-            "odoo_magento_connect.mob_sale_order_shipment", self.mob_sale_order_shipment
+            "odoo_magento_connect.mob_sale_order_shipment",
+            self.mob_sale_order_shipment
         )
         IrConfigPrmtr.set_param(
-            "odoo_magento_connect.mob_sale_order_cancel", self.mob_sale_order_cancel
+            "odoo_magento_connect.mob_sale_order_cancel",
+            self.mob_sale_order_cancel
         )
         IrConfigPrmtr.set_param(
-            "odoo_magento_connect.mob_sale_order_invoice", self.mob_sale_order_invoice
+            "odoo_magento_connect.mob_sale_order_invoice",
+            self.mob_sale_order_invoice
         )
 
     @api.model
     def get_values(self):
         res = super(ResConfigSettings, self).get_values()
         IrConfigPrmtr = self.env['ir.config_parameter'].sudo()
-        OrderShip = IrConfigPrmtr.get_param('odoo_magento_connect.mob_sale_order_shipment')
-        OrderInv = IrConfigPrmtr.get_param('odoo_magento_connect.mob_sale_order_invoice')
-        OrderCanel = IrConfigPrmtr.get_param('odoo_magento_connect.mob_sale_order_cancel')
-        DicsProd = int(IrConfigPrmtr.get_param('odoo_magento_connect.mob_discount_product'))
-        CpnProd = int(IrConfigPrmtr.get_param('odoo_magento_connect.mob_coupon_product'))
-        pymntTrm = int(IrConfigPrmtr.get_param('odoo_magento_connect.mob_payment_term'))
-        salesTeam = int(IrConfigPrmtr.get_param('odoo_magento_connect.mob_sales_team'))
-        SalesPrsn = int(IrConfigPrmtr.get_param('odoo_magento_connect.mob_sales_person'))
+        OrderShip = IrConfigPrmtr.get_param(
+            'odoo_magento_connect.mob_sale_order_shipment')
+        OrderInv = IrConfigPrmtr.get_param(
+            'odoo_magento_connect.mob_sale_order_invoice')
+        OrderCanel = IrConfigPrmtr.get_param(
+            'odoo_magento_connect.mob_sale_order_cancel')
+        DicsProd = int(IrConfigPrmtr.get_param(
+            'odoo_magento_connect.mob_discount_product'))
+        CpnProd = int(IrConfigPrmtr.get_param(
+            'odoo_magento_connect.mob_coupon_product'))
+        pymntTrm = int(IrConfigPrmtr.get_param(
+            'odoo_magento_connect.mob_payment_term'))
+        salesTeam = int(IrConfigPrmtr.get_param(
+            'odoo_magento_connect.mob_sales_team'))
+        SalesPrsn = int(IrConfigPrmtr.get_param(
+            'odoo_magento_connect.mob_sales_person'))
         res.update({
-            'mob_sale_order_shipment' : OrderShip,
-            'mob_sale_order_invoice' : OrderInv,
-            'mob_sale_order_cancel' : OrderCanel,
-            'mob_discount_product' : DicsProd,
-            'mob_coupon_product' : CpnProd,
-            'mob_payment_term' : pymntTrm,
-            'mob_sales_team' : salesTeam,
-            'mob_sales_person' : SalesPrsn,
+            'mob_sale_order_shipment': OrderShip,
+            'mob_sale_order_invoice': OrderInv,
+            'mob_sale_order_cancel': OrderCanel,
+            'mob_discount_product': DicsProd,
+            'mob_coupon_product': CpnProd,
+            'mob_payment_term': pymntTrm,
+            'mob_sales_team': salesTeam,
+            'mob_sales_person': SalesPrsn,
         })
         return res

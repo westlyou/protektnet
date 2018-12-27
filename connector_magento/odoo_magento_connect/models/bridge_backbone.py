@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 ##########################################################################
 #
-#   Copyright (c) 2015-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>)
-#   See LICENSE file for full copyright and licensing details.
-#   License URL : <https://store.webkul.com/license.html/>
+#  Copyright (c) 2015-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>)
+#  See LICENSE file for full copyright and licensing details.
+#  License URL : <https://store.webkul.com/license.html/>
 #
 ##########################################################################
 
@@ -27,9 +27,9 @@ class BridgeBackbone(models.TransientModel):
                 [('currency_id', '=', currencyObj.id)], limit=1)
             if not pricelistObj:
                 pricelistDict = {
-                    'name' : 'Mage_' + data['code'],
-                    'active' : True,
-                    'currency_id' : currencyObj.id
+                    'name': 'Mage_' + data['code'],
+                    'active': True,
+                    'currency_id': currencyObj.id
                 }
                 pricelistObj = priceListModel.create(pricelistDict)
                 return pricelistObj.id

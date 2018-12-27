@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 ##########################################################################
 #
-#   Copyright (c) 2015-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>)
-#   See LICENSE file for full copyright and licensing details.
-#   License URL : <https://store.webkul.com/license.html/>
+#  Copyright (c) 2015-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>)
+#  See LICENSE file for full copyright and licensing details.
+#  License URL : <https://store.webkul.com/license.html/>
 #
 ##########################################################################
 
@@ -35,8 +35,8 @@ class ProductProduct(models.Model):
             templateId = productObj.product_tmpl_id.id
             if templateId:
                 mappDict = {
-                    'instance_id' : instanceId,
-                    'created_by' : 'Magento',
+                    'instance_id': instanceId,
+                    'created_by': 'Magento',
                 }
                 domain = [('product_tmpl_id', '=', templateId)]
                 for attrValId in attrValIds:
@@ -47,26 +47,26 @@ class ProductProduct(models.Model):
                         attrLineObj.value_ids = [(4, attrValId)]
                 if mageId:
                     mapTempObjs = mapTempModel.search([
-                        ('erp_template_id', '=', templateId), 
+                        ('erp_template_id', '=', templateId),
                         ('instance_id', '=', instanceId)
                     ])
                     if not mapTempObjs:
                         price = vals.get('list_price', 0)
                         mapTempDict = mappDict.copy()
                         mapTempDict.update({
-                            'template_name' : templateId,
-                            'erp_template_id' : templateId,
-                            'mage_product_id' : mageId,
-                            'base_price' : price,
+                            'template_name': templateId,
+                            'erp_template_id': templateId,
+                            'mage_product_id': mageId,
+                            'base_price': price,
                         })
                         mapTempModel.create(mapTempDict)
                     else:
                         mapTempObjs.need_sync = 'No'
                     mappDict.update({
-                        'pro_name' : productObj.id,
-                        'oe_product_id' : productObj.id,
-                        'mag_product_id' : mageId,
-                        'magento_stock_id' : magento_stock_id
+                        'pro_name': productObj.id,
+                        'oe_product_id': productObj.id,
+                        'mag_product_id': mageId,
+                        'magento_stock_id': magento_stock_id
                     })
                     self.env['magento.product'].create(mappDict)
 

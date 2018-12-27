@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 ##########################################################################
 #
-#   Copyright (c) 2015-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>)
-#   See LICENSE file for full copyright and licensing details.
-#   License URL : <https://store.webkul.com/license.html/>
+#  Copyright (c) 2015-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>)
+#  See LICENSE file for full copyright and licensing details.
+#  License URL : <https://store.webkul.com/license.html/>
 #
 ##########################################################################
 
@@ -30,7 +30,8 @@ class account_payment(models.Model):
                     for saleObj in saleObjs:
                         mapObjs = self.env['wk.order.mapping'].search(
                             [('erp_order_id', '=', saleObj.id)])
-                        if mapObjs and saleObj.ecommerce_channel == "magento" \
-                                and enableOrderInvoice and saleObj.is_invoiced:
+                        if (mapObjs and saleObj.ecommerce_channel ==
+                            "magento" and enableOrderInvoice and
+                                saleObj.is_invoiced):
                             saleObj.manual_magento_order_operation("invoice")
         return res

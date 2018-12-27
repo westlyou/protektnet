@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 ##########################################################################
 #
-#   Copyright (c) 2015-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>)
-#   See LICENSE file for full copyright and licensing details.
-#   License URL : <https://store.webkul.com/license.html/>
+#  Copyright (c) 2015-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>)
+#  See LICENSE file for full copyright and licensing details.
+#  License URL : <https://store.webkul.com/license.html/>
 #
 ##########################################################################
 
@@ -12,6 +12,7 @@ import requests
 
 from odoo import api, fields, models
 from .res_partner import _unescape
+
 
 class ProductTemplate(models.Model):
     _inherit = "product.template"
@@ -26,7 +27,8 @@ class ProductTemplate(models.Model):
     attribute_set_id = fields.Many2one(
         'magento.attribute.set',
         string='Magento Attribute Set',
-        help="Magento Attribute Set, Used during configurable product generation at Magento.")
+        help="Magento Attribute Set, Used during configurable product "
+             "generation at Magento.")
 
     @api.model
     def create(self, vals):
@@ -37,13 +39,13 @@ class ProductTemplate(models.Model):
         prodTempObj = super(ProductTemplate, self).create(vals)
         if 'magento' in ctx and 'configurable' in ctx:
             mappingData = {
-                'template_name' : prodTempObj.id,
-                'erp_template_id' : prodTempObj.id,
-                'mage_product_id' : mageId,
-                'base_price' : vals['list_price'],
-                'is_variants' : True,
-                'instance_id' : ctx.get('instance_id'),
-                'created_by' : 'Magento'
+                'template_name': prodTempObj.id,
+                'erp_template_id': prodTempObj.id,
+                'mage_product_id': mageId,
+                'base_price': vals['list_price'],
+                'is_variants': True,
+                'instance_id': ctx.get('instance_id'),
+                'created_by': 'Magento'
             }
             self.env['magento.product.template'].create(mappingData)
         return prodTempObj
@@ -88,4 +90,3 @@ class ProductTemplate(models.Model):
         vals.pop('attribute_list', None)
         vals.pop('magento_stock_id', None)
         return vals
-

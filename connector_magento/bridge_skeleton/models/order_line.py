@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 ##########################################################################
 #
-#   Copyright (c) 2015-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>)
-#   See LICENSE file for full copyright and licensing details.
-#   License URL : <https://store.webkul.com/license.html/>
+#  Copyright (c) 2015-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>)
+#  See LICENSE file for full copyright and licensing details.
+#  License URL : <https://store.webkul.com/license.html/>
 #
 ##########################################################################
 
@@ -30,8 +30,10 @@ class WkSkeleton(models.TransientModel):
     @api.model
     def create_order_shipping_and_voucher_line(self, orderLine):
         """ @params orderLine: A dictionary of sale ordre line fields
-                @params context: a standard odoo Dictionary with context having keyword to check origin of fumction call and identify type of line for shipping and vaoucher
-                @return : A dictionary with updated values of order line"""
+            @params context: a standard odoo Dictionary with context
+                            having keyword to check origin of fumction call
+                            and identify type of line for shipping and vaoucher
+            @return : A dictionary with updated values of order line"""
         productId = self.get_default_virtual_product_id(orderLine)
         orderLine['product_id'] = productId
         if orderLine['name'].startswith('S'):
@@ -53,7 +55,9 @@ class WkSkeleton(models.TransientModel):
     @api.model
     def create_sale_order_line(self, orderLineData):
         """Create Sale Order Lines from XML-RPC
-        @param orderLineData: A dictionary of Sale Order line fields in which required field(s) are 'order_id', `product_uom_qty`, `price_unit`
+        @param orderLineData: A dictionary of Sale Order line fields in which
+                            required field(s) are 'order_id',
+                            `product_uom_qty`, `price_unit`
                 `product_id`: mandatory for non shipping/voucher order lines
         @return: A dictionary of Status, Order Line ID, Status Message  """
         ctx = dict(self._context or {})
@@ -68,7 +72,7 @@ class WkSkeleton(models.TransientModel):
             orderLineData.update({'product_uom': productObj.uom_id.id})
             name = orderLineData.get('name', None)
             description = orderLineData.pop('description', None)
-            if description :
+            if description:
                 orderLineData.update(name=_unescape(description))
             elif name:
                 orderLineData.update(name=_unescape(name))

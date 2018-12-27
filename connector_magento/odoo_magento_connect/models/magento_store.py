@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 ##########################################################################
 #
-#   Copyright (c) 2015-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>)
-#   See LICENSE file for full copyright and licensing details.
-#   License URL : <https://store.webkul.com/license.html/>
+#  Copyright (c) 2015-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>)
+#  See LICENSE file for full copyright and licensing details.
+#  License URL : <https://store.webkul.com/license.html/>
 #
 ##########################################################################
 
@@ -35,19 +35,21 @@ class MagentoStore(models.Model):
             method='get',
             token=token
         )
-        if storesResponse :
+        if storesResponse:
             magentoStores = storesResponse
             self.env['magento.website']._get_website(url, token)
         for magentoStore in magentoStores:
             if not magentoStore.get('id'):
                 continue
             groupObjs = self.search(
-                [('group_id', '=', magentoStore['id']), ('instance_id', '=', instanceId)])
+                [('group_id', '=', magentoStore['id']),
+                 ('instance_id', '=', instanceId)])
             if groupObjs:
                 groupObj = groupObjs[0]
             else:
                 websiteObjs = self.env['magento.website'].search(
-                    [('website_id', '=', magentoStore['website_id']), ('instance_id', '=', instanceId)])
+                    [('website_id', '=', magentoStore['website_id']),
+                     ('instance_id', '=', instanceId)])
                 if websiteObjs:
                     websiteId = websiteObjs[0].id
                 groupDict = {

@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 ##########################################################################
 #
-#   Copyright (c) 2015-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>)
-#   See LICENSE file for full copyright and licensing details.
-#   License URL : <https://store.webkul.com/license.html/>
+#  Copyright (c) 2015-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>)
+#  See LICENSE file for full copyright and licensing details.
+#  License URL : <https://store.webkul.com/license.html/>
 #
 ##########################################################################
 
@@ -17,7 +17,8 @@ class WkSkeleton(models.TransientModel):
     def set_order_shipped(self, orderId):
         """Ship the order in Odoo via requests from XML-RPC
         @param order_id: Odoo Order ID
-        @param context: Mandatory Dictionary with key 'ecommerce' to identify the request from E-Commerce
+        @param context: Mandatory Dictionary with key 'ecommerce' to identify
+                        the request from E-Commerce
         @return:  A dictionary of status and status message of transaction"""
         ctx = dict(self._context or {})
         status = True
@@ -30,13 +31,15 @@ class WkSkeleton(models.TransientModel):
             if saleObj.picking_ids:
                 self.turn_odoo_connection_off()
                 for pickingObj in saleObj.picking_ids.filtered(
-                        lambda pickingObj: pickingObj.picking_type_code == 'outgoing' and pickingObj.state != 'done'):
+                        lambda pickingObj: pickingObj.picking_type_code ==
+                        'outgoing' and pickingObj.state != 'done'):
                     backorder = False
                     ctx['active_id'] = pickingObj.id
                     ctx['picking_id'] = pickingObj.id
                     pickingObj.force_assign()
                     for packObj in pickingObj.move_line_ids:
-                        if packObj.qty_done and packObj.qty_done < packObj.product_qty:
+                        if (packObj.qty_done and packObj.qty_done <
+                                packObj.product_qty):
                             backorder = True
                             continue
                         elif packObj.product_qty > 0:

@@ -20,7 +20,8 @@
     'category': 'Generic Modules',
     'sequence': 1,
     'author': 'Webkul Software Pvt. Ltd.',
-    'website': 'https://store.webkul.com/Magento-2/Odoo-Bridge-For-Magento2.html',
+    'website': (
+        'https://store.webkul.com/Magento-2/Odoo-Bridge-For-Magento2.html'),
     'summary': 'Odoo Magento Stock Extension',
     'description': """
 Odoo Magento Stock Extesnion
@@ -28,13 +29,15 @@ Odoo Magento Stock Extesnion
 
 Stock Management From Odoo To Magento.
 
-This module will automatically manage stock from odoo to magento during below operations.
+This module will automatically manage stock from odoo to magento
+during below operations.
 
     1. Sales Order
     2. Purchase Order
     3. Point Of Sales
 
-NOTE : This module works very well with latest version of magento 2.* and latest version of Odoo 11.0.
+NOTE : This module works very well with latest version of magento
+2.* and latest version of Odoo 11.0.
     """,
     'depends': ['odoo_magento_connect'],
     'data': [

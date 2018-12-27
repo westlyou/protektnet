@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 ##########################################################################
 #
-#   Copyright (c) 2015-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>)
-#   See LICENSE file for full copyright and licensing details.
-#   License URL : <https://store.webkul.com/license.html/>
+#  Copyright (c) 2015-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>)
+#  See LICENSE file for full copyright and licensing details.
+#  License URL : <https://store.webkul.com/license.html/>
 #
 ##########################################################################
 
@@ -39,25 +39,28 @@ class MagentoStoreView(models.Model):
         storeViewId = False
         instanceId = self._context.get('instance_id')
         magentoStoreViews = []
-        storeViewsResponse = self.env['magento.synchronization'].callMagentoApi(
+        storeViewsResponse = self.env[
+            'magento.synchronization'].callMagentoApi(
             baseUrl=url,
             url='/V1/store/storeViews',
             method='get',
             token=token
         )
-        if storeViewsResponse :
+        if storeViewsResponse:
             magentoStoreViews = storeViewsResponse
             self.env['magento.store']._get_store_group(url, token)
         for magentoStoreView in magentoStoreViews:
             if not magentoStoreView.get('id'):
                 continue
             storeviewObjs = self.search(
-                [('view_id', '=', magentoStoreView['id']), ('instance_id', '=', instanceId)])
+                [('view_id', '=', magentoStoreView['id']),
+                 ('instance_id', '=', instanceId)])
             if storeviewObjs:
                 storeviewObj = storeviewObjs[0]
             else:
                 groupObj = self.env['magento.store'].search(
-                    [('group_id', '=', magentoStoreView['store_group_id']), ('instance_id', '=', instanceId)])
+                    [('group_id', '=', magentoStoreView['store_group_id']),
+                     ('instance_id', '=', instanceId)])
                 if groupObj:
                     groupId = groupObj[0].id
                 viewDict = {

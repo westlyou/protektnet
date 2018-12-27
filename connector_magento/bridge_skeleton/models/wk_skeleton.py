@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 ##########################################################################
 #
-#   Copyright (c) 2015-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>)
-#   See LICENSE file for full copyright and licensing details.
-#   License URL : <https://store.webkul.com/license.html/>
+#  Copyright (c) 2015-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>)
+#  See LICENSE file for full copyright and licensing details.
+#  License URL : <https://store.webkul.com/license.html/>
 #
 ##########################################################################
 
@@ -16,12 +16,18 @@ class WkSkeleton(models.TransientModel):
 
     @api.model
     def turn_odoo_connection_off(self):
-        """ To be inherited by bridge module for making connection Inactive on Odoo End"""
+        """
+            To be inherited by bridge module for making
+            connection Inactive on Odoo End
+        """
         return True
 
     @api.model
     def turn_odoo_connection_on(self):
-        """ To be inherited by bridge module for making connection Active on Odoo End"""
+        """
+            To be inherited by bridge module for making
+            connection Active on Odoo End
+        """
         return True
 
     @api.model
@@ -32,10 +38,14 @@ class WkSkeleton(models.TransientModel):
 
     @api.model
     def set_order_cancel(self, orderId):
-        """Cancel the order in Odoo via requests from XML-RPC
+        """
+            Cancel the order in Odoo via requests from XML-RPC
                 @param order_id: Odoo Order ID
-                @param context: Mandatory Dictionary with key 'ecommerce' to identify the request from E-Commerce
-                @return: A dictionary of status and status message of transaction"""
+                @param context: Mandatory Dictionary with key 'ecommerce'
+                            to identify the request from E-Commerce
+                @return: A dictionary of status and status
+                        message of transaction
+        """
         ctx = dict(self._context or {})
         status = True
         statusMessage = "Order Successfully Cancelled."
@@ -46,7 +56,8 @@ class WkSkeleton(models.TransientModel):
                 saleObj.name)
             self.turn_odoo_connection_off()
             if self.env['ir.module.module'].sudo().search(
-                    [('name', '=', 'account_voucher')], limit=1).state == 'installed':
+                    [('name', '=', 'account_voucher')],
+                    limit=1).state == 'installed':
                 isVoucherInstalled = True
                 voucherModel = self.env['account.voucher']
             if saleObj.invoice_ids:
@@ -64,10 +75,14 @@ class WkSkeleton(models.TransientModel):
             if saleObj.picking_ids:
                 if 'done' in saleObj.picking_ids.mapped('state'):
                     donePickingNames = saleObj.picking_ids.filtered(
-                        lambda pickingObj: pickingObj.state == 'done').mapped('name')
+                        lambda pickingObj: pickingObj.state == 'done').mapped(
+                        'name')
                     status = True
-                    statusMessage = "Odoo Order %s Cancelled but transferred pickings can't cancelled," % (
-                        saleObj.name) + " Please create return for pickings %s !!!" % (", ".join(donePickingNames))
+                    statusMessage = (
+                        "Odoo Order %s Cancelled but transferred pickings "
+                        "can't cancelled," % saleObj.name +
+                        " Please create return for pickings %s !!!" %
+                        (", ".join(donePickingNames)))
             saleObj.with_context(ctx).action_cancel()
         except Exception as e:
             status = False
@@ -82,7 +97,10 @@ class WkSkeleton(models.TransientModel):
 
     @api.model
     def get_default_configuration_data(self, ecommerceChannel):
-        """@return: Return a dictionary of Sale Order keys by browsing the Configuration of Bridge Module Installed"""
+        """
+            @return: Return a dictionary of Sale Order keys by browsing the
+            Configuration of Bridge Module Installed
+        """
         if hasattr(self, 'get_%s_configuration_data' % ecommerceChannel):
             return getattr(
                 self, 'get_%s_configuration_data' %
@@ -101,14 +119,19 @@ class WkSkeleton(models.TransientModel):
 
     @api.model
     def create_order(self, saleData):
-        """ Create Order on Odoo along with creating Mapping
+        """
+            Create Order on Odoo along with creating Mapping
         @param saleData: dictionary of Odoo sale.order model fields
-        @param context: Standard dictionary with 'ecommerce' key to identify the origin of request and
-                                        e-commerce order ID.
-        @return: A dictionary with status, order_id, and status_message"""
+        @param context: Standard dictionary with 'ecommerce' key to identify
+                        the origin of request and e-commerce order ID.
+        @return: A dictionary with status, order_id, and status_message
+        """
         ctx = dict(self._context or {})
         # check saleData for min no of keys presen or not
-        orderName, orderId, status, statusMessage = "", False, True, "Order Successfully Created."
+        orderName = ""
+        orderId = False
+        status = True
+        statusMessage = "Order Successfully Created."
         ecommerceChannel = saleData.get('ecommerce_channel')
         ecommerceOrderId = saleData.get('ecommerce_order_id')
         saleData.pop('ecommerce_order_id', None)
@@ -140,10 +163,14 @@ class WkSkeleton(models.TransientModel):
 
     @api.model
     def confirm_odoo_order(self, orderId):
-        """ Confirms Odoo Order from E-Commerce
-        @param order_id: Odoo/ERP Sale Order ID
-        @return: a dictionary of True or False based on Transaction Result with status_message"""
-        #REMOVED this long as python3 not supported long  # if isinstance(orderId, (int, long)):
+        """
+            Confirms Odoo Order from E-Commerce
+                @param order_id: Odoo/ERP Sale Order ID
+                @return: a dictionary of True or False based on
+                        Transaction Result with status_message
+        """
+        # REMOVED this long as python3 not supported long
+        # if isinstance(orderId, (int, long)):
         if isinstance(orderId, (int)):
             orderId = [orderId]
         ctx = dict(self._context or {})

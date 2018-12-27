@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 ##########################################################################
 #
-#   Copyright (c) 2015-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>)
-#   See LICENSE file for full copyright and licensing details.
-#   License URL : <https://store.webkul.com/license.html/>
+#  Copyright (c) 2015-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>)
+#  See LICENSE file for full copyright and licensing details.
+#  License URL : <https://store.webkul.com/license.html/>
 #
 ##########################################################################
 
@@ -41,18 +41,20 @@ class StockPicking(models.Model):
         orderObj = self.sale_id
         origin = self.origin
         if origin == orderObj.name:
-            enableOrderShipment = self.env['ir.config_parameter'].sudo().get_param(
-                'odoo_magento_connect.mob_sale_order_shipment')
+            enableOrderShipment = (
+                self.env['ir.config_parameter'].sudo().get_param(
+                    'odoo_magento_connect.mob_sale_order_shipment'))
             if orderObj.ecommerce_channel == "magento" and enableOrderShipment:
                 itemData = {}
                 for moveLine in self.move_line_ids:
                     productSku = moveLine.product_id.default_code or False
-                    if productSku :
+                    if productSku:
                         quantity = moveLine.qty_done
                         itemData[productSku] = int(quantity)
                 context.update(itemData=itemData)
-                mageShipment = orderObj.with_context(context).manual_magento_order_operation(
-                    "shipment")
+                mageShipment = orderObj.with_context(
+                    context).manual_magento_order_operation(
+                        "shipment")
                 if mageShipment and mageShipment[0]:
                     self.magento_shipment = mageShipment[0]
                     if self.carrier_tracking_ref:
@@ -87,12 +89,13 @@ class StockPicking(models.Model):
                         "carrierCode": carrierCode
                     }
                 }
-                shipTrackResponse = self.env['magento.synchronization'].with_context(
-                    ctx).callMagentoApi(
-                    url='/V1/shipment/track',
-                    method='post',
-                    data=shipTrackData
-                )
+                shipTrackResponse = (
+                    self.env['magento.synchronization'].with_context(
+                        ctx).callMagentoApi(
+                        url='/V1/shipment/track',
+                        method='post',
+                        data=shipTrackData
+                    ))
                 if shipTrackResponse:
                     text = 'Tracking number successfully added.'
                 else:

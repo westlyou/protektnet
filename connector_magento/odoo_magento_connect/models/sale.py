@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 ##########################################################################
 #
-#   Copyright (c) 2015-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>)
-#   See LICENSE file for full copyright and licensing details.
-#   License URL : <https://store.webkul.com/license.html/>
+#  Copyright (c) 2015-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>)
+#  See LICENSE file for full copyright and licensing details.
+#  License URL : <https://store.webkul.com/license.html/>
 #
 ##########################################################################
 
@@ -11,6 +11,7 @@ import json
 import requests
 
 from odoo import api, models
+
 
 class SaleOrder(models.Model):
     _inherit = "sale.order"
@@ -51,7 +52,8 @@ class SaleOrder(models.Model):
                     return False
                 else:
                     connection = self.env[
-                        'magento.configure'].with_context(ctx)._create_connection()
+                        'magento.configure'].with_context(
+                            ctx)._create_connection()
                     if connection:
                         url = connection[0]
                         token = connection[1]
@@ -66,9 +68,11 @@ class SaleOrder(models.Model):
                         if apiOpr:
                             OrderData = {'orderId': incrementId}
                             itemData = self._context.get('itemData')
-                            if itemData :
+                            if itemData:
                                 OrderData.update(itemData=itemData)
-                            apiResponse = self.env['magento.synchronization'].with_context(ctx).callMagentoApi(
+                            apiResponse = self.env[
+                                'magento.synchronization'].with_context(
+                                    ctx).callMagentoApi(
                                 baseUrl=url,
                                 url='/V1/odoomagentoconnect/' + apiOpr,
                                 method='post',
@@ -78,14 +82,22 @@ class SaleOrder(models.Model):
                             if apiResponse:
                                 if apiOpr == "OrderShipment":
                                     mageShipment = apiResponse
-                                text = '%s of order %s has been successfully updated on magento.' % (opr, orderName)
+                                text = ('%s of order %s has been successfully '
+                                        'updated on magento.' % (
+                                            opr, orderName))
                                 status = 'yes'
                             else:
-                                text = 'Magento %s Error For Order %s , Error' % (opr, orderName)
+                                text = ('Magento %s Error For Order %s , '
+                                        'Error' % (opr, orderName))
                                 status = 'no'
                     else:
-                        text = 'Magento %s Error For Order %s >> Could not able to connect Magento.' % (opr, orderName)
+                        text = ('Magento %s Error For Order %s >> Could not '
+                                'able to connect Magento.' % (opr, orderName))
                 self._cr.commit()
-                self.env['magento.sync.history'].create(
-                    {'status': status, 'action_on': 'order', 'action': 'b', 'error_message': text})
+                self.env['magento.sync.history'].create({
+                    'status': status,
+                    'action_on': 'order',
+                    'action': 'b',
+                    'error_message': text
+                })
         return mageShipment

@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 ##########################################################################
 #
-#   Copyright (c) 2015-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>)
-#   See LICENSE file for full copyright and licensing details.
-#   License URL : <https://store.webkul.com/license.html/>
+#  Copyright (c) 2015-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>)
+#  See LICENSE file for full copyright and licensing details.
+#  License URL : <https://store.webkul.com/license.html/>
 #
 ##########################################################################
 
@@ -16,8 +16,10 @@ class WkSkeleton(models.TransientModel):
     @api.model
     def set_order_paid(self, paymentData):
         """Make the order Paid in Odoo via requests from XML-RPC
-        @param paymentData: A standard dictionary consisting of 'order_id', 'journal_id', 'amount'
-        @param context: A Dictionary with key 'ecommerce' to identify the request from E-Commerce
+        @param paymentData: A standard dictionary consisting of
+                            'order_id', 'journal_id', 'amount'
+        @param context: A Dictionary with key 'ecommerce' to identify
+                         the request from E-Commerce
         @return:  A dictionary of status and status message of transaction"""
         ctx = dict(self._context or {})
         status = True
@@ -86,8 +88,10 @@ class WkSkeleton(models.TransientModel):
                     ctx).default_get(paymentFields)
                 paymentMethodId = self.with_context(
                     ctx).get_default_payment_method(journalId)
-                defaultVals.update(
-                    {'journal_id': journalId, 'payment_method_id': paymentMethodId})
+                defaultVals.update({
+                    'journal_id': journalId,
+                    'payment_method_id': paymentMethodId
+                })
                 invoiceDate = self.env['account.invoice'].browse(
                     invoiceId).date_invoice
                 defaultVals['payment_date'] = invoiceDate
@@ -95,7 +99,8 @@ class WkSkeleton(models.TransientModel):
                 paid = payment.post()
             else:
                 status = False
-                statusMessage = "Multiple validated Invoices found for the Odoo order. Cannot make Payment"
+                statusMessage = ("Multiple validated Invoices found for "
+                                 "the Odoo order. Cannot make Payment")
         except Exception as e:
             statusMessage = "Error in creating Payments for Invoice: %s" % str(
                 e)
@@ -111,7 +116,8 @@ class WkSkeleton(models.TransientModel):
     def create_order_invoice(self, orderId, ecommerceInvoiceId=False):
         """Creates Order Invoice by request from XML-RPC.
         @param order_id: Odoo Order ID
-        @return: a dictionary containig Odoo Invoice IDs and Status with Status Message
+        @return: a dictionary containig Odoo Invoice IDs and Status
+                with Status Message
         """
         context = dict(self._context or {})
         invoiceId = False
@@ -148,7 +154,10 @@ class WkSkeleton(models.TransientModel):
     @api.model
     def get_default_payment_method(self, journalId):
         """ @params journal_id: Journal Id for making payment
-                @params context : Must have key 'ecommerce' and then return payment payment method based on Odoo Bridge used else return the default payment method for Journal
+            @params context : Must have key 'ecommerce' and then
+                              return payment payment method based on Odoo
+                              Bridge used else return the default payment
+                              method for Journal
                 @return: Payment method ID(integer)"""
         paymentMethodObjs = self.env['account.journal'].browse(
             journalId)._default_inbound_payment_methods()

@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 ##########################################################################
 #
-#   Copyright (c) 2015-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>)
-#   See LICENSE file for full copyright and licensing details.
-#   License URL : <https://store.webkul.com/license.html/>
+#  Copyright (c) 2015-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>)
+#  See LICENSE file for full copyright and licensing details.
+#  License URL : <https://store.webkul.com/license.html/>
 #
 ##########################################################################
 
@@ -95,30 +95,31 @@ class MagentoConfigure(models.Model):
         "during order shipment and invoice, else it won't.")
     language = fields.Selection(
         _lang_get, string="Default Language", default=api.model(
-            lambda self: self.env.lang), help="Selected language is loaded in the system, "
-        "all documents related to this contact will be synched in this language.")
+            lambda self: self.env.lang),
+        help="Selected language is loaded in the system, "
+        "all documents related to this contact will be "
+        "synched in this language.")
     category = fields.Many2one(
         'product.category',
         string="Default Category",
         default=lambda self: self._default_category(),
-        help="Selected Category will be set default category for odoo's product, "
+        help="Selected Category will be set default category "
+        "for odoo's product, "
         "in case when magento product doesn\'t belongs to any catgeory.")
-    state = fields.Selection([
-            ('enable','Enable'),
-            ('disable','Disable')
-        ],
+    state = fields.Selection(
+        [('enable', 'Enable'), ('disable', 'Disable')],
         string='Status',
         default="enable",
         help="status will be consider during order invoice, "
-        "order delivery and order cancel, to stop asynchronous process at other end.",
+        "order delivery and order cancel, to stop asynchronous "
+        "process at other end.",
         size=100)
-    inventory_sync = fields.Selection([
-            ('enable','Enable'),
-            ('disable','Disable')
-        ],
+    inventory_sync = fields.Selection(
+        [('enable', 'Enable'), ('disable', 'Disable')],
         string='Inventory Update',
         default="enable",
-        help="If Enable, Invetory will Forcely Update During Product Update Operation.",
+        help="If Enable, Invetory will Forcely Update During "
+        "Product Update Operation.",
         size=100)
     warehouse_id = fields.Many2one(
         'stock.warehouse',
@@ -135,9 +136,11 @@ class MagentoConfigure(models.Model):
         activeConnections = self.search([('active', '=', True)])
         isMultiMobInstalled = False
         if self.env['ir.module.module'].sudo().search(
-                [('name', '=', 'odoo_magento_multi_instance')], limit=1).state == 'installed':
+                [('name', '=', 'odoo_magento_multi_instance')],
+                limit=1).state == 'installed':
             isMultiMobInstalled = True
-        if vals.get('active') and activeConnections and not isMultiMobInstalled:
+        if (vals.get('active') and activeConnections and not
+                isMultiMobInstalled):
             raise UserError(
                 _('Warning!\nSorry, Only one active connection is allowed.'))
         vals['instance_name'] = self.env[
@@ -152,24 +155,29 @@ class MagentoConfigure(models.Model):
         isMultiMobInstalled = False
         dashboardModel = self.env['mob.dashboard']
         if self.env['ir.module.module'].sudo().search(
-                [('name', '=', 'odoo_magento_multi_instance')], limit=1).state == 'installed':
+                [('name', '=', 'odoo_magento_multi_instance')],
+                limit=1).state == 'installed':
             isMultiMobInstalled = True
         if vals:
             if len(activeConnections) > 0 and vals.get(
                     'active') and not isMultiMobInstalled:
-                raise UserError(
-                    _('Warning!\nSorry, Only one active connection is allowed.'))
+                raise UserError(_(
+                    'Warning!\nSorry, Only one active connection is allowed.'
+                ))
             for instanceObj in self:
-                if (vals.get('name') and vals['name'] != instanceObj.name) or \
-                    (vals.get('user') and vals['user'] != instanceObj.user) or \
-                    (vals.get('pwd') and vals['pwd'] != instanceObj.pwd):
+                if ((vals.get('name') and vals['name'] != instanceObj.name) or
+                        (vals.get('user') and vals['user'] !=
+                            instanceObj.user) or
+                        (vals.get('pwd') and vals['pwd'] !=
+                            instanceObj.pwd)):
                     token = instanceObj.create_magento_connection(vals)
                     if token:
                         if len(token[0]) > 1:
                             if token[0][0]:
                                 vals['token'] = str(token[0][0])
-                                vals[
-                                    'status'] = "Congratulation, It's Successfully Connected with Magento Api."
+                                vals['status'] = (
+                                    "Congratulation, It's Successfully "
+                                    "Connected with Magento Api.")
                                 vals['connection_status'] = True
                             else:
                                 vals['token'] = False
@@ -199,14 +207,15 @@ class MagentoConfigure(models.Model):
         return True
 
     #############################################
-    ##          magento connection             ##
+    #           magento connection              #
     #############################################
     @api.multi
     def test_connection(self):
         token = 0
         connectionStatus = False
         status = 'Magento Connection Un-successful'
-        text = 'Test connection Un-successful please check the magento login credentials !!!'
+        text = ('Test connection Un-successful please check the magento '
+                'login credentials !!!')
         checkMapping = self.correct_mapping
         token = self.create_magento_connection()
         if token:
@@ -216,7 +225,8 @@ class MagentoConfigure(models.Model):
                     storeId = self.set_default_magento_website(
                         self.name, self.token)
                     text = str(token[0][1])
-                    status = "Congratulation, It's Successfully Connected with Magento."
+                    status = ("Congratulation, It's Successfully "
+                              "Connected with Magento.")
                     connectionStatus = True
                 else:
                     status = str(token[0][1])
@@ -250,7 +260,7 @@ class MagentoConfigure(models.Model):
 
     @api.model
     def _create_connection(self):
-        """ create a connection between Odoo and magento 
+        """ create a connection between Odoo and magento
                 returns: False or list"""
         instanceId = self._context.get('instance_id', False)
         token = ''
@@ -259,11 +269,13 @@ class MagentoConfigure(models.Model):
         else:
             activeConnections = self.search([('active', '=', True)])
             if len(activeConnections) > 1:
-                raise UserError(
-                    _('Error!\nSorry, only one Active Configuration setting is allowed.'))
+                raise UserError(_(
+                    'Error!\nSorry, only one Active Configuration '
+                    'setting is allowed.'))
             if not activeConnections:
                 raise UserError(
-                    _('Error!\nPlease create the configuration part for Magento connection!!!'))
+                    _('Error!\nPlease create the configuration part for '
+                      'Magento connection!!!'))
             else:
                 instanceObj = activeConnections[0]
         token_generation = instanceObj.create_magento_connection()
@@ -296,15 +308,22 @@ class MagentoConfigure(models.Model):
         }
         Cred = json.dumps(Cre)
         userAgent = request.httprequest.environ.get('HTTP_USER_AGENT', '')
-        headers = {'Content-Type': 'application/json', 'User-Agent': userAgent, 'User-Agent': userAgent}
+        headers = {
+            'Content-Type': 'application/json',
+            'User-Agent': userAgent,
+            'User-Agent': userAgent
+        }
         try:
-            responseApi = requests.post(url, data=Cred, headers=headers, verify=False)
+            responseApi = requests.post(
+                url, data=Cred, headers=headers, verify=False)
             response = json.loads(responseApi.text)
-            if responseApi.ok :
+            if responseApi.ok:
                 token = "Bearer " + response
-                text = 'Test Connection with magento is successful, now you can proceed with synchronization.'
-            else :
-                text = ('Magento Connection Error: %s') % response.get('message')
+                text = ('Test Connection with magento is successful, now you '
+                        'can proceed with synchronization.')
+            else:
+                text = (('Magento Connection Error: %s') %
+                        response.get('message'))
         except Exception as e:
             text = ('Error!\nMagento Connection Error: %s') % e
         return [token, text]
@@ -317,9 +336,11 @@ class MagentoConfigure(models.Model):
         if vals.get('magento_url'):
             activeConnections = self.search([('active', '=', True)])
             isMultiMobInstalled = self.env['ir.module.module'].sudo().search(
-                [("name", "=", "odoo_magento_multi_instance"), ("state", "=", "installed")])
+                [("name", "=", "odoo_magento_multi_instance"),
+                 ("state", "=", "installed")])
             if isMultiMobInstalled:
-                magentoUrl = re.sub(r'^https?:\/\/', '', vals.get('magento_url'))
+                magentoUrl = (
+                    re.sub(r'^https?:\/\/', '', vals.get('magento_url')))
                 magentoUrl = re.split('index.php', magentoUrl)[0]
                 for connectionObj in activeConnections:
                     act = connectionObj.name
@@ -354,20 +375,20 @@ class MagentoConfigure(models.Model):
         if falseInstances:
             falseInstances.write({'instance_id': self.id})
         return True
-    
+
     @api.model
     def mob_upgrade_hook(self):
         activeConfigs = self.sudo().search([('active', '=', True)])
-        for activeConfig in activeConfigs :
+        for activeConfig in activeConfigs:
             activeConfig.sudo().test_connection()
 
     @api.model
     def _mob_def_setting(self):
         configModel = self.env['res.config.settings']
         vals = {
-            'mob_sale_order_invoice' : True,
-            'mob_sale_order_shipment' : True,
-            'mob_sale_order_cancel' : True,
+            'mob_sale_order_invoice': True,
+            'mob_sale_order_shipment': True,
+            'mob_sale_order_cancel': True,
             }
         defaultSetObj = configModel.create(vals)
         defaultSetObj.execute()

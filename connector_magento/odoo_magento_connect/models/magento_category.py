@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 ##########################################################################
 #
-#   Copyright (c) 2015-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>)
-#   See LICENSE file for full copyright and licensing details.
-#   License URL : <https://store.webkul.com/license.html/>
+#  Copyright (c) 2015-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>)
+#  See LICENSE file for full copyright and licensing details.
+#  License URL : <https://store.webkul.com/license.html/>
 #
 ##########################################################################
 
@@ -35,7 +35,6 @@ class MagentoCategory(models.Model):
             vals['instance_id'] = ctx.get('instance_id')
         return super(MagentoCategory, self).create(vals)
 
-
     @api.model
     def create_category(self, data):
         """Create and update a category by any webservice like xmlrpc.
@@ -53,11 +52,11 @@ class MagentoCategory(models.Model):
             mageCategoryId = data.get('mage_id')
             categoryObj = self.env['product.category'].create(categDict)
             odooMapVals = {
-                'cat_name' : categoryObj.id,
-                'oe_category_id' : categoryObj.id,
-                'mag_category_id' : mageCategoryId,
-                'instance_id' : self._context.get('instance_id'),
-                'created_by' : 'Magento'
+                'cat_name': categoryObj.id,
+                'oe_category_id': categoryObj.id,
+                'mag_category_id': mageCategoryId,
+                'instance_id': self._context.get('instance_id'),
+                'created_by': 'Magento'
             }
             self.create(odooMapVals)
             return categoryObj.id

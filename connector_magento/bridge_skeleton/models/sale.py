@@ -19,7 +19,8 @@ class SaleOrder(models.Model):
         for saleObj in self:
             saleObj.is_shipped = all(
                 line.qty_delivered >= line.product_uom_qty
-                for line in saleObj.order_line.filtered(lambda l: l.product_id.type != 'service')
+                for line in saleObj.order_line.filtered(
+                    lambda l: l.product_id.type != 'service')
             )
 
     @api.depends('invoice_status')
@@ -30,12 +31,14 @@ class SaleOrder(models.Model):
 
     def _get_ecommerces(self):
         return [('test', 'TEST')]
-    _ecommerce_selection = lambda self, * \
-        args, **kwargs: self._get_ecommerces(*args, **kwargs)
+
+    ecommerce_selection = (
+        lambda self, * args,
+        **kwargs: self._get_ecommerces(*args, **kwargs))
 
     ecommerce_channel = fields.Selection(
         string='eCommerce Channel',
-        selection=_ecommerce_selection,
+        selection=ecommerce_selection,
         help="Name of ecommerce from where this Order is generated.",
         default='test')
     is_shipped = fields.Boolean(compute='_shipped_status_compute')

@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 ##########################################################################
 #
-#   Copyright (c) 2015-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>)
-#   See LICENSE file for full copyright and licensing details.
-#   License URL : <https://store.webkul.com/license.html/>
+#  Copyright (c) 2015-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>)
+#  See LICENSE file for full copyright and licensing details.
+#  License URL : <https://store.webkul.com/license.html/>
 #
 ##########################################################################
 
@@ -32,13 +32,13 @@ class MagentoProductAttribute(models.Model):
             erpId = vals.get('name')
             if instanceId:
                 vals.update({
-                    'instance_id' : instanceId,
-                    'erp_id' : erpId,
-                    })
+                    'instance_id': instanceId,
+                    'erp_id': erpId,
+                })
             else:
                 vals.update({
-                    'erp_id' : erpId
-                    })
+                    'erp_id': erpId
+                })
         return vals
 
     name = fields.Many2one('product.attribute', string='Product Attribute')
