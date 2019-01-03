@@ -58,5 +58,5 @@ class SaleOrder(models.Model):
                 'product_qty': line.product_uom_qty,
                 'product_uom': line.product_uom.id,
                 'price_unit': line.price_unit,
-                'x_serial': line.x_studio_field_6P3b4,
+                'x_serial': line.serial_numbers,
             })
