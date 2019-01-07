@@ -6,8 +6,8 @@
     'summary': 'Price from supplier',
     'version': '11.0.1.0.0',
     'category': 'Purchase',
-    'website': 'https://www.grupocensere.com/',
-    'author': 'Grupo Censere (<https://www.grupocensere.com>)',
+    'website': 'http://grupocensere.com/',
+    'author': '<Grupo Censere (<http://grupocensere.com/>)',
     'license': 'AGPL-3',
     'application': True,
     'installable': True,
@@ -17,5 +17,6 @@
     ],
     'data': [
         'views/purchase_order_view.xml',
+        'views/product_template_view.xml',
     ],
 }
