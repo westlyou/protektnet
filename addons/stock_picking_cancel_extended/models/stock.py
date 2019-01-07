@@ -6,6 +6,7 @@ from datetime import datetime
 from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT
 from odoo.tools.float_utils import float_round, float_is_zero
 
+
 class Picking(models.Model):
     _inherit = 'stock.picking'
 

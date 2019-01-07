@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="purhcase_order_customs_grupo_censere_view" model="ir.ui.view">
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_tree"/>
+        <field name="sequence">90</field>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='invoice_status']" position="before">
+                <field name="delevery_status" invisible="not context.get('show_purchase', True)"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

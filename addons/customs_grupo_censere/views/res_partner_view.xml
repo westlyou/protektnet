@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_customs_grupo_censere_res_partner" model="ir.ui.view">
+        <field name="name">view.customs.grupo.censere.res.partner</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="l10n_mx_edi.mx_partner_address_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[hasclass('o_address_format')]" position="replace">
+                <div class="o_address_format">
+                    <field invisible="1" name="parent_id"/>
+                    <field invisible="1" name="type"/>
+                    <field invisible="1" name="street"/>
+                    <field attrs="{'readonly': [('type', '=', 'contact'),('parent_id', '!=', False)]}" name="street_name" placeholder="Street Name..."/>
+                    <div class="o_row">
+                        <label class="oe_edit_only" for="street_number"/>
+                        <span>. #</span>
+                        <field attrs="{'readonly': [('type', '=', 'contact'),('parent_id', '!=', False)]}" name="street_number"/>
+                        <label class="oe_edit_only" for="street_number2"/>
+                        <span attrs="{'invisible': [('street_number2', '=', False)]}">-</span>
+                        <field attrs="{'readonly': [('type', '=', 'contact'),('parent_id', '!=', False)]}" name="street_number2"/>
+                    </div>
+                    <field invisible="1" name="street2"/>
+                    <br/>
+                    <span attrs="{'invisible': [('l10n_mx_edi_colony', '=', False)]}">Col. </span>
+                    <field name="l10n_mx_edi_colony" placeholder="Colony..."/><br/>
+                    <field name="l10n_mx_edi_locality" placeholder="Locality..."/>
+                    <field class="o_address_city" name="city" placeholder="City"/>
+                    <field class="o_address_state" name="state_id" options="{&quot;no_open&quot;: True}" placeholder="State"/>
+                    <field class="o_address_zip" name="zip" placeholder="ZIP"/>
+                    <field class="o_address_country" name="country_id" options="{&quot;no_open&quot;: True, &quot;no_create&quot;: True}" placeholder="Country"/>
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>

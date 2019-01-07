@@ -4,8 +4,8 @@
 {
     'name': "Sale Order Limit Credit",
     'summary': "",
-    'author': 'Sarai Osorio',
-    'website': 'http://grupocensere.com/',
+    'website': 'https://www.grupocensere.com/',
+    'author': 'Grupo Censere (<https://www.grupocensere.com>)',
     'category': 'Sales',
     'license': 'AGPL-3',
     'version': '11.0.1.0.0',
