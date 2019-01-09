@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_report_sales_form" model="ir.ui.view">
+        <field name="name">report.sale.wizard.form</field>
+        <field name="model">report.sale.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Sale Kardex">
+                <group>
+                    <group>
+                        <field name="start_date"/>
+                        <field name="product_brand"/>
+                    </group>
+                    <group>
+                        <field name="end_date"/>
+                        <field name="licenses" />
+                        <field name="serials" />
+                    </group>
+                </group>
+                <footer>
+                    <button class="oe_highlight" default_focus="1" name="check_report" string="Preview" type="object"/>
+                    <button class="btn-default" special="cancel" string="Cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="open_report_sales_action" model="ir.actions.act_window">
+        <field name="name">Report Sales</field>
+        <field name="res_model">report.sale.wizard</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="view_id" ref="view_report_sales_form"/>
+    </record>
+    <menuitem action="report_sales.open_report_sales_action" id="menu_report_sales" name="Report Sales" parent="stock.menu_warehouse_report" sequence="4"/>
+</odoo>

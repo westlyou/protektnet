@@ -9,7 +9,8 @@ Stock Reports
 ==================
     """,
     'depends': [
-        'stock'
+        'stock',
+        'customs_grupo_censere',
     ],
     'data': [
         'security/ir.model.access.csv',

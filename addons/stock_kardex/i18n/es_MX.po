@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 11.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-01-16 17:17+0000\n"
-"PO-Revision-Date: 2018-01-16 17:17+0000\n"
+"POT-Creation-Date: 2019-01-09 17:38+0000\n"
+"PO-Revision-Date: 2019-01-09 17:38+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -16,13 +16,27 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: stock_kardex
+#: model:ir.ui.view,arch_db:stock_kardex.search_template_brand
+msgid "<span class=\"fa fa-filter\"/>\n"
+"                Brands\n"
+"                <span class=\"caret\"/>"
+msgstr "<span class=\"fa fa-filter\"/>\n"
+"                Brands\n"
+"                <span class=\"caret\"/>"
+
+#. module: stock_kardex
 #: model:ir.ui.view,arch_db:stock_kardex.search_template_products
-msgid "<span class=\"fa fa-filter\"/>Products\n"
-"            \n"
+msgid "<span class=\"fa fa-product-hunt\"/>\n"
+"                Products\n"
 "                <span class=\"caret\"/>"
-msgstr "<span class=\"fa fa-filter\"/>Productos\n"
-"            \n"
+msgstr "<span class=\"fa fa-product-hunt\"/>\n"
+"                Products\n"
 "                <span class=\"caret\"/>"
+
+#. module: stock_kardex
+#: selection:product.template,product_brand:0
+msgid "Airtight"
+msgstr "Airtight"
 
 #. module: stock_kardex
 #: model:ir.ui.view,arch_db:stock_kardex.search_template_date_filter
@@ -30,7 +44,7 @@ msgid "Apply"
 msgstr "Aplicar"
 
 #. module: stock_kardex
-#: code:addons/stock_kardex/models/stock_report.py:298
+#: code:addons/stock_kardex/models/stock_report.py:316
 #, python-format
 msgid "As of %s"
 msgstr "A partir de %s"
@@ -42,9 +56,40 @@ msgid "Balance"
 msgstr "Balance"
 
 #. module: stock_kardex
+#: selection:product.template,product_brand:0
+msgid "Barracuda"
+msgstr "Barracuda"
+
+#. module: stock_kardex
+#: selection:product.template,product_brand:0
+msgid "Bitdefender"
+msgstr "Bitdefender"
+
+#. module: stock_kardex
+#: model:ir.model.fields,field_description:stock_kardex.field_product_product_product_brand
+#: model:ir.model.fields,field_description:stock_kardex.field_product_template_product_brand
+msgid "Brand"
+msgstr "Marca"
+
+#. module: stock_kardex
+#: selection:product.template,product_brand:0
+msgid "Bugooro"
+msgstr "Bugooro"
+
+#. module: stock_kardex
+#: selection:product.template,product_brand:0
+msgid "Cautio"
+msgstr "Cautio"
+
+#. module: stock_kardex
 #: model:ir.model,name:stock_kardex.model_res_company
 msgid "Companies"
 msgstr "Compañías"
+
+#. module: stock_kardex
+#: selection:product.template,product_brand:0
+msgid "Consulting"
+msgstr "Consulting"
 
 #. module: stock_kardex
 #: model:ir.model.fields,field_description:stock_kardex.field_stock_kardex_manager_create_uid
@@ -55,6 +100,11 @@ msgstr "Creado por"
 #: model:ir.model.fields,field_description:stock_kardex.field_stock_kardex_manager_create_date
 msgid "Created on"
 msgstr "Creado en"
+
+#. module: stock_kardex
+#: selection:product.template,product_brand:0
+msgid "Cyberoam"
+msgstr "Cyberoam"
 
 #. module: stock_kardex
 #: code:addons/stock_kardex/models/stock_general_kardex.py:25
@@ -82,13 +132,28 @@ msgid "End Date :"
 msgstr "Fecha Final :"
 
 #. module: stock_kardex
-#: code:addons/stock_kardex/models/stock_report.py:263
+#: selection:product.template,product_brand:0
+msgid "EndPoint"
+msgstr "EndPoint"
+
+#. module: stock_kardex
+#: selection:product.template,product_brand:0
+msgid "Expand"
+msgstr "Expand"
+
+#. module: stock_kardex
+#: code:addons/stock_kardex/models/stock_report.py:272
 #, python-format
 msgid "Export (XLSX)"
 msgstr "Exportar (XLSX)"
 
 #. module: stock_kardex
-#: code:addons/stock_kardex/models/stock_report.py:300
+#: selection:product.template,product_brand:0
+msgid "FatPipe"
+msgstr "FatPipe"
+
+#. module: stock_kardex
+#: code:addons/stock_kardex/models/stock_report.py:318
 #, python-format
 msgid "From %s <br/> to  %s"
 msgstr "De %s <br/> hasta  %s"
@@ -99,6 +164,26 @@ msgid "From:"
 msgstr "De:"
 
 #. module: stock_kardex
+#: model:ir.model,name:stock_kardex.model_stock_kardex_general
+msgid "General Ledger Report"
+msgstr "Informe del Libro Mayor"
+
+#. module: stock_kardex
+#: selection:product.template,product_brand:0
+msgid "GrandStream"
+msgstr "GrandStream"
+
+#. module: stock_kardex
+#: selection:product.template,product_brand:0
+msgid "HanDreamNet"
+msgstr "HanDreamNet"
+
+#. module: stock_kardex
+#: selection:product.template,product_brand:0
+msgid "Hauri"
+msgstr "Hauri"
+
+#. module: stock_kardex
 #: model:ir.model.fields,field_description:stock_kardex.field_stock_kardex_general_id
 #: model:ir.model.fields,field_description:stock_kardex.field_stock_kardex_manager_id
 #: model:ir.model.fields,field_description:stock_kardex.field_stock_report_id
@@ -106,10 +191,40 @@ msgid "ID"
 msgstr "ID (identificación)"
 
 #. module: stock_kardex
-#: code:addons/stock_kardex/models/stock_general_kardex.py:139
+#: selection:product.template,product_brand:0
+msgid "IP Guard"
+msgstr "IP Guard"
+
+#. module: stock_kardex
+#: selection:product.template,product_brand:0
+msgid "IP Scan"
+msgstr "IP Scan"
+
+#. module: stock_kardex
+#: selection:product.template,product_brand:0
+msgid "Infoblox"
+msgstr "Infoblox"
+
+#. module: stock_kardex
+#: code:addons/stock_kardex/models/stock_general_kardex.py:169
 #, python-format
 msgid "Initial Balance"
 msgstr "Balance Inicial"
+
+#. module: stock_kardex
+#: selection:product.template,product_brand:0
+msgid "InterGuard"
+msgstr "InterGuard"
+
+#. module: stock_kardex
+#: selection:product.template,product_brand:0
+msgid "Juniper"
+msgstr "Juniper"
+
+#. module: stock_kardex
+#: selection:product.template,product_brand:0
+msgid "LUMEN CACHE"
+msgstr "LUMEN CACHE"
 
 #. module: stock_kardex
 #: model:ir.model.fields,field_description:stock_kardex.field_stock_kardex_general___last_update
@@ -129,20 +244,65 @@ msgid "Last Updated on"
 msgstr "Última actualización en"
 
 #. module: stock_kardex
-#: model:ir.model.fields,field_description:stock_kardex.field_res_config_settings_location_id
-msgid "Locacion for Stock Kardex"
-msgstr "Ubicación para Stock Kardex"
-
-#. module: stock_kardex
 #: model:ir.model.fields,field_description:stock_kardex.field_res_company_location_id
 msgid "Location"
 msgstr "Ubicación"
 
 #. module: stock_kardex
-#: code:addons/stock_kardex/models/stock_report.py:262
+#: model:ir.model.fields,field_description:stock_kardex.field_res_config_settings_location_id
+msgid "Location for Stock Kardex"
+msgstr "Location for Stock Kardex"
+
+#. module: stock_kardex
+#: selection:product.template,product_brand:0
+msgid "LogRhythm"
+msgstr "LogRhythm"
+
+#. module: stock_kardex
+#: selection:product.template,product_brand:0
+msgid "Lok-it"
+msgstr "Lok-it"
+
+#. module: stock_kardex
+#: selection:product.template,product_brand:0
+msgid "M86"
+msgstr "M86"
+
+#. module: stock_kardex
+#: selection:product.template,product_brand:0
+msgid "Mykonos"
+msgstr "Mykonos"
+
+#. module: stock_kardex
+#: selection:product.template,product_brand:0
+msgid "NCP"
+msgstr "NCP"
+
+#. module: stock_kardex
+#: selection:product.template,product_brand:0
+msgid "Okiok"
+msgstr "Okiok"
+
+#. module: stock_kardex
+#: selection:product.template,product_brand:0
+msgid "Portafolio"
+msgstr "Portafolio"
+
+#. module: stock_kardex
+#: code:addons/stock_kardex/models/stock_report.py:271
 #, python-format
 msgid "Print Preview"
 msgstr "Vista Previa"
+
+#. module: stock_kardex
+#: model:ir.model,name:stock_kardex.model_product_product
+msgid "Product"
+msgstr "Producto"
+
+#. module: stock_kardex
+#: model:ir.model,name:stock_kardex.model_product_template
+msgid "Product Template"
+msgstr "Plantilla del producto"
 
 #. module: stock_kardex
 #: code:addons/stock_kardex/models/stock_general_kardex.py:26
@@ -151,9 +311,44 @@ msgid "Quantity"
 msgstr "Cantidad"
 
 #. module: stock_kardex
+#: selection:product.template,product_brand:0
+msgid "Rackmount"
+msgstr "Rackmount"
+
+#. module: stock_kardex
+#: selection:product.template,product_brand:0
+msgid "Remote Call"
+msgstr "Remote Call"
+
+#. module: stock_kardex
 #: model:ir.model.fields,field_description:stock_kardex.field_stock_kardex_manager_report_name
 msgid "Report Name"
 msgstr "Nombre del informe"
+
+#. module: stock_kardex
+#: selection:product.template,product_brand:0
+msgid "Servicios"
+msgstr "Servicios"
+
+#. module: stock_kardex
+#: selection:product.template,product_brand:0
+msgid "Somansa"
+msgstr "Somansa"
+
+#. module: stock_kardex
+#: selection:product.template,product_brand:0
+msgid "Sophos"
+msgstr "Sophos"
+
+#. module: stock_kardex
+#: selection:product.template,product_brand:0
+msgid "Spamina"
+msgstr "Spamina"
+
+#. module: stock_kardex
+#: selection:product.template,product_brand:0
+msgid "Spector"
+msgstr "Spector"
 
 #. module: stock_kardex
 #: model:ir.ui.view,arch_db:stock_kardex.search_template_date_filter
@@ -161,13 +356,18 @@ msgid "Start Date :"
 msgstr "Fecha de Inicio :"
 
 #. module: stock_kardex
-#: code:addons/stock_kardex/models/stock_general_kardex.py:170
-#: code:addons/stock_kardex/models/stock_report.py:112
+#: code:addons/stock_kardex/models/stock_general_kardex.py:201
+#: code:addons/stock_kardex/models/stock_report.py:116
 #: model:ir.actions.client,name:stock_kardex.action_stock_kardex_general
 #: model:ir.ui.menu,name:stock_kardex.menu_action_stock_kardex_general
 #, python-format
 msgid "Stock Kardex"
-msgstr "Stock Kardex"
+msgstr "Kardex de Inventario"
+
+#. module: stock_kardex
+#: selection:product.template,product_brand:0
+msgid "Terranova"
+msgstr "Terranova"
 
 #. module: stock_kardex
 #: code:addons/stock_kardex/models/stock_general_kardex.py:24
@@ -182,8 +382,8 @@ msgid "UoM"
 msgstr "Unidad de Medida"
 
 #. module: stock_kardex
-#: code:addons/stock_kardex/models/stock_general_kardex.py:39
-#: code:addons/stock_kardex/models/stock_general_kardex.py:93
+#: code:addons/stock_kardex/models/stock_general_kardex.py:40
+#: code:addons/stock_kardex/models/stock_general_kardex.py:130
 #, python-format
 msgid "Verify that a main warehouse is configured for the report."
 msgstr "Verificar que se tenga configurado un almacén principal para el reporte."
@@ -199,9 +399,19 @@ msgid "View Stock Picking"
 msgstr "Ver Stock Picking"
 
 #. module: stock_kardex
+#: selection:product.template,product_brand:0
+msgid "nProtect"
+msgstr "nProtect"
+
+#. module: stock_kardex
 #: model:ir.model.fields,help:stock_kardex.field_stock_kardex_manager_report_name
 msgid "name of the model of the report"
-msgstr "Nombre del modelo del informe"
+msgstr "nombre del modelo del informe"
+
+#. module: stock_kardex
+#: selection:product.template,product_brand:0
+msgid "otros"
+msgstr "otros"
 
 #. module: stock_kardex
 #: model:ir.model,name:stock_kardex.model_res_config_settings
@@ -222,3 +432,4 @@ msgstr "stock.report"
 #: model:ir.ui.view,arch_db:stock_kardex.search_template_date_filter
 msgid "to:"
 msgstr "hasta:"
+
