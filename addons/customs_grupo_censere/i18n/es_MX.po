@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 11.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-12-12 18:57+0000\n"
-"PO-Revision-Date: 2018-12-12 18:57+0000\n"
+"POT-Creation-Date: 2019-01-09 18:10+0000\n"
+"PO-Revision-Date: 2019-01-09 18:10+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -33,6 +33,7 @@ msgid "Colony..."
 msgstr "Colonia..."
 
 #. module: customs_grupo_censere
+#: selection:purchase.order,delevery_status:0
 #: selection:sale.order,delevery_status:0
 msgid "Confirmed"
 msgstr "En espera"
@@ -43,19 +44,16 @@ msgid "Country"
 msgstr "País"
 
 #. module: customs_grupo_censere
+#: model:ir.model.fields,field_description:customs_grupo_censere.field_purchase_order_delevery_status
 #: model:ir.model.fields,field_description:customs_grupo_censere.field_sale_order_delevery_status
 msgid "Delevery Status"
 msgstr "Estado Entrega"
 
 #. module: customs_grupo_censere
+#: selection:purchase.order,delevery_status:0
 #: selection:sale.order,delevery_status:0
 msgid "Done"
 msgstr "Hecho"
-
-#. module: customs_grupo_censere
-#: model:ir.model.fields,field_description:customs_grupo_censere.field_sale_order_guide_number
-msgid "Guide Number"
-msgstr "Número de Guía"
 
 #. module: customs_grupo_censere
 #: model:ir.ui.view,arch_db:customs_grupo_censere.view_customs_grupo_censere_res_partner
@@ -63,9 +61,14 @@ msgid "Locality..."
 msgstr "Localidad..."
 
 #. module: customs_grupo_censere
+#: model:ir.model,name:customs_grupo_censere.model_purchase_order
+msgid "Purchase Order"
+msgstr "Orden de Compra"
+
+#. module: customs_grupo_censere
 #: model:ir.model,name:customs_grupo_censere.model_sale_order
 msgid "Quotation"
-msgstr "Cotización"
+msgstr "Quotation"
 
 #. module: customs_grupo_censere
 #: model:ir.ui.view,arch_db:customs_grupo_censere.view_customs_grupo_censere_res_partner
@@ -78,12 +81,18 @@ msgid "Street Name..."
 msgstr "Nombre de la Calle..."
 
 #. module: customs_grupo_censere
-#: model:ir.ui.view,arch_db:customs_grupo_censere.view_customs_grupo_censere_res_partner
-msgid "ZIP"
-msgstr "C.P."
+#: model:ir.model.fields,field_description:customs_grupo_censere.field_sale_order_guide_number
+msgid "Tracking Number"
+msgstr "Guía de rastreo"
 
 #. module: customs_grupo_censere
+#: selection:purchase.order,delevery_status:0
 #: selection:sale.order,delevery_status:0
 msgid "Waiting"
 msgstr "Parcial"
+
+#. module: customs_grupo_censere
+#: model:ir.ui.view,arch_db:customs_grupo_censere.view_customs_grupo_censere_res_partner
+msgid "ZIP"
+msgstr "C.P."
 

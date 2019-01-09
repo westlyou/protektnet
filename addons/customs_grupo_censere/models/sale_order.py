@@ -16,7 +16,7 @@ class SaleOrder(models.Model):
         compute='_compute_delevery_status',
         store=True, readonly=True)
     guide_number = fields.Char(
-        string='Guide Number',
+        string='Tracking Number',
     )
 
     @api.depends('picking_ids')
