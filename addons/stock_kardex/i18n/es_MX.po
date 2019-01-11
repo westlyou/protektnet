@@ -425,8 +425,8 @@ msgstr "stock.kardex.manager"
 
 #. module: stock_kardex
 #: model:ir.model,name:stock_kardex.model_stock_report
-msgid "stock.report"
-msgstr "stock.report"
+msgid "stock.kardex"
+msgstr "stock.kardex"
 
 #. module: stock_kardex
 #: model:ir.ui.view,arch_db:stock_kardex.search_template_date_filter

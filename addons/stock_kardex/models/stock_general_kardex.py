@@ -9,7 +9,7 @@ from odoo.exceptions import ValidationError
 class StockKardexGeneral(models.AbstractModel):
     _name = "stock.kardex.general"
     _description = "General Ledger Report"
-    _inherit = "stock.report"
+    _inherit = "stock.kardex"
 
     filter_date = {
         'date_from': '',

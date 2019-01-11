@@ -29,7 +29,7 @@ class StockKardexManager(models.Model):
 
 
 class StockReport(models.AbstractModel):
-    _name = 'stock.report'
+    _name = 'stock.kardex'
 
     filter_date = None
     filter_product = None
