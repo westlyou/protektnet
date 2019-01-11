@@ -27,7 +27,7 @@ var stockardexReportsWidget = Widget.extend(ControlPanelMixin, {
         this.actionManager = parent;
         this.report_model = action.context.model;
         if (this.report_model === undefined) {
-            this.report_model = 'stock.report';
+            this.report_model = 'stock.kardex';
         }
         this.stock_kardex_id = false;
         if (action.context.id) {
