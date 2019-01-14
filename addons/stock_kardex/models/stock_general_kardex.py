@@ -20,12 +20,13 @@ class StockKardexGeneral(models.AbstractModel):
     filter_unfold_all = False
 
     def get_columns_name(self, options):
-        return [{'name': ''},
-                {'name': _("Type")},
-                {'name': _("Date"), 'class': 'date'},
-                {'name': _("Quantity"), 'class': 'number'},
-                {'name': _("UoM")},
-                {'name': _("Balance"), 'class': 'number'}]
+        return [
+            {'name': ''},
+            {'name': _("Type")},
+            {'name': (_("Date") if not self._context.get('pdf_mode', False) else ""), 'class': 'date'},
+            {'name': (_("Quantity") if not self._context.get('pdf_mode', False) else ""), 'class': 'number'},
+            {'name': _("UoM")},
+            {'name': _("Balance"), 'class': 'number'}]
 
     @api.model
     def do_query(self, options, line_id=False):
@@ -159,7 +160,7 @@ class StockKardexGeneral(models.AbstractModel):
                     product_id) in options.get('unfolded_lines') or unfold_all,
                 'colspan': 4,
             })
-            if not self.env.context.get('print_mode', False):
+            if not self.env.context.get('pdf_mode', False):
                 if 'product_%s' % (
                         product_id) in options.get(
                         'unfolded_lines') or unfold_all:

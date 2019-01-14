@@ -356,7 +356,8 @@ class StockReport(models.AbstractModel):
             "stock_kardex.print_template",
             values=dict(rcontext),
         )
-        body_html = self.with_context(print_mode=True).get_html(options)
+        body_html = self.with_context(
+            print_mode=True, pdf_mode=True).get_html(options)
 
         body = body.replace(
             b'<body class="o_stock_reports_body_print">',

@@ -2,7 +2,7 @@
 # © <2019> <Grupo Censere>
 # License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
 
-from odoo import fields, models
+from odoo import api, fields, models
 
 
 class ResCompany(models.Model):
@@ -26,4 +26,12 @@ class ResCompany(models.Model):
         ('Servicios', 'Servicios'), ('Somansa', 'Somansa'),
         ('Sophos', 'Sophos'), ('Spamina', 'Spamina'),
         ('Spector', 'Spector'), ('Terranova', 'Terranova')],
-        string="Brand",)
+        string="Brand",
+        store=True,
+        compute="_compute_product_brand")
+
+    @api.depends('x_studio_field_U36cw')
+    def _compute_product_brand(self):
+        for rec in self:
+            rec.product_brand = rec.x_studio_field_U36cw
+
