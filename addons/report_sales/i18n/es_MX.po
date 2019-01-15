@@ -1,0 +1,352 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* report_sales
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 11.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-01-09 17:34+0000\n"
+"PO-Revision-Date: 2019-01-09 17:34+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: report_sales
+#: model:ir.ui.view,arch_db:report_sales.report_sale
+msgid "<span style=\"font-size: 25px;\">Sales</span>"
+msgstr "<span style=\"font-size: 25px;\">Ventas</span>"
+
+#. module: report_sales
+#: model:ir.ui.view,arch_db:report_sales.report_sale
+msgid "<strong>Brand: </strong>"
+msgstr "<strong>Marcas: </strong>"
+
+#. module: report_sales
+#: model:ir.ui.view,arch_db:report_sales.report_sale
+msgid "<strong>From Date :</strong>"
+msgstr "<strong>Desde :</strong>"
+
+#. module: report_sales
+#: model:ir.ui.view,arch_db:report_sales.report_sale
+msgid "<strong>To Date :</strong>"
+msgstr "<strong>Hasta :</strong>"
+
+#. module: report_sales
+#: model:ir.ui.view,arch_db:report_sales.internal_layout_report_sales
+msgid "<strong>Today is: </strong>"
+msgstr "<strong>Hoy es: </strong>"
+
+#. module: report_sales
+#: selection:report.sale.wizard,product_brand:0
+msgid "Airtight"
+msgstr "Airtight"
+
+#. module: report_sales
+#: selection:report.sale.wizard,product_brand:0
+msgid "All"
+msgstr "Todas"
+
+#. module: report_sales
+#: selection:report.sale.wizard,product_brand:0
+msgid "Barracuda"
+msgstr "Barracuda"
+
+#. module: report_sales
+#: selection:report.sale.wizard,product_brand:0
+msgid "Bitdefender"
+msgstr "Bitdefender"
+
+#. module: report_sales
+#: model:ir.model.fields,field_description:report_sales.field_report_sale_wizard_product_brand
+msgid "Brands"
+msgstr "Marcas"
+
+#. module: report_sales
+#: selection:report.sale.wizard,product_brand:0
+msgid "Bugooro"
+msgstr "Bugooro"
+
+#. module: report_sales
+#: model:ir.ui.view,arch_db:report_sales.view_report_sales_form
+msgid "Cancel"
+msgstr "Cancelar"
+
+#. module: report_sales
+#: selection:report.sale.wizard,product_brand:0
+msgid "Cautio"
+msgstr "Cautio"
+
+#. module: report_sales
+#: selection:report.sale.wizard,product_brand:0
+msgid "Consulting"
+msgstr "Consulting"
+
+#. module: report_sales
+#: model:ir.model.fields,field_description:report_sales.field_report_sale_wizard_create_uid
+msgid "Created by"
+msgstr "Creado por"
+
+#. module: report_sales
+#: model:ir.model.fields,field_description:report_sales.field_report_sale_wizard_create_date
+msgid "Created on"
+msgstr "Creado en"
+
+#. module: report_sales
+#: selection:report.sale.wizard,product_brand:0
+msgid "Cyberoam"
+msgstr "Cyberoam"
+
+#. module: report_sales
+#: model:ir.model.fields,field_description:report_sales.field_report_report_sales_report_sale_display_name
+#: model:ir.model.fields,field_description:report_sales.field_report_sale_wizard_display_name
+msgid "Display Name"
+msgstr "Nombre mostrado"
+
+#. module: report_sales
+#: selection:report.sale.wizard,product_brand:0
+msgid "EndPoint"
+msgstr "EndPoint"
+
+#. module: report_sales
+#: selection:report.sale.wizard,product_brand:0
+msgid "Expand"
+msgstr "Expand"
+
+#. module: report_sales
+#: selection:report.sale.wizard,product_brand:0
+msgid "FatPipe"
+msgstr "FatPipe"
+
+#. module: report_sales
+#: model:ir.model.fields,field_description:report_sales.field_report_sale_wizard_start_date
+msgid "From Date"
+msgstr "Desde"
+
+#. module: report_sales
+#: selection:report.sale.wizard,product_brand:0
+msgid "GrandStream"
+msgstr "GrandStream"
+
+#. module: report_sales
+#: selection:report.sale.wizard,product_brand:0
+msgid "HanDreamNet"
+msgstr "HanDreamNet"
+
+#. module: report_sales
+#: selection:report.sale.wizard,product_brand:0
+msgid "Hauri"
+msgstr "Hauri"
+
+#. module: report_sales
+#: model:ir.model.fields,field_description:report_sales.field_report_report_sales_report_sale_id
+#: model:ir.model.fields,field_description:report_sales.field_report_sale_wizard_id
+msgid "ID"
+msgstr "ID (identificación)"
+
+#. module: report_sales
+#: selection:report.sale.wizard,product_brand:0
+msgid "IP Guard"
+msgstr "IP Guard"
+
+#. module: report_sales
+#: selection:report.sale.wizard,product_brand:0
+msgid "IP Scan"
+msgstr "IP Scan"
+
+#. module: report_sales
+#: selection:report.sale.wizard,product_brand:0
+msgid "Infoblox"
+msgstr "Infoblox"
+
+#. module: report_sales
+#: selection:report.sale.wizard,product_brand:0
+msgid "InterGuard"
+msgstr "InterGuard"
+
+#. module: report_sales
+#: selection:report.sale.wizard,product_brand:0
+msgid "Juniper"
+msgstr "Juniper"
+
+#. module: report_sales
+#: selection:report.sale.wizard,product_brand:0
+msgid "LUMEN CACHE"
+msgstr "LUMEN CACHE"
+
+#. module: report_sales
+#: model:ir.model.fields,field_description:report_sales.field_report_report_sales_report_sale___last_update
+#: model:ir.model.fields,field_description:report_sales.field_report_sale_wizard___last_update
+msgid "Last Modified on"
+msgstr "Última modificación en"
+
+#. module: report_sales
+#: model:ir.model.fields,field_description:report_sales.field_report_sale_wizard_write_uid
+msgid "Last Updated by"
+msgstr "Última actualización de"
+
+#. module: report_sales
+#: model:ir.model.fields,field_description:report_sales.field_report_sale_wizard_write_date
+msgid "Last Updated on"
+msgstr "Última actualización en"
+
+#. module: report_sales
+#: model:ir.model.fields,field_description:report_sales.field_report_sale_wizard_licenses
+msgid "Linceses"
+msgstr "Licencias"
+
+#. module: report_sales
+#: selection:report.sale.wizard,product_brand:0
+msgid "LogRhythm"
+msgstr "LogRhythm"
+
+#. module: report_sales
+#: selection:report.sale.wizard,product_brand:0
+msgid "Lok-it"
+msgstr "Lok-it"
+
+#. module: report_sales
+#: selection:report.sale.wizard,product_brand:0
+msgid "M86"
+msgstr "M86"
+
+#. module: report_sales
+#: selection:report.sale.wizard,product_brand:0
+msgid "Mykonos"
+msgstr "Mykonos"
+
+#. module: report_sales
+#: selection:report.sale.wizard,product_brand:0
+msgid "NCP"
+msgstr "NCP"
+
+#. module: report_sales
+#: selection:report.sale.wizard,product_brand:0
+msgid "Okiok"
+msgstr "Okiok"
+
+#. module: report_sales
+#: model:ir.ui.view,arch_db:report_sales.internal_layout_report_sales
+msgid "Page:\n"
+"                    <span class=\"page\"/>\n"
+"                    of\n"
+"                    <span class=\"topage\"/>"
+msgstr "Página:\n"
+"                    <span class=\"page\"/>\n"
+"                    de\n"
+"                    <span class=\"topage\"/>"
+
+#. module: report_sales
+#: selection:report.sale.wizard,product_brand:0
+msgid "Portafolio"
+msgstr "Portafolio"
+
+#. module: report_sales
+#: model:ir.ui.view,arch_db:report_sales.view_report_sales_form
+msgid "Preview"
+msgstr "Previsualizar"
+
+#. module: report_sales
+#: model:ir.ui.view,arch_db:report_sales.report_sale
+msgid "Products"
+msgstr "Productos"
+
+#. module: report_sales
+#: selection:report.sale.wizard,product_brand:0
+msgid "Rackmount"
+msgstr "Rackmount"
+
+#. module: report_sales
+#: selection:report.sale.wizard,product_brand:0
+msgid "Remote Call"
+msgstr "Remote Call"
+
+#. module: report_sales
+#: model:ir.actions.act_window,name:report_sales.open_report_sales_action
+#: model:ir.ui.menu,name:report_sales.menu_report_sales
+msgid "Report Sales"
+msgstr "Reporte de Ventas"
+
+#. module: report_sales
+#: model:ir.ui.view,arch_db:report_sales.view_report_sales_form
+msgid "Sale Kardex"
+msgstr "Sale Kardex"
+
+#. module: report_sales
+#: model:ir.actions.report,name:report_sales.action_report_sale
+msgid "Sales PDF Report"
+msgstr "Reporte de Ventas(PDF)"
+
+#. module: report_sales
+#: model:ir.model.fields,field_description:report_sales.field_report_sale_wizard_serials
+msgid "Serials"
+msgstr "Serial"
+
+#. module: report_sales
+#: selection:report.sale.wizard,product_brand:0
+msgid "Servicios"
+msgstr "Servicios"
+
+#. module: report_sales
+#: selection:report.sale.wizard,product_brand:0
+msgid "Somansa"
+msgstr "Somansa"
+
+#. module: report_sales
+#: selection:report.sale.wizard,product_brand:0
+msgid "Sophos"
+msgstr "Sophos"
+
+#. module: report_sales
+#: selection:report.sale.wizard,product_brand:0
+msgid "Spamina"
+msgstr "Spamina"
+
+#. module: report_sales
+#: selection:report.sale.wizard,product_brand:0
+msgid "Spector"
+msgstr "Spector"
+
+#. module: report_sales
+#: selection:report.sale.wizard,product_brand:0
+msgid "Terranova"
+msgstr "Terranova"
+
+#. module: report_sales
+#: model:ir.model.fields,field_description:report_sales.field_report_sale_wizard_end_date
+msgid "To Date"
+msgstr "Hasta"
+
+#. module: report_sales
+#: model:ir.ui.view,arch_db:report_sales.report_sale
+msgid "Total Price"
+msgstr "Precio total"
+
+#. module: report_sales
+#: model:ir.ui.view,arch_db:report_sales.report_sale
+msgid "Total Quantity"
+msgstr "Cantidad Total"
+
+#. module: report_sales
+#: selection:report.sale.wizard,product_brand:0
+msgid "nProtect"
+msgstr "nProtect"
+
+#. module: report_sales
+#: selection:report.sale.wizard,product_brand:0
+msgid "otros"
+msgstr "otros"
+
+#. module: report_sales
+#: model:ir.model,name:report_sales.model_report_report_sales_report_sale
+msgid "report.report_sales.report_sale"
+msgstr "report.report_sales.report_sale"
+
+#. module: report_sales
+#: model:ir.model,name:report_sales.model_report_sale_wizard
+msgid "report.sale.wizard"
+msgstr "report.sale.wizard"
+
