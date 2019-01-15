@@ -26,4 +26,4 @@ class StockProductionLot(models.Model):
         cr = self._cr
         cr.execute('''
             ALTER TABLE public.stock_production_lot
-            DROP CONSTRAINT  IF EXISTS name_ref_uniq''')
+            DROP CONSTRAINT  IF EXISTS stock_production_lot_name_ref_uniq''')
