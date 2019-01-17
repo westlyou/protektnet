@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
+import base64
 import calendar
 import json
 import logging
@@ -12,6 +13,7 @@ from odoo import _, api, fields, models
 from odoo.tools import DEFAULT_SERVER_DATE_FORMAT, config, pycompat
 from odoo.tools.misc import format_date
 from odoo.tools.safe_eval import safe_eval
+from PIL import Image
 
 try:
     from odoo.tools.misc import xlsxwriter
@@ -357,7 +359,7 @@ class StockReport(models.AbstractModel):
             values=dict(rcontext),
         )
         body_html = self.with_context(
-            print_mode=True, pdf_mode=True).get_html(options)
+            print_mode=True).get_html(options)
 
         body = body.replace(
             b'<body class="o_stock_reports_body_print">',
@@ -436,65 +438,20 @@ class StockReport(models.AbstractModel):
         def_style = workbook.add_format({'font_name': 'Arial'})
         title_style = workbook.add_format(
             {'font_name': 'Arial', 'bold': True, 'bottom': 2})
-        level_0_style = workbook.add_format({
-            'font_name': 'Arial',
-            'bold': True,
-            'bottom': 2,
-            'top': 2,
-            'pattern': 1,
-            'font_color': '#FFFFFF'})
-        level_0_style_left = workbook.add_format({
-            'font_name': 'Arial',
-            'bold': True,
-            'bottom': 2,
-            'top': 2,
-            'left': 2,
-            'pattern': 1,
-            'font_color': '#FFFFFF'})
-        level_0_style_right = workbook.add_format({
-            'font_name': 'Arial',
-            'bold': True,
-            'bottom': 2,
-            'top': 2,
-            'right': 2,
-            'pattern': 1,
-            'font_color': '#FFFFFF'})
-        level_1_style = workbook.add_format({
-            'font_name': 'Arial',
-            'bold': True,
-            'bottom': 2,
-            'top': 2})
-        level_1_style_left = workbook.add_format({
-            'font_name': 'Arial',
-            'bold': True,
-            'bottom': 2,
-            'top': 2,
-            'left': 2})
-        level_1_style_right = workbook.add_format({
-            'font_name': 'Arial',
-            'bold': True,
-            'bottom': 2,
-            'top': 2,
-            'right': 2})
         level_2_style = workbook.add_format({
             'font_name': 'Arial',
-            'bold': True,
+            'bold': False,
             'top': 2})
         level_2_style_left = workbook.add_format({
             'font_name': 'Arial',
-            'bold': True,
+            'bold': False,
             'top': 2,
             'left': 2})
         level_2_style_right = workbook.add_format({
             'font_name': 'Arial',
-            'bold': True,
+            'bold': False,
             'top': 2,
             'right': 2})
-        level_3_style = def_style
-        level_3_style_left = workbook.add_format({
-            'font_name': 'Arial', 'left': 2})
-        level_3_style_right = workbook.add_format({
-            'font_name': 'Arial', 'right': 2})
         upper_line_style = workbook.add_format({
             'font_name': 'Arial', 'top': 2})
 
@@ -502,8 +459,18 @@ class StockReport(models.AbstractModel):
         sheet.write(0, 0, '', title_style)
 
         y_offset = 0
+        x = 1
+
+        # assume data contains your decoded image
+        for column in [self.env.user.company_id.name, fields.Date.context_today(self)]:
+            sheet.insert_image('E1', self.env.user.company_id._get_logo())
+            sheet.write(
+                y_offset, x,
+                column, title_style)
+            x += 1
+        y_offset += 1
         x = 0
-        for column in self.get_columns_name(options):
+        for column in [x for x in self.with_context(print_mode=True).get_columns_name(options) if len(x['name']) > 1]:
             sheet.write(
                 y_offset, x,
                 column.get('name', '').replace(
@@ -516,34 +483,11 @@ class StockReport(models.AbstractModel):
 
         if lines:
             max_width = max([len(l['columns']) for l in lines])
-
         for y in range(0, len(lines)):
-            if lines[y].get('level') == 0:
-                for x in range(0, len(lines[y]['columns']) + 1):
-                    sheet.write(y + y_offset, x, None, upper_line_style)
-                y_offset += 1
-                style_left = level_0_style_left
-                style_right = level_0_style_right
-                style = level_0_style
-            elif lines[y].get('level') == 1:
-                for x in range(0, len(lines[y]['columns']) + 1):
-                    sheet.write(y + y_offset, x, None, upper_line_style)
-                y_offset += 1
-                style_left = level_1_style_left
-                style_right = level_1_style_right
-                style = level_1_style
-            elif lines[y].get('level') == 2:
+            if lines[y].get('level') == 2:
                 style_left = level_2_style_left
                 style_right = level_2_style_right
                 style = level_2_style
-            elif lines[y].get('level') == 3:
-                style_left = level_3_style_left
-                style_right = level_3_style_right
-                style = level_3_style
-            else:
-                style = def_style
-                style_left = def_style
-                style_right = def_style
             sheet.write(y + y_offset, 0, lines[y]['name'], style_left)
             for x in range(1, max_width - len(lines[y]['columns']) + 1):
                 sheet.write(y + y_offset, x, None, style)
@@ -551,12 +495,12 @@ class StockReport(models.AbstractModel):
                 if x < len(lines[y]['columns']):
                     sheet.write(
                         y + y_offset,
-                        x + lines[y].get('colspan', 1) - 1, lines[y][
+                        x, lines[y][
                             'columns'][x - 1].get('name', ''), style)
                 else:
                     sheet.write(
                         y + y_offset,
-                        x + lines[y].get('colspan', 1) - 1, lines[y][
+                        x, lines[y][
                             'columns'][x - 1].get('name', ''), style_right)
             if 'total' in lines[y].get(
                     'class', '') or lines[y].get('level') == 0:

@@ -21,12 +21,14 @@ class StockKardexGeneral(models.AbstractModel):
 
     def get_columns_name(self, options):
         return [
-            {'name': ''},
-            {'name': _("Type")},
-            {'name': (_("Date") if not self._context.get('pdf_mode', False) else ""), 'class': 'date'},
-            {'name': (_("Quantity") if not self._context.get('pdf_mode', False) else ""), 'class': 'number'},
+            {'name': '' if not self._context.get('print_mode', False) else _("Product")},
+            {'name': _("Type")if not self._context.get('print_mode', False) else ""},
+            {'name': (_("Date") if not self._context.get('print_mode', False) else ""), 'class': 'date'},
+            {'name': (_("Quantity") if not self._context.get('print_mode', False) else ""), 'class': 'number'},
             {'name': _("UoM")},
-            {'name': _("Balance"), 'class': 'number'}]
+            {'name': _("Balance"), 'class': 'number'},
+            {'name': _("List Price"), 'class': 'number'},
+        ]
 
     @api.model
     def do_query(self, options, line_id=False):
@@ -153,14 +155,15 @@ class StockKardexGeneral(models.AbstractModel):
                 'columns': (
                     [{'name': v} for v in [
                         product.uom_id.name, '%.2f' %
-                        (sum([x['qty_done'] for x in moves]) + balance)]]),
+                        (sum([x['qty_done'] for x in moves]) + balance),
+                        '$ ' + '%.2f' % product.list_price]]),
                 'level': 2,
                 'unfoldable': True,
                 'unfolded': 'product_%s' % (
                     product_id) in options.get('unfolded_lines') or unfold_all,
                 'colspan': 4,
             })
-            if not self.env.context.get('pdf_mode', False):
+            if not self.env.context.get('print_mode', False):
                 if 'product_%s' % (
                         product_id) in options.get(
                         'unfolded_lines') or unfold_all:
@@ -189,7 +192,7 @@ class StockKardexGeneral(models.AbstractModel):
                                 else 'OUT --> %s' %
                                 location_dest_id.name,
                                 line['date'], '%.2f' % line[
-                                    'qty_done'], '', '%.2f' % balance]],
+                                    'qty_done'], '', '%.2f' % balance, '']],
                             'level': 4,
                             'caret_options': 'stock.move.line',
                         }
