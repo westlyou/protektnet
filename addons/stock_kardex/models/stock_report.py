@@ -1,15 +1,15 @@
 # -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 import base64
+import os
 import calendar
 import json
 import logging
 from datetime import datetime
-
 import io
 import lxml.html
 from ast import literal_eval
-from odoo import _, api, fields, models
+from odoo import _, api, fields, models, tools
 from odoo.tools import DEFAULT_SERVER_DATE_FORMAT, config, pycompat
 from odoo.tools.misc import format_date
 from odoo.tools.safe_eval import safe_eval
@@ -458,19 +458,29 @@ class StockReport(models.AbstractModel):
         sheet.set_column(0, 0, 15)
         sheet.write(0, 0, '', title_style)
 
-        y_offset = 0
-        x = 1
+        merge_format = workbook.add_format({
+            'bold': 1,
+            'align': 'center',
+            'valign': 'vcenter',
+        })
 
-        # assume data contains your decoded image
-        for column in [self.env.user.company_id.name, fields.Date.context_today(self)]:
-            sheet.insert_image('E1', self.env.user.company_id._get_logo())
-            sheet.write(
-                y_offset, x,
-                column, title_style)
-            x += 1
-        y_offset += 1
+        binaryData = self.env.user.company_id.partner_id.image_medium
+        image = io.BytesIO(base64.b64decode(binaryData))
+        sheet.set_row(0, 100)
+        sheet.merge_range('A1:D1', ' ', merge_format)
+        sheet.insert_image(
+            'A1:D1', 'image',
+            {'image_data': image, 'x_offset': 15, 'y_offset': 10})
+        sheet.merge_range('A2:D2', self.env.user.company_id.name, merge_format)
+        sheet.merge_range('A2:D2', self.env.user.company_id.name, merge_format)
+        sheet.merge_range('A3:B3', _('Stock Kardex'), merge_format)
+        sheet.merge_range(
+            'C3:D3', fields.Date.context_today(self), merge_format)
         x = 0
-        for column in [x for x in self.with_context(print_mode=True).get_columns_name(options) if len(x['name']) > 1]:
+        y_offset = 3
+        for column in [x for x in self.with_context(
+                print_mode=True).get_columns_name(
+                options) if len(x['name']) > 1]:
             sheet.write(
                 y_offset, x,
                 column.get('name', '').replace(
@@ -483,6 +493,13 @@ class StockReport(models.AbstractModel):
 
         if lines:
             max_width = max([len(l['columns']) for l in lines])
+        sheet.set_column('A:A', max([len(x['name']) for x in lines]))
+        sheet.set_column(
+            'B:B', max([len(x['columns'][0]['name']) for x in lines]))
+        sheet.set_column(
+            'C:C', max([len(x['columns'][1]['name']) for x in lines]))
+        sheet.set_column(
+            'D:D', max([len(x['columns'][2]['name']) for x in lines]))
         for y in range(0, len(lines)):
             if lines[y].get('level') == 2:
                 style_left = level_2_style_left
