@@ -1,17 +1,19 @@
 # -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
+import base64
+import os
 import calendar
 import json
 import logging
 from datetime import datetime
-
 import io
 import lxml.html
 from ast import literal_eval
-from odoo import _, api, fields, models
+from odoo import _, api, fields, models, tools
 from odoo.tools import DEFAULT_SERVER_DATE_FORMAT, config, pycompat
 from odoo.tools.misc import format_date
 from odoo.tools.safe_eval import safe_eval
+from PIL import Image
 
 try:
     from odoo.tools.misc import xlsxwriter
@@ -357,7 +359,7 @@ class StockReport(models.AbstractModel):
             values=dict(rcontext),
         )
         body_html = self.with_context(
-            print_mode=True, pdf_mode=True).get_html(options)
+            print_mode=True).get_html(options)
 
         body = body.replace(
             b'<body class="o_stock_reports_body_print">',
@@ -436,74 +438,49 @@ class StockReport(models.AbstractModel):
         def_style = workbook.add_format({'font_name': 'Arial'})
         title_style = workbook.add_format(
             {'font_name': 'Arial', 'bold': True, 'bottom': 2})
-        level_0_style = workbook.add_format({
-            'font_name': 'Arial',
-            'bold': True,
-            'bottom': 2,
-            'top': 2,
-            'pattern': 1,
-            'font_color': '#FFFFFF'})
-        level_0_style_left = workbook.add_format({
-            'font_name': 'Arial',
-            'bold': True,
-            'bottom': 2,
-            'top': 2,
-            'left': 2,
-            'pattern': 1,
-            'font_color': '#FFFFFF'})
-        level_0_style_right = workbook.add_format({
-            'font_name': 'Arial',
-            'bold': True,
-            'bottom': 2,
-            'top': 2,
-            'right': 2,
-            'pattern': 1,
-            'font_color': '#FFFFFF'})
-        level_1_style = workbook.add_format({
-            'font_name': 'Arial',
-            'bold': True,
-            'bottom': 2,
-            'top': 2})
-        level_1_style_left = workbook.add_format({
-            'font_name': 'Arial',
-            'bold': True,
-            'bottom': 2,
-            'top': 2,
-            'left': 2})
-        level_1_style_right = workbook.add_format({
-            'font_name': 'Arial',
-            'bold': True,
-            'bottom': 2,
-            'top': 2,
-            'right': 2})
         level_2_style = workbook.add_format({
             'font_name': 'Arial',
-            'bold': True,
+            'bold': False,
             'top': 2})
         level_2_style_left = workbook.add_format({
             'font_name': 'Arial',
-            'bold': True,
+            'bold': False,
             'top': 2,
             'left': 2})
         level_2_style_right = workbook.add_format({
             'font_name': 'Arial',
-            'bold': True,
+            'bold': False,
             'top': 2,
             'right': 2})
-        level_3_style = def_style
-        level_3_style_left = workbook.add_format({
-            'font_name': 'Arial', 'left': 2})
-        level_3_style_right = workbook.add_format({
-            'font_name': 'Arial', 'right': 2})
         upper_line_style = workbook.add_format({
             'font_name': 'Arial', 'top': 2})
 
         sheet.set_column(0, 0, 15)
         sheet.write(0, 0, '', title_style)
 
-        y_offset = 0
+        merge_format = workbook.add_format({
+            'bold': 1,
+            'align': 'center',
+            'valign': 'vcenter',
+        })
+
+        binaryData = self.env.user.company_id.partner_id.image_medium
+        image = io.BytesIO(base64.b64decode(binaryData))
+        sheet.set_row(0, 100)
+        sheet.merge_range('A1:D1', ' ', merge_format)
+        sheet.insert_image(
+            'A1:D1', 'image',
+            {'image_data': image, 'x_offset': 15, 'y_offset': 10})
+        sheet.merge_range('A2:D2', self.env.user.company_id.name, merge_format)
+        sheet.merge_range('A2:D2', self.env.user.company_id.name, merge_format)
+        sheet.merge_range('A3:B3', _('Stock Kardex'), merge_format)
+        sheet.merge_range(
+            'C3:D3', fields.Date.context_today(self), merge_format)
         x = 0
-        for column in self.get_columns_name(options):
+        y_offset = 3
+        for column in [x for x in self.with_context(
+                print_mode=True).get_columns_name(
+                options) if len(x['name']) > 1]:
             sheet.write(
                 y_offset, x,
                 column.get('name', '').replace(
@@ -516,34 +493,18 @@ class StockReport(models.AbstractModel):
 
         if lines:
             max_width = max([len(l['columns']) for l in lines])
-
+        sheet.set_column('A:A', max([len(x['name']) for x in lines]))
+        sheet.set_column(
+            'B:B', max([len(x['columns'][0]['name']) for x in lines]))
+        sheet.set_column(
+            'C:C', max([len(x['columns'][1]['name']) for x in lines]))
+        sheet.set_column(
+            'D:D', max([len(x['columns'][2]['name']) for x in lines]))
         for y in range(0, len(lines)):
-            if lines[y].get('level') == 0:
-                for x in range(0, len(lines[y]['columns']) + 1):
-                    sheet.write(y + y_offset, x, None, upper_line_style)
-                y_offset += 1
-                style_left = level_0_style_left
-                style_right = level_0_style_right
-                style = level_0_style
-            elif lines[y].get('level') == 1:
-                for x in range(0, len(lines[y]['columns']) + 1):
-                    sheet.write(y + y_offset, x, None, upper_line_style)
-                y_offset += 1
-                style_left = level_1_style_left
-                style_right = level_1_style_right
-                style = level_1_style
-            elif lines[y].get('level') == 2:
+            if lines[y].get('level') == 2:
                 style_left = level_2_style_left
                 style_right = level_2_style_right
                 style = level_2_style
-            elif lines[y].get('level') == 3:
-                style_left = level_3_style_left
-                style_right = level_3_style_right
-                style = level_3_style
-            else:
-                style = def_style
-                style_left = def_style
-                style_right = def_style
             sheet.write(y + y_offset, 0, lines[y]['name'], style_left)
             for x in range(1, max_width - len(lines[y]['columns']) + 1):
                 sheet.write(y + y_offset, x, None, style)
@@ -551,12 +512,12 @@ class StockReport(models.AbstractModel):
                 if x < len(lines[y]['columns']):
                     sheet.write(
                         y + y_offset,
-                        x + lines[y].get('colspan', 1) - 1, lines[y][
+                        x, lines[y][
                             'columns'][x - 1].get('name', ''), style)
                 else:
                     sheet.write(
                         y + y_offset,
-                        x + lines[y].get('colspan', 1) - 1, lines[y][
+                        x, lines[y][
                             'columns'][x - 1].get('name', ''), style_right)
             if 'total' in lines[y].get(
                     'class', '') or lines[y].get('level') == 0:
