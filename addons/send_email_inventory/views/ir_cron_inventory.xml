@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="send_email_inventory" model="ir.cron">
+        <field name="name">Send Invetory Rackmount</field>
+        <field name="model_id" ref="stock.model_stock_move_line"/>
+        <field name="state">code</field>
+        <field name="code">model.send_mail_rackmount('Inventario de Rackmount', 'sarai.osorio@grupocensere.com', 'sarai.osorio@grupocensere.com')</field>
+        <field name='interval_number'>1</field>
+        <field name='interval_type'>weeks</field>
+        <field name="numbercall">-1</field>
+    </record>
+</odoo>
