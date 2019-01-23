@@ -139,7 +139,8 @@ class WkSkeleton(models.TransientModel):
         saleData.update(configData)
 
         try:
-            orderObj = self.env['sale.order'].create(saleData)
+            orderObj = self.env['sale.order'].woth_context(
+                magento=True).create(saleData)
             orderId = orderObj.id
             orderName = orderObj.name
 

@@ -17,6 +17,13 @@ class SaleOrder(models.Model):
     _inherit = "sale.order"
 
     @api.model
+    def create(self, vals):
+        result = super(SaleOrder, self).create(vals)
+        if self_context.get('magento', False):
+            result['name'] = self.env['ir.sequence'].next_by_code('sale.order.magento') or _('New')
+            return result
+
+    @api.model
     def _get_ecommerces(self):
         res = super(SaleOrder, self)._get_ecommerces()
         res.append(('magento', 'Magento'))
