@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Part of BrowseInfo. See LICENSE file for full copyright and licensing details.
+# Part of BrowseInfo.See LICENSE file for full copyright and licensing details.
 
 from odoo import api, models, _
 from datetime import datetime
@@ -38,9 +38,11 @@ class StockMove(models.Model):
             vals = {
                 'product_id': move.product_id.id,
                 'location_id': location.id,
-                'qty': float_round(move.product_uom_qty, precision_rounding=rounding),
+                'qty': float_round(
+                    move.product_uom_qty, precision_rounding=rounding),
                 'cost': price_unit,
-                'in_date': datetime.now().strftime(DEFAULT_SERVER_DATETIME_FORMAT),
+                'in_date': datetime.now().strftime(
+                    DEFAULT_SERVER_DATETIME_FORMAT),
                 'company_id': move.company_id.id,
             }
             quant_obj.sudo().create(vals)
@@ -56,9 +58,12 @@ class StockMove(models.Model):
             raise UserError(_('Cannot unreserve a done move'))'''
         for move in self:
             move.move_line_ids.unlink()
-            if move.procure_method == 'make_to_order' and not move.move_orig_ids:
+            if (move.procure_method == 'make_to_order' and not
+                    move.move_orig_ids):
                 move.state = 'waiting'
-            elif move.move_orig_ids and not all(orig.state in ('done', 'cancel') for orig in move.move_orig_ids):
+            elif move.move_orig_ids and not all(
+                    orig.state in ('done', 'cancel')
+                    for orig in move.move_orig_ids):
                 move.state = 'waiting'
             else:
                 move.state = 'confirmed'
@@ -67,62 +72,101 @@ class StockMove(models.Model):
     @api.multi
     def _action_cancel(self):
         '''if any(move.state == 'done' for move in self):
-            raise UserError(_('You cannot cancel a stock move that has been set to \'Done\'.'))'''
+            raise UserError(_('You cannot cancel a stock
+            move that has been set to \'Done\'.'))'''
         for move in self:
 
             move._do_unreserve()
-            siblings_states = (move.move_dest_ids.mapped('move_orig_ids') - move).mapped('state')
+            siblings_states = (
+                move.move_dest_ids.mapped('move_orig_ids') -
+                move).mapped('state')
             if move.propagate:
-                # only cancel the next move if all my siblings are also cancelled
+                # only cancel the next move if all
+                # my siblings are also cancelled
                 if all(state == 'cancel' for state in siblings_states):
                     move.move_dest_ids._action_cancel()
             else:
-                if all(state in ('done', 'cancel') for state in siblings_states):
-                    move.move_dest_ids.write({'procure_method': 'make_to_stock'})
-                    move.move_dest_ids.write({'move_orig_ids': [(3, move.id, 0)]})
+                if all(state in ('done', 'cancel')
+                        for state in siblings_states):
+                    move.move_dest_ids.write({
+                        'procure_method': 'make_to_stock'
+                    })
+                    move.move_dest_ids.write({
+                        'move_orig_ids': [(3, move.id, 0)]
+                    })
 
             if move.picking_id.state == 'done' or 'confirmed':
-                pack_op = self.env['stock.move'].sudo().search([('picking_id','=',move.picking_id.id),('product_id','=',move.product_id.id)])
+                pack_op = self.env['stock.move'].sudo().search([
+                    ('picking_id', '=', move.picking_id.id),
+                    ('product_id', '=', move.product_id.id)])
                 # outgoing
-                for pack_op_id in pack_op: 
-                    if move.picking_id.picking_type_id.code in ['outgoing','internal']:
-                        if move.picking_id.sale_id.warehouse_id.delivery_steps == 'pick_ship':
+                for pack_op_id in pack_op:
+                    if (move.picking_id.picking_type_id.code in
+                        ['outgoing', 'internal']):
+                        if (move.picking_id.sale_id.warehouse_id.
+                            delivery_steps == 'pick_ship'):
                             if pack_op.location_dest_id.usage == 'customer':
-                                outgoing_quant = self.env['stock.quant'].sudo().search([('product_id','=',move.product_id.id),('location_id','=',pack_op_id.location_dest_id.id)])
+                                outgoing_quant = (
+                                    self.env['stock.quant'].sudo().search([
+                                        ('product_id', '=',
+                                            move.product_id.id),
+                                        ('location_id', '=',
+                                            pack_op_id.location_dest_id.id)]))
                                 if outgoing_quant:
                                     old_qty = outgoing_quant[0].quantity
-                                    outgoing_quant[0].quantity = old_qty - move.product_uom_qty
+                                    outgoing_quant[0].quantity = (
+                                        old_qty - move.product_uom_qty)
                             else:
-                                outgoing_quant = self.env['stock.quant'].sudo().search([('product_id','=',move.product_id.id),('location_id','=',pack_op_id.location_id.id)])
+                                outgoing_quant = (
+                                    self.env['stock.quant'].sudo().search([
+                                        ('product_id', '=',
+                                            move.product_id.id),
+                                        ('location_id', '=',
+                                            pack_op_id.location_id.id)]))
                                 if outgoing_quant:
                                     old_qty = outgoing_quant[0].quantity
-                                    outgoing_quant[0].quantity = old_qty + move.product_uom_qty
+                                    outgoing_quant[0].quantity = (
+                                        old_qty + move.product_uom_qty)
                         else:
-                            outgoing_quant = self.env['stock.quant'].sudo().search([('product_id','=',move.product_id.id),('location_id','=',pack_op_id.location_id.id)])
+                            outgoing_quant = (
+                                self.env['stock.quant'].sudo().search([
+                                    ('product_id', '=',
+                                        move.product_id.id),
+                                    ('location_id', '=',
+                                        pack_op_id.location_id.id)]))
                             if outgoing_quant:
                                 old_qty = outgoing_quant[0].quantity
-                                outgoing_quant[0].quantity = old_qty + move.product_uom_qty
+                                outgoing_quant[0].quantity = (
+                                    old_qty + move.product_uom_qty)
 
                     if move.picking_id.picking_type_id.code == 'incoming':
-                        incoming_quant = self.env['stock.quant'].sudo().search([('product_id','=',move.product_id.id),('location_id','=',pack_op_id.location_dest_id.id)])
+                        incoming_quant = (
+                            self.env['stock.quant'].sudo().search([
+                                ('product_id', '=',
+                                    move.product_id.id),
+                                ('location_id', '=',
+                                    pack_op_id.location_dest_id.id)]))
                         if incoming_quant:
                             old_qty = incoming_quant[0].quantity
-                            incoming_quant[0].quantity = old_qty - move.product_uom_qty
+                            incoming_quant[0].quantity = (
+                                old_qty - move.product_uom_qty)
             self.write({'state': 'cancel', 'move_orig_ids': [(5, 0, 0)]})
 
         return True
+
 
 class stock_move_line(models.Model):
     _inherit = "stock.move.line"
 
     def unlink(self):
-        precision = self.env['decimal.precision'].precision_get('Product Unit of Measure')
+        precision = self.env['decimal.precision'].precision_get(
+            'Product Unit of Measure')
         for ml in self:
-            '''if ml.state in ('done', 'cancel'):
-                raise UserError(_('You can not delete product moves if the picking is done. You can only correct the done quantities.'))'''
-            # Unlinking a move line should unreserve.
-            if ml.product_id.type == 'product' and not ml.location_id.should_bypass_reservation() and not float_is_zero(ml.product_qty, precision_digits=precision):
+            if (ml.product_id.type == 'product' and not
+                    ml.location_id.should_bypass_reservation() and not
+                    float_is_zero(ml.product_qty, precision_digits=precision)):
                 self.env['stock.quant']._update_reserved_quantity(
-                    ml.product_id, ml.location_id, -ml.product_qty, lot_id=ml.lot_id,
-                    package_id=ml.package_id, owner_id=ml.owner_id, strict=True)
-        return True
+                    ml.product_id, ml.location_id, -ml.product_qty,
+                    lot_id=ml.lot_id, package_id=ml.package_id,
+                    owner_id=ml.owner_id, strict=True)
+        return super(stock_move_line, self).unlink()
