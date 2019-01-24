@@ -68,7 +68,6 @@ class SaleOrder(models.Model):
             'product_id').mapped('variant_seller_ids').filtered(
             lambda x: x.company_id == x.env.user.company_id).mapped(
             'name').filtered(lambda x: x.id not in [722, 2428])
-        if not partner or len(partner) > 1:
-            raise ValidationError(
-                _('Please check the correct configuration of providers '))
+        if len(partner) > 1:
+            return partner[0].id
         return partner.id
