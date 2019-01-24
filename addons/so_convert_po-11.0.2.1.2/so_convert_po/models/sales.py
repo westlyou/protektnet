@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from odoo import api, fields, models, _
+from odoo.exceptions import ValidationError
 
 
 class SaleOrder(models.Model):
@@ -39,12 +40,13 @@ class SaleOrder(models.Model):
             self.env['res.config.settings'].get_values().get('so_state'))
         self.purchase_order_id = self.env['purchase.order'].create({
             'state': default_so_state,
-            'partner_id': self.partner_id.id,
-            'user_id': self.user_id.id,
+            'x_studio_field_jaeoa': self.partner_id.id,
+            'partner_id': self.get_partner_id(),
             'sale_order_id': self.id,
             'x_start_date': self.x_studio_field_nJisW,
             'x_end_date': self.	x_studio_field_vqN4P,
             'x_serial': self.x_studio_field_wJcd2,
+            'x_studio_field_xOOmu': self.x_studio_field_JQBmy.id,
             'x_ingeniero_encargado': self.x_studio_field_DRLTc,
             'x_additional_discount': self.x_additional_discount,
         })
@@ -58,5 +60,15 @@ class SaleOrder(models.Model):
                 'product_qty': line.product_uom_qty,
                 'product_uom': line.product_uom.id,
                 'price_unit': line.price_unit,
-                'x_serial': line.serial_numbers,
+                'x_studio_field_WAHdj': line.serial_numbers,
             })
+
+    def get_partner_id(self):
+        partner = self.order_line.mapped(
+            'product_id').mapped('variant_seller_ids').filtered(
+            lambda x: x.company_id == x.env.user.company_id).mapped(
+            'name').filtered(lambda x: x.id not in [722, 2428])
+        if not partner or len(partner) > 1:
+            raise ValidationError(
+                _('Please check the correct configuration of providers '))
+        return partner.id

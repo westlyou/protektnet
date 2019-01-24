@@ -16,7 +16,7 @@ class Mail(models.Model):
     def create(self, vals):
         active_company_id = self.env.user.company_id and self.env.user.company_id.id
         out_mail_sever = self.env['ir.mail_server'].search([('company_id', '=', active_company_id)])
-        if out_mail_sever:
+        if out_mail_sever and not self._context.get('cron_server', False):
             vals.update({'mail_server_id':out_mail_sever.id})
 
         result = super(Mail, self).create(vals)
@@ -30,7 +30,7 @@ class MailMessage(models.Model):
     def create(self, vals):
         active_company_id = self.env.user.company_id and self.env.user.company_id.id
         out_mail_sever = self.env['ir.mail_server'].search([('company_id', '=', active_company_id)])
-        if out_mail_sever:
+        if out_mail_sever and not self._context.get('cron_server', False):
             vals.update({'mail_server_id':out_mail_sever.id})
 
         result = super(MailMessage, self).create(vals)
