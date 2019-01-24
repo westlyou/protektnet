@@ -1,7 +1,45 @@
 # Copyright 2018 Grupo Censere (<http://grupocensere.com/>)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from odoo import fields, models
+from odoo import _, api, fields, models
+
+
+class SaleOrder(models.Model):
+    _inherit = "sale.order"
+
+    purchase_count = fields.Integer(
+        string='Purchases',
+        compute='_compute_purchase_count'
+    )
+
+    @api.depends('order_line')
+    def _compute_purchase_count(self):
+        for rec in self:
+            pos = rec.order_line.mapped(
+                'move_ids').mapped(
+                'move_orig_ids').mapped(
+                'purchase_line_id').mapped(
+                'order_id')
+            rec.purchase_count = len(pos)
+
+    @api.multi
+    def action_view_purchase(self):
+        context = dict(self._context or {})
+        pos = self.order_line.mapped(
+            'move_ids').mapped(
+            'move_orig_ids').mapped(
+            'purchase_line_id').mapped(
+            'order_id').ids
+        return {
+            'name': _('Purchase Orders'),
+            'view_type': 'form',
+            'view_mode': 'tree,form',
+            'res_model': 'purchase.order',
+            'view_id': False,
+            'type': 'ir.actions.act_window',
+            'domain': [('id', 'in', pos)],
+            'context': context,
+        }
 
 
 class SaleOrderLine(models.Model):
