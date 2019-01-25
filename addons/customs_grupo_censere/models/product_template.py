@@ -29,9 +29,9 @@ class ResCompany(models.Model):
         string="Brand",
         store=True,
         compute="_compute_product_brand")
-    long_product = fields.Integer(string='Long', )
-    width_product = fields.Integer(string='Width', )
-    high_product = fields.Integer(string='Higt', )
+    long_product = fields.Float(string='Long', )
+    width_product = fields.Float(string='Width', )
+    high_product = fields.Float(string='Higt', )
 
     @api.depends('x_studio_field_U36cw')
     def _compute_product_brand(self):
