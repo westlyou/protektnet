@@ -12,7 +12,7 @@ class ResCompany(models.Model):
         related="move_id.purchase_line_id.price_unit")
     lst_price = fields.Float(
         string="List Price",
-        related="product_id.list_price")
+        related="product_id.lst_price")
     partner_id = fields.Many2one(
         'res.partner',
         string='Partner',
