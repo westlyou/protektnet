@@ -1,0 +1,84 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* send_email_inventory
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 11.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-01-28 18:19+0000\n"
+"PO-Revision-Date: 2019-01-28 18:19+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: send_email_inventory
+#: code:addons/send_email_inventory/models/stock_move_line.py:115
+#, python-format
+msgid "Balance"
+msgstr "Balance"
+
+#. module: send_email_inventory
+#: code:addons/send_email_inventory/models/stock_move_line.py:109
+#, python-format
+msgid "Date"
+msgstr "Fecha"
+
+#. module: send_email_inventory
+#: code:addons/send_email_inventory/models/stock_move_line.py:116
+#, python-format
+msgid "List Price"
+msgstr "Precio"
+
+#. module: send_email_inventory
+#: model:ir.model,name:send_email_inventory.model_stock_move_line
+msgid "Packing Operation"
+msgstr "Operación de empaquetado"
+
+#. module: send_email_inventory
+#: code:addons/send_email_inventory/models/stock_move_line.py:104
+#, python-format
+msgid "Product"
+msgstr "Producto"
+
+#. module: send_email_inventory
+#: code:addons/send_email_inventory/models/stock_move_line.py:112
+#, python-format
+msgid "Quantity"
+msgstr "Cantidad"
+
+#. module: send_email_inventory
+#: model:ir.actions.server,name:send_email_inventory.send_email_inventory_ir_actions_server
+#: model:ir.cron,cron_name:send_email_inventory.send_email_inventory
+#: model:ir.cron,name:send_email_inventory.send_email_inventory
+msgid "Send Invetory Rackmount"
+msgstr "Enviar Inventario de Rackmount"
+
+#. module: send_email_inventory
+#: code:addons/send_email_inventory/models/stock_move_line.py:161
+#, python-format
+msgid "Stock Kardex"
+msgstr "Stock Kardex"
+
+#. module: send_email_inventory
+#: code:addons/send_email_inventory/models/stock_move_line.py:106
+#, python-format
+msgid "Type"
+msgstr "Tipo"
+
+#. module: send_email_inventory
+#: code:addons/send_email_inventory/models/stock_move_line.py:114
+#, python-format
+msgid "UoM"
+msgstr "UoM"
+
+#. module: send_email_inventory
+#: code:addons/send_email_inventory/models/stock_move_line.py:252
+#: code:addons/send_email_inventory/models/stock_move_line.py:288
+#, python-format
+msgid "Verify that a main warehouse is configured for the report."
+msgstr "Verificar que se tenga configurado un almacén principal para el reporte."
+
