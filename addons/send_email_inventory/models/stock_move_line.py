@@ -54,7 +54,7 @@ class ResCompany(models.Model):
         url = 'data:image/png;base64,%s'
         return {
             'subject': name + "/" + fields.Date.context_today(self),
-            'author_id': self.env.user.id,
+            'author_id': self.env.user.partner_id.id,
             'email_from': email_from,
             'email_to': email_to,
             'attachment_ids': [(6, 0, [self.create_attachment()])],

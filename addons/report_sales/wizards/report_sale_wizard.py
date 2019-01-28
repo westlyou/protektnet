@@ -71,6 +71,43 @@ class ReportSaleWizard(models.TransientModel):
         data['form'] = (self.read([
             'start_date', 'end_date', 'licenses',
             'serials', 'product_brand'])[0])
-        return self.env.ref(
-            'report_sales.action_report_sale').report_action(
-            self, data=data, config=False)
+        return self.create_report()
+
+    def create_data(self):
+        sol = self.env['sale.order.line']
+        domain = [
+            ('order_id.date_order', '>=', self.start_date),
+            ('order_id.date_order', '<=', self.end_date),
+            ('company_id', '=', self.env.user.company_id.id),
+            ('state', '=', 'sale'),
+        ]
+        if self.product_brand != 'all':
+            domain.append(
+                ('product_id.product_tmpl_id.x_studio_field_U36cw', '=',
+                    self.product_brand))
+        if self.licenses and self.serials:
+            domain.append(
+                ('product_id.categ_id', 'in', [4, 5]))
+        if self.licenses and not self.serials:
+            domain.append(
+                ('product_id.categ_id', 'in', [5]))
+        if not self.licenses and self.serials:
+            domain.append(
+                ('product_id.categ_id', 'in', [4]))
+        so_lines = sol.search(domain)
+        so_lines_group = sol.read_group(
+            [('product_id', 'in', so_lines.mapped('product_id').ids)],
+            ['product_id', 'product_uom_qty',
+             'price_subtotal', 'product_id.x_studio_field_U36cw'],
+            ['product_id'])
+        sorted_product_records = []
+        for so_line in so_lines_group:
+            sorted_product_records.append({
+                'name': so_line.get('product_id')[1],
+                'product_uom_qty': so_line.get('product_uom_qty'),
+                'total': so_line.get('price_subtotal'),
+            })
+        return sorted_product_records
+
+    def create_report(self):
+        print('help')
