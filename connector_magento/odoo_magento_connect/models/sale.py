@@ -10,7 +10,7 @@
 import json
 import requests
 
-from odoo import api, models
+from odoo import _, api, models
 
 
 class SaleOrder(models.Model):
@@ -19,7 +19,7 @@ class SaleOrder(models.Model):
     @api.model
     def create(self, vals):
         result = super(SaleOrder, self).create(vals)
-        if self_context.get('magento', False):
+        if self._context.get('magento', False):
             result['name'] = self.env['ir.sequence'].next_by_code('sale.order.magento') or _('New')
             return result
 
