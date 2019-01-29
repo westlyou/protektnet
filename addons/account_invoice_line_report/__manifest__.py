@@ -13,6 +13,7 @@
     'license': 'AGPL-3',
     'depends': [
         'account',
+        'customs_grupo_censere'
     ],
     'data': [
         'report/account_invoice_report_view.xml',
