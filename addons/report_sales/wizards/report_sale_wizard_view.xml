@@ -5,7 +5,9 @@
         <field name="model">report.sale.wizard</field>
         <field name="arch" type="xml">
             <form string="Sale Kardex">
-                <group>
+                <field invisible="1" name="state"/>
+                <field name="file_xlsx_name" invisible="1"/>
+                <group states='choose'>
                     <group>
                         <field name="start_date"/>
                         <field name="product_brand"/>
@@ -16,8 +18,14 @@
                         <field name="serials" />
                     </group>
                 </group>
-                <footer>
-                    <button class="oe_highlight" default_focus="1" name="check_report" string="Preview" type="object"/>
+                <div states="get">
+                    <h2>Export Complete</h2>
+                    <p>Here is the exported translation file:
+                        <field name="file_xlsx" readonly="1" filename="file_xlsx_name"/>
+                    </p>
+                </div>
+                <footer states='choose'>
+                    <button class="oe_highlight" default_focus="1" name="print_xls_report" string="Preview" type="object"/>
                     <button class="btn-default" special="cancel" string="Cancel"/>
                 </footer>
             </form>
