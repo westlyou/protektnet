@@ -15,13 +15,17 @@ class SaleOrder(models.Model):
     @api.depends('order_line')
     def _compute_purchase_count(self):
         for rec in self:
-            pos = self.env['purchase.order.line'].search([('sale_line_id', 'in', rec.mapped('order_line').ids)]).mapped('order_id') 
+            pos = self.env['purchase.order.line'].search([
+                ('sale_line_id', 'in',
+                    rec.mapped('order_line').ids)]).mapped('order_id')
             rec.purchase_count = len(pos)
 
     @api.multi
     def action_view_purchase(self):
         context = dict(self._context or {})
-        pos = self.env['purchase.order.line'].search([('sale_line_id', 'in', self.mapped('order_line').ids)]).mapped('order_id')
+        pos = self.env['purchase.order.line'].search([
+            ('sale_line_id', 'in',
+                self.mapped('order_line').ids)]).mapped('order_id')
         return {
             'name': _('Purchase Orders'),
             'view_type': 'form',
