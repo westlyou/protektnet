@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="stock_move_line_customs_grupo_censere_view" model="ir.ui.view">
+        <field name="model">stock.move.line</field>
+        <field name="inherit_id" ref="stock.view_move_line_tree"/>
+        <field name="sequence">90</field>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='state']" position="before">
+                <field name="standard_price"/>
+                <field name="lst_price"/>
+                <field name="partner_id"/>
+                <field name="product_brand"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>
