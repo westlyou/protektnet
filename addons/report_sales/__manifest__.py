@@ -14,6 +14,5 @@
     ],
     'data': [
         'wizards/report_sale_wizard_view.xml',
-        'report/report_sale.xml',
     ],
 }

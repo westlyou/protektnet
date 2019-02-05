@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Part of BrowseInfo. See LICENSE file for full copyright and licensing details.
 
-from odoo import fields, models,api
+from odoo import _, fields, models, api
 from odoo.exceptions import UserError
 
 class account_invoice_line(models.Model):
