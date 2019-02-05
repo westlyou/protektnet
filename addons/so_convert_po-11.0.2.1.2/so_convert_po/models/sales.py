@@ -65,9 +65,12 @@ class SaleOrder(models.Model):
 
     def get_partner_id(self):
         partner = self.order_line.mapped(
-            'product_id').mapped('variant_seller_ids').filtered(
-            lambda x: x.company_id == x.env.user.company_id).mapped(
-            'name').filtered(lambda x: x.id not in [722, 2428])
+            'product_id').mapped('seller_ids').filtered(
+            lambda x: x.company_id == x.env.user.company_id
+        ).mapped('name').filtered(
+            lambda x: x.id not in [722, 2428])
+        if not partner:
+            raise ValidationError('Error in configuration of the sellers')
         if len(partner) > 1:
             return partner[0].id
         return partner.id
