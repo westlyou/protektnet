@@ -153,7 +153,7 @@ class MagentoSynchronization(models.TransientModel):
     @api.model
     def callMagentoApi(self, url, method, token='', data={},
                        params=[], filter=[], baseUrl=''):
-        _logger.debug("Call %r : %r ", method.upper(), url)
+        _logger.info("Call %r : %r ", method.upper(), url)
         action = 'a'
         connectionModel = self.env['magento.configure']
         if not token:
@@ -201,7 +201,7 @@ class MagentoSynchronization(models.TransientModel):
             return "Wrong API method is selected."
         responseData = json.loads(response.text)
         tmp = json.dumps(responseData, indent=4)
-        _logger.debug("Response: " + tmp)
+        _logger.info("Response: " + tmp)
         if not response.ok:
             self.env['magento.sync.history'].create({
                 'status': 'no',
