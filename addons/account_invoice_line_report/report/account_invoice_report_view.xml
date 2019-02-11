@@ -16,6 +16,8 @@
                 <field name="price_total"/>
                 <field name="currency_id" invisible="1"/>
                 <field name="product_brand"/>
+                <field name="customer_id" />
+                <field name="invoice_line_id"></field>
             </tree>
         </field>
     </record>

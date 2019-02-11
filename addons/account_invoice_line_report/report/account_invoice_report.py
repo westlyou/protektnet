@@ -32,6 +32,19 @@ class AccountInvoiceReport(models.Model):
             record.user_currency_residual = base_currency_id.with_context(
                 ctx).compute(record.residual, user_currency_id)
 
+    @api.multi
+    @api.depends('currency_id')
+    def _compute_customer_id(self):
+        for rec in self:
+            pol = self.env['purchase.order.line'].search([
+                ('invoice_lines', 'in', [rec.invoice_line_id.id])])
+            rec.customer_id = pol.order_id.x_studio_field_jaeoa
+
+    customer_id = fields.Many2one(
+        'res.partner',
+        string='Customer',
+        compute="_compute_customer_id",
+    )
     date = fields.Date(readonly=True)
     product_id = fields.Many2one(
         'product.product', string='Product', readonly=True)
@@ -101,6 +114,10 @@ class AccountInvoiceReport(models.Model):
     account_analytic_id = fields.Many2one(
         'account.analytic.account', string='Analytic Account',
         groups="analytic.group_analytic_accounting")
+    invoice_line_id = fields.Many2one(
+        'account.invoice.line',
+        string='Account Inovice Line',
+    )
 
     _order = 'date desc'
 
@@ -136,6 +153,7 @@ class AccountInvoiceReport(models.Model):
                 sub.price_average as price_average,
                 COALESCE(cr.rate, 1) as currency_rate,
                 sub.residual as residual,
+                sub.invoice_line_id,
                 sub.commercial_partner_id as commercial_partner_id
         """
         return select_str
@@ -143,6 +161,7 @@ class AccountInvoiceReport(models.Model):
     def _sub_select(self):
         select_str = """
                 SELECT ail.id AS id,
+                    ail.id AS invoice_line_id,
                     ai.date_invoice AS date,
                     pt.product_brand AS product_brand,
                     pt.description,
