@@ -13,6 +13,8 @@ class ProcurementRule(models.Model):
         res = super(ProcurementRule, self)._prepare_purchase_order_line(
             product_id, product_qty, product_uom, values, po, supplier)
         line = values.get('move_dest_ids').sale_line_id
+        self.env['purchase.order'].browse(
+            res['order_id']).name += " - " + line.order_id.name
         res['sale_line_id'] = line.id
         res['x_studio_field_WAHdj'] = line.serial_numbers
         return res
