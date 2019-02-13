@@ -13,6 +13,7 @@
     'installable': True,
     'depends': [
         'base',
+        'inter_company_rules',
         'purchase'
     ],
     'data': [
