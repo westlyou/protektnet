@@ -10,4 +10,14 @@
             </xpath>
         </field>
     </record>
+    <record id="view_customs_censere_account_move_state" model="ir.ui.view">
+        <field name="name">Customs Censere - Account Move</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='date']" position="before">
+                <field name="state" groups="customs_grupo_censere.group_account_move_censere" readonly="0"/>
+            </xpath>
+        </field>
+    </record>
 </odoo>
