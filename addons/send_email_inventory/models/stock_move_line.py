@@ -19,7 +19,8 @@ class ResCompany(models.Model):
     @api.model
     def get_date_start(self):
         today = datetime.now()
-        month = today.month
+        # month = today.month
+        month = 1
         date_string = "%s-%s-01"
         if month < 10:
             date_string = "%s-0%s-01"
