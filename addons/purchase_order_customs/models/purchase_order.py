@@ -24,7 +24,7 @@ class PurchaseOrder(models.Model):
             'x_studio_field_vqN4P': self.x_end_date,
             'x_studio_field_wJcd2': self.x_serial,
             'x_studio_field_JQBmy': self.x_studio_field_xOOmu.id,
-            'x_studio_field_DRLTc': self.x_ingeniero_encargado.id,
+            'x_studio_field_DRLTc': self.x_ingeniero_encargado,
             'x_additional_discount': self.x_additional_discount,
             'x_studio_field_GC23d': self.sale_order_id.x_studio_field_GC23d,
             'x_studio_field_iu2yo': self.sale_order_id.x_studio_field_iu2yo,
