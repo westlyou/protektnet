@@ -22,6 +22,9 @@
                     <span>cm</span>
                 </div>
             </xpath>
+            <xpath expr="//field[@name='uom_po_id']" position="before">
+                <field name="renewal"/>    
+            </xpath>
         </field>
     </record>
 </odoo>

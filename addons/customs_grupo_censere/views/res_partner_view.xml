@@ -32,4 +32,24 @@
             </xpath>
         </field>
     </record>
+    <record id="view_customs_grupo_censere_res_partner_readonly" model="ir.ui.view">
+        <field name="name"> view.customs.grupo.censere.res.partner.readonly</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='user_id']" position="attributes">
+                   <attribute name="attrs">{'readonly': [('user_id', '!=', False)]}</attribute>
+            </xpath>
+        </field>
+    </record>
+    <record id="view_customs_grupo_censere_res_partner_required" model="ir.ui.view">
+        <field name="name"> view.customs.grupo.censere.res.partner.required</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="studio_customization.odoo_studio_res_part_024681e3-d5e8-4a2d-b36c-ab0dd7442219"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='x_studio_field_JYgjI']" position="attributes">
+                <attribute name="attrs">{'required': [('company_id', '=', 3)]}</attribute>
+            </xpath>
+        </field>
+    </record>
 </odoo>
