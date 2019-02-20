@@ -2,12 +2,14 @@
 # Copyright 2018, Grupo Censere (<https://www.grupocensere.com>)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from odoo import _, api, models
+from odoo import _, fields, api, models
 from odoo.exceptions import ValidationError
 
 
 class PurchaseOrder(models.Model):
     _inherit = "purchase.order"
+
+    domain = fields.Char(string='Domain',)
 
     @api.onchange('partner_id', 'company_id')
     def _onchage_partner_id(self):
@@ -26,8 +28,12 @@ class PurchaseOrder(models.Model):
             'x_studio_field_JQBmy': self.x_studio_field_xOOmu.id,
             'x_studio_field_DRLTc': self.x_ingeniero_encargado,
             'x_additional_discount': self.x_additional_discount,
-            'x_studio_field_GC23d': self.sale_order_id.x_studio_field_GC23d,
-            'x_studio_field_iu2yo': self.sale_order_id.x_studio_field_iu2yo,
+            'x_studio_field_GC23d': 'Sin Poliza de Soporte',
+            'x_studio_field_iu2yo': self.name + (
+                self.x_studio_field_xOOmu.name or ""),
+            'quote': self.x_studio_field_Oxp7D,
+            'deal': self.x_studio_field_4u1C2,
+            'x_studio_field_PXOli': self.domain,
         })
         return res[0]
 
