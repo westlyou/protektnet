@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 11.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-01-09 18:10+0000\n"
-"PO-Revision-Date: 2019-01-09 18:10+0000\n"
+"POT-Creation-Date: 2019-02-20 20:42+0000\n"
+"PO-Revision-Date: 2019-02-20 20:42+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -21,6 +21,44 @@ msgid "<br/>\n"
 "                    <span attrs=\"{'invisible': [('l10n_mx_edi_colony', '=', False)]}\">Col. </span>"
 msgstr "<br/>\n"
 "                    <span attrs=\"{'invisible': [('l10n_mx_edi_colony', '=', False)]}\">Col. </span>"
+
+#. module: customs_grupo_censere
+#: model:ir.ui.view,arch_db:customs_grupo_censere.view_customs_censere_product_template
+msgid "<span>cm</span>"
+msgstr "<span>cm</span>"
+
+#. module: customs_grupo_censere
+#: selection:product.template,product_brand:0
+msgid "Airtight"
+msgstr "Airtight"
+
+#. module: customs_grupo_censere
+#: selection:product.template,product_brand:0
+msgid "Barracuda"
+msgstr "Barracuda"
+
+#. module: customs_grupo_censere
+#: selection:product.template,product_brand:0
+msgid "Bitdefender"
+msgstr "Bitdefender"
+
+#. module: customs_grupo_censere
+#: model:ir.model.fields,field_description:customs_grupo_censere.field_account_move_line_product_brand
+#: model:ir.model.fields,field_description:customs_grupo_censere.field_product_product_product_brand
+#: model:ir.model.fields,field_description:customs_grupo_censere.field_product_template_product_brand
+#: model:ir.model.fields,field_description:customs_grupo_censere.field_stock_move_line_product_brand
+msgid "Brand"
+msgstr "Marca"
+
+#. module: customs_grupo_censere
+#: selection:product.template,product_brand:0
+msgid "Bugooro"
+msgstr "Bugooro"
+
+#. module: customs_grupo_censere
+#: selection:product.template,product_brand:0
+msgid "Cautio"
+msgstr "Cautio"
 
 #. module: customs_grupo_censere
 #: model:ir.ui.view,arch_db:customs_grupo_censere.view_customs_grupo_censere_res_partner
@@ -39,15 +77,36 @@ msgid "Confirmed"
 msgstr "En espera"
 
 #. module: customs_grupo_censere
+#: selection:product.template,product_brand:0
+msgid "Consulting"
+msgstr "Consulting"
+
+#. module: customs_grupo_censere
+#: model:ir.model.fields,field_description:customs_grupo_censere.field_stock_move_line_standard_price
+msgid "Cost"
+msgstr "Coste"
+
+#. module: customs_grupo_censere
 #: model:ir.ui.view,arch_db:customs_grupo_censere.view_customs_grupo_censere_res_partner
 msgid "Country"
 msgstr "País"
 
 #. module: customs_grupo_censere
+#: selection:product.template,product_brand:0
+msgid "Cyberoam"
+msgstr "Cyberoam"
+
+#. module: customs_grupo_censere
+#: model:res.groups,name:customs_grupo_censere.group_account_move_censere
+msgid "Delete Account Move"
+msgstr "Eliminar Apunte Contable"
+
+#. module: customs_grupo_censere
 #: model:ir.model.fields,field_description:customs_grupo_censere.field_purchase_order_delevery_status
 #: model:ir.model.fields,field_description:customs_grupo_censere.field_sale_order_delevery_status
+#: model:ir.ui.view,arch_db:customs_grupo_censere.sale_order_customs_view_search
 msgid "Delevery Status"
-msgstr "Estado Entrega"
+msgstr "Estado de Entrega"
 
 #. module: customs_grupo_censere
 #: selection:purchase.order,delevery_status:0
@@ -56,9 +115,141 @@ msgid "Done"
 msgstr "Hecho"
 
 #. module: customs_grupo_censere
+#: selection:product.template,product_brand:0
+msgid "EndPoint"
+msgstr "EndPoint"
+
+#. module: customs_grupo_censere
+#: selection:product.template,product_brand:0
+msgid "Expand"
+msgstr "Expand"
+
+#. module: customs_grupo_censere
+#: selection:product.template,product_brand:0
+msgid "FatPipe"
+msgstr "FatPipe"
+
+#. module: customs_grupo_censere
+#: selection:product.template,product_brand:0
+msgid "GrandStream"
+msgstr "GrandStream"
+
+#. module: customs_grupo_censere
+#: selection:product.template,product_brand:0
+msgid "HanDreamNet"
+msgstr "HanDreamNet"
+
+#. module: customs_grupo_censere
+#: selection:product.template,product_brand:0
+msgid "Hauri"
+msgstr "Hauri"
+
+#. module: customs_grupo_censere
+#: model:ir.model.fields,field_description:customs_grupo_censere.field_product_product_high_product
+#: model:ir.model.fields,field_description:customs_grupo_censere.field_product_template_high_product
+msgid "Higt"
+msgstr "Higt"
+
+#. module: customs_grupo_censere
+#: selection:product.template,product_brand:0
+msgid "IP Guard"
+msgstr "IP Guard"
+
+#. module: customs_grupo_censere
+#: selection:product.template,product_brand:0
+msgid "IP Scan"
+msgstr "IP Scan"
+
+#. module: customs_grupo_censere
+#: selection:product.template,product_brand:0
+msgid "Infoblox"
+msgstr "Infoblox"
+
+#. module: customs_grupo_censere
+#: selection:product.template,product_brand:0
+msgid "InterGuard"
+msgstr "InterGuard"
+
+#. module: customs_grupo_censere
+#: model:ir.model,name:customs_grupo_censere.model_account_move_line
+msgid "Journal Item"
+msgstr "Apunte contable"
+
+#. module: customs_grupo_censere
+#: selection:product.template,product_brand:0
+msgid "Juniper"
+msgstr "Juniper"
+
+#. module: customs_grupo_censere
+#: selection:product.template,product_brand:0
+msgid "LUMEN CACHE"
+msgstr "LUMEN CACHE"
+
+#. module: customs_grupo_censere
+#: model:ir.model.fields,field_description:customs_grupo_censere.field_stock_move_line_lst_price
+msgid "List Price"
+msgstr "Precio de Lista"
+
+#. module: customs_grupo_censere
 #: model:ir.ui.view,arch_db:customs_grupo_censere.view_customs_grupo_censere_res_partner
 msgid "Locality..."
 msgstr "Localidad..."
+
+#. module: customs_grupo_censere
+#: selection:product.template,product_brand:0
+msgid "LogRhythm"
+msgstr "LogRhythm"
+
+#. module: customs_grupo_censere
+#: selection:product.template,product_brand:0
+msgid "Lok-it"
+msgstr "Lok-it"
+
+#. module: customs_grupo_censere
+#: model:ir.model.fields,field_description:customs_grupo_censere.field_product_product_long_product
+#: model:ir.model.fields,field_description:customs_grupo_censere.field_product_template_long_product
+msgid "Long"
+msgstr "Long"
+
+#. module: customs_grupo_censere
+#: selection:product.template,product_brand:0
+msgid "M86"
+msgstr "M86"
+
+#. module: customs_grupo_censere
+#: selection:product.template,product_brand:0
+msgid "Mykonos"
+msgstr "Mykonos"
+
+#. module: customs_grupo_censere
+#: selection:product.template,product_brand:0
+msgid "NCP"
+msgstr "NCP"
+
+#. module: customs_grupo_censere
+#: selection:product.template,product_brand:0
+msgid "Okiok"
+msgstr "Okiok"
+
+#. module: customs_grupo_censere
+#: model:ir.model,name:customs_grupo_censere.model_stock_move_line
+msgid "Packing Operation"
+msgstr "Operación de empaquetado"
+
+#. module: customs_grupo_censere
+#: model:ir.model.fields,field_description:customs_grupo_censere.field_stock_move_line_partner_id
+msgid "Partner"
+msgstr "Empresa"
+
+#. module: customs_grupo_censere
+#: selection:product.template,product_brand:0
+msgid "Portafolio"
+msgstr "Portafolio"
+
+#. module: customs_grupo_censere
+#: model:ir.model,name:customs_grupo_censere.model_product_template
+msgid "Product Template"
+msgstr "Plantilla de producto"
 
 #. module: customs_grupo_censere
 #: model:ir.model,name:customs_grupo_censere.model_purchase_order
@@ -68,7 +259,42 @@ msgstr "Orden de Compra"
 #. module: customs_grupo_censere
 #: model:ir.model,name:customs_grupo_censere.model_sale_order
 msgid "Quotation"
-msgstr "Quotation"
+msgstr "Cotización"
+
+#. module: customs_grupo_censere
+#: selection:product.template,product_brand:0
+msgid "Rackmount"
+msgstr "Rackmount"
+
+#. module: customs_grupo_censere
+#: selection:product.template,product_brand:0
+msgid "Remote Call"
+msgstr "Remote Call"
+
+#. module: customs_grupo_censere
+#: selection:product.template,product_brand:0
+msgid "Servicios"
+msgstr "Servicios"
+
+#. module: customs_grupo_censere
+#: selection:product.template,product_brand:0
+msgid "Somansa"
+msgstr "Somansa"
+
+#. module: customs_grupo_censere
+#: selection:product.template,product_brand:0
+msgid "Sophos"
+msgstr "Sophos"
+
+#. module: customs_grupo_censere
+#: selection:product.template,product_brand:0
+msgid "Spamina"
+msgstr "Spamina"
+
+#. module: customs_grupo_censere
+#: selection:product.template,product_brand:0
+msgid "Spector"
+msgstr "Spector"
 
 #. module: customs_grupo_censere
 #: model:ir.ui.view,arch_db:customs_grupo_censere.view_customs_grupo_censere_res_partner
@@ -81,9 +307,24 @@ msgid "Street Name..."
 msgstr "Nombre de la Calle..."
 
 #. module: customs_grupo_censere
+#: selection:product.template,product_brand:0
+msgid "Terranova"
+msgstr "Terranova"
+
+#. module: customs_grupo_censere
+#: model:ir.model.fields,help:customs_grupo_censere.field_stock_move_line_lst_price
+msgid "The sale price is managed from the product template. Click on the 'Variant Prices' button to set the extra attribute prices."
+msgstr "El precio de venta se gestiona desde la plantilla del producto. Haga clic en el botón 'Precios variantes' para establecer los precios adicionales de los atributos."
+
+#. module: customs_grupo_censere
 #: model:ir.model.fields,field_description:customs_grupo_censere.field_sale_order_guide_number
 msgid "Tracking Number"
 msgstr "Guía de rastreo"
+
+#. module: customs_grupo_censere
+#: model:ir.model,name:customs_grupo_censere.model_stock_picking
+msgid "Transfer"
+msgstr "Transferir"
 
 #. module: customs_grupo_censere
 #: selection:purchase.order,delevery_status:0
@@ -92,7 +333,22 @@ msgid "Waiting"
 msgstr "Parcial"
 
 #. module: customs_grupo_censere
+#: model:ir.model.fields,field_description:customs_grupo_censere.field_product_product_width_product
+#: model:ir.model.fields,field_description:customs_grupo_censere.field_product_template_width_product
+msgid "Width"
+msgstr "Ancho"
+
+#. module: customs_grupo_censere
 #: model:ir.ui.view,arch_db:customs_grupo_censere.view_customs_grupo_censere_res_partner
 msgid "ZIP"
 msgstr "C.P."
 
+#. module: customs_grupo_censere
+#: selection:product.template,product_brand:0
+msgid "nProtect"
+msgstr "nProtect"
+
+#. module: customs_grupo_censere
+#: selection:product.template,product_brand:0
+msgid "otros"
+msgstr "otros"
