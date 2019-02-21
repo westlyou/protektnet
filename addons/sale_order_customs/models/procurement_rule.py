@@ -10,12 +10,14 @@ class ProcurementRule(models.Model):
     @api.multi
     def _prepare_purchase_order_line(
             self, product_id, product_qty, product_uom, values, po, supplier):
+
         res = super(ProcurementRule, self)._prepare_purchase_order_line(
             product_id, product_qty, product_uom, values, po, supplier)
         line = values.get('move_dest_ids').sale_line_id
         seller = product_id.seller_ids.with_context(
             vendor=po.partner_id).filtered(
-            lambda x: x.name == x._context.get('vendor'))
+            lambda x: x.name == x._context.get('vendor') and
+            x.company_id == x.env.user.company_id)
         tax_id = res['taxes_id'][0][2]
         taxes_id = self.env['account.tax'].browse(tax_id)
         price_unit = self.env['account.tax']._fix_tax_included_price_company(
