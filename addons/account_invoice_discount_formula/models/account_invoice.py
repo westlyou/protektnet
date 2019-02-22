@@ -47,7 +47,6 @@ class AccountInvoiceLine(models.Model):
             if discount and discount[0] == '+':
                 discount = discount[1:]
             return discount
-
         for line in self:
             if line.multiple_discount:
                 if self._validate_discount(line.multiple_discount):
@@ -91,7 +90,7 @@ class AccountInvoiceLine(models.Model):
     @api.multi
     def write(self, vals):
         res = super(AccountInvoiceLine, self).write(vals)
-        if 'multiple_discount' in vals:
-            for line in self:
+        for line in self:
+            if line.multiple_discount and line.discount == 0:
                 line.onchange_multiple_discount()
         return res
