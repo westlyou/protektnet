@@ -33,6 +33,10 @@ class ResCompany(models.Model):
     width_product = fields.Float(string='Width', )
     high_product = fields.Float(string='Higt', )
     renewal = fields.Boolean(string='Renewal',)
+    company_ids = fields.Many2many(
+        'res.company',
+        string='Allowed Companies',
+    )
 
     @api.depends('x_studio_field_U36cw')
     def _compute_product_brand(self):

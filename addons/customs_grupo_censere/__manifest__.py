@@ -19,6 +19,7 @@
     ],
     'data': [
         'security/account_move_security.xml',
+        'security/res_security.xml',
         'views/account_move_view.xml',
         'views/product_template_view.xml',
         'views/purchase_order_view.xml',

@@ -4,7 +4,7 @@
 from odoo import _, api, fields, models
 
 
-class ResCompany(models.Model):
+class StockMoveLine(models.Model):
     _inherit = 'stock.move.line'
 
     standard_price = fields.Float(
@@ -21,3 +21,27 @@ class ResCompany(models.Model):
     product_brand = fields.Selection(
         related='product_id.product_tmpl_id.product_brand',
         store=True, string="Brand")
+
+    @api.model
+    def create(self, vals):
+        res = super(StockMoveLine, self).create(vals)
+        if res.lot_id:
+            quant = self.env['stock.quant'].search([
+                ('id', 'in', res.lot_id.quant_ids.ids),
+                ('location_id', '=', 82)])
+            sml_picking = self.env['stock.move.line'].search([
+                ('lot_id', '=', res.lot_id.id),
+                ('state', '!=', 'done'),
+                ('product_uom_qty', '=', 1.0),
+                ('picking_id', '!=', res.picking_id.id)])
+            if sml_picking:
+                sml_picking.state = 'waiting'
+                sml_picking.lot_id = False
+                sml_picking.product_uom_qty = '0'
+                sml_picking.unlink()
+                quant.reserved_quantity = 0.0
+                res.product_uom_qty = 1.0
+            if not sml_picking:
+                quant.reserved_quantity = 0.0
+                res.product_uom_qty = 1.0
+        return res

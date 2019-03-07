@@ -23,7 +23,8 @@
                 </div>
             </xpath>
             <xpath expr="//field[@name='uom_po_id']" position="before">
-                <field name="renewal"/>    
+                <field name="renewal"/> 
+                <field name="company_ids" widget="many2many_tags" />
             </xpath>
         </field>
     </record>
