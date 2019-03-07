@@ -1,7 +1,8 @@
 # Copyright 2019 Grupo Censere (<http://grupocensere.com/>)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from odoo import api, models
+from odoo import _, api, models
+from odoo.exceptions import ValidationError
 
 
 class ProcurementRule(models.Model):
@@ -17,7 +18,9 @@ class ProcurementRule(models.Model):
         seller = product_id.seller_ids.with_context(
             vendor=po.partner_id).filtered(
             lambda x: x.name == x._context.get('vendor') and
-            x.company_id == x.env.user.company_id)
+            x.company_id == x.env.user.company_id)[0]
+        if not seller:
+            raise ValidationError(_('Warning! Seller bad configured.'))
         tax_id = res['taxes_id'][0][2]
         taxes_id = self.env['account.tax'].browse(tax_id)
         price_unit = self.env['account.tax']._fix_tax_included_price_company(
@@ -26,13 +29,14 @@ class ProcurementRule(models.Model):
         if (price_unit and seller and po.currency_id and
                 seller.currency_id != po.currency_id):
             price_unit = seller.currency_id.compute(price_unit, po.currency_id)
-        self.env['purchase.order'].browse(
-            res['order_id']).name += " - " + line.order_id.name
-        res.update({
-            'sale_line_id': line.id,
-            'x_studio_field_WAHdj': line.serial_numbers,
-            'price_unit': price_unit,
-        })
+        if line:
+            self.env['purchase.order'].browse(
+                res['order_id']).name += " - " + line.order_id.name
+            res.update({
+                'sale_line_id': line.id,
+                'x_studio_field_WAHdj': line.serial_numbers,
+                'price_unit': price_unit,
+            })
         return res
 
     def _prepare_purchase_order(
