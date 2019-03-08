@@ -25,7 +25,8 @@ class StockMoveLine(models.Model):
     @api.model
     def create(self, vals):
         res = super(StockMoveLine, self).create(vals)
-        if res.lot_id and res.product_uom_qty == 0.0:
+        if (res.lot_id and res.product_uom_qty == 0.0 and
+                res.picking_id.picking_type_code == 'outgoing'):
             quant = self.env['stock.quant'].search([
                 ('id', 'in', res.lot_id.quant_ids.ids),
                 ('location_id', '=', 82)])
