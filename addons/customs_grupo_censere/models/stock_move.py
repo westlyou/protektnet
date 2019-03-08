@@ -25,7 +25,7 @@ class StockMoveLine(models.Model):
     @api.model
     def create(self, vals):
         res = super(StockMoveLine, self).create(vals)
-        if res.lot_id:
+        if res.lot_id and res.product_uom_qty == 0.0:
             quant = self.env['stock.quant'].search([
                 ('id', 'in', res.lot_id.quant_ids.ids),
                 ('location_id', '=', 82)])
