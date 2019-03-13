@@ -5,15 +5,8 @@
             <field name="name">user rule</field>
             <field name="model_id" ref="product.model_product_template"/>
             <field eval="True" name="global"/>
-            <field name="domain_force">[('company_ids','child_of',[user.company_id.id])]</field>
-        </record>
-        <record id="product_product_rule" model="ir.rule">
-            <field name="name">user rule</field>
-            <field name="model_id" ref="product.model_product_product"/>
-            <field eval="True" name="global"/>
-            <field name="domain_force">[('company_ids','child_of',[user.company_id.id])]</field>
+            <field name="domain_force">['|','|','|',('company_ids.child_ids','child_of',[user.company_id.id]),('company_ids','child_of',[user.company_id.id]),('company_ids', 'in', [company.id for company in user.company_ids]),('company_ids', '=', False)]</field>
         </record>
 
     </data>
 </odoo>
-    
