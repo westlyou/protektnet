@@ -29,3 +29,9 @@ class ResPartner(models.Model):
             parent.update_address(addr_vals)
 
     wk_company = fields.Char(string='Company', size=128)
+
+    def _return_credit_litmit(self, rfc):
+        return self.search([
+            ('vat', '=', rfc),
+            ('parent_id', '=', False)]
+        ).credit_limit
