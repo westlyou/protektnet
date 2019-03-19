@@ -28,7 +28,9 @@ class ProductProduct(models.Model):
             magento_stock_id = vals.pop('magento_stock_id', 0)
             attrValIds = vals.get('value_ids', [])
             vals = self.update_vals(vals, instanceId, True)
-        productObj = super(ProductProduct, self).create(vals)
+            productObj = self.search([('default_code', '=', vals.get('sku'))])
+            if not productObj:
+                productObj = super(ProductProduct, self).create(vals)
         if 'magento' in ctx:
             attrValModel = self.env['product.attribute.value']
             attrLineModel = self.env['product.attribute.line']

@@ -31,6 +31,10 @@ class ResPartner(models.Model):
     def create(self, vals):
         if 'magento' in self._context:
             vals = self.customer_array(vals)
+            partner = self.search([
+                ('parent_id', '=', False),
+                ('email', '=', vals['email']),
+                ('name', '=', vals['name'])])
         return super(ResPartner, self).create(vals)
 
     @api.multi

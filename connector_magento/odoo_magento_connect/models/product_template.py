@@ -47,7 +47,13 @@ class ProductTemplate(models.Model):
                 'instance_id': ctx.get('instance_id'),
                 'created_by': 'Magento'
             }
-            self.env['magento.product.template'].create(mappingData)
+            mappeo = self.env['magento.product.template'].search([
+                ('mage_product_id', '=', mageId)])
+            if not mappeo:
+                self.env['magento.product.template'].create(mappingData)
+        product = self.search([('default_code', '=', vals.get('sku'))])
+        if product:
+            return product
         return prodTempObj
 
     @api.multi
