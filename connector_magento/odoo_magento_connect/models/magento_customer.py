@@ -35,4 +35,14 @@ class MagentoCustomers(models.Model):
         ctx = dict(self._context or {})
         if ctx.get('instance_id'):
             vals['instance_id'] = ctx.get('instance_id')
+            cust_mage = self.search([
+                ('cus_name', '=', vals['cus_name']),
+                ('oe_customer_id', '=', vals['oe_customer_id']),
+                ('mag_customer_id', '=', vals['mag_customer_id']),
+                ('mag_address_id', '=', vals['mag_address_id']),
+                ('created_by', '=', vals['created_by']),
+                ('instance_id', '=', vals['instance_id']),
+            ])
+            if cust_mage:
+                return cust_mage
         return super(MagentoCustomers, self).create(vals)
