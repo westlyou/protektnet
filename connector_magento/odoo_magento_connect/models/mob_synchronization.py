@@ -201,7 +201,7 @@ class MagentoSynchronization(models.TransientModel):
             return "Wrong API method is selected."
         responseData = json.loads(response.text)
         tmp = json.dumps(responseData, indent=4)
-        _logger.info("Response: " + tmp)
+        _logger.debug("Response: " + tmp)
         if not response.ok:
             self.env['magento.sync.history'].create({
                 'status': 'no',
