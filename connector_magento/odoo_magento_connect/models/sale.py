@@ -22,7 +22,7 @@ class SaleOrder(models.Model):
         if self._context.get('magento', False):
             result['name'] = self.env['ir.sequence'].next_by_code(
                 'sale.order.magento') or _('New')
-            return result
+        return result
 
     @api.model
     def _get_ecommerces(self):
