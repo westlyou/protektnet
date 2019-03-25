@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<record id="sequence_sale_order_magento" model="ir.sequence">
+		<field name="name">Sale Order Magento</field>
+		<field name="code">sale.order.magento</field>
+		<field name="prefix">QBTMagento</field>
+		<field eval="1" name="number_next"/>
+		<field eval="1" name="number_increment"/>
+		<field eval="3" name="company_id"/>
+		<field name="padding">4</field>
+	</record>
+</odoo>

@@ -62,6 +62,7 @@ This module works very well with latest version of magento 2.* and Odoo 11.0
         'wizard/status_wizard_view.xml',
         'wizard/synchronization_wizard_view.xml',
         'data/mob_server_actions.xml',
+        'data/ir_sequence.xml',
         'views/product_views.xml',
         'views/product_template_views.xml',
         'views/stock_picking_views.xml',

@@ -300,6 +300,13 @@ class MagentoSynchronization(models.TransientModel):
                             token=token,
                             data=productData
                         )
+                        if prodResponse and not prodResponse.get('id'):
+                            prodResponse = self.callMagentoApi(
+                                baseUrl=url,
+                                url='/V1/products/' + templateId.default_code,
+                                method='get',
+                                token=token
+                            )
                         if prodResponse and prodResponse.get('id'):
                             magProdId = prodResponse['id']
                             odooMapData = dict(

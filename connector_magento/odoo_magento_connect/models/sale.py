@@ -10,11 +10,19 @@
 import json
 import requests
 
-from odoo import api, models
+from odoo import _, api, models
 
 
 class SaleOrder(models.Model):
     _inherit = "sale.order"
+
+    @api.model
+    def create(self, vals):
+        result = super(SaleOrder, self).create(vals)
+        if self._context.get('magento', False):
+            result['name'] = self.env['ir.sequence'].next_by_code(
+                'sale.order.magento') or _('New')
+            return result
 
     @api.model
     def _get_ecommerces(self):

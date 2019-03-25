@@ -153,7 +153,7 @@ class MagentoSynchronization(models.TransientModel):
     @api.model
     def callMagentoApi(self, url, method, token='', data={},
                        params=[], filter=[], baseUrl=''):
-        _logger.debug("Call %r : %r ", method.upper(), url)
+        _logger.info("Call %r : %r ", method.upper(), url)
         action = 'a'
         connectionModel = self.env['magento.configure']
         if not token:
