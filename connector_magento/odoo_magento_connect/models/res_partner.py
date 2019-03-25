@@ -35,6 +35,8 @@ class ResPartner(models.Model):
                 ('parent_id', '=', False),
                 ('email', '=', vals['email']),
                 ('name', '=', vals['name'])])
+            if partner:
+                return partner
         return super(ResPartner, self).create(vals)
 
     @api.multi

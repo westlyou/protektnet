@@ -20,7 +20,8 @@ class SaleOrder(models.Model):
     def create(self, vals):
         result = super(SaleOrder, self).create(vals)
         if self._context.get('magento', False):
-            result['name'] = self.env['ir.sequence'].next_by_code('sale.order.magento') or _('New')
+            result['name'] = self.env['ir.sequence'].next_by_code(
+                'sale.order.magento') or _('New')
             return result
 
     @api.model
