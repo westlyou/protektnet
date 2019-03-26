@@ -23,6 +23,7 @@ class ProductProduct(models.Model):
         ctx = dict(self._context or {})
         instanceId = ctx.get('instance_id')
         mapTempModel = self.env['magento.product.template']
+        productObj = False
         if 'magento' in ctx:
             mageId = vals.pop('mage_id', 0)
             magento_stock_id = vals.pop('magento_stock_id', 0)
@@ -31,7 +32,6 @@ class ProductProduct(models.Model):
             productObj = self.search([('default_code', '=', vals.get('sku'))])
             if not productObj:
                 productObj = super(ProductProduct, self).create(vals)
-        if 'magento' in ctx:
             attrValModel = self.env['product.attribute.value']
             attrLineModel = self.env['product.attribute.line']
             templateId = productObj.product_tmpl_id.id
@@ -71,8 +71,10 @@ class ProductProduct(models.Model):
                         'magento_stock_id': magento_stock_id
                     })
                     self.env['magento.product'].create(mappDict)
+            return productObj
+        else:
+            return super(ProductProduct, self).create(vals)
 
-        return productObj
 
     @api.multi
     def write(self, vals):
