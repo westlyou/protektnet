@@ -33,10 +33,13 @@ class ProductTemplate(models.Model):
     @api.model
     def create(self, vals):
         ctx = dict(self._context or {})
+        prodTempObj = False
         if 'magento' in ctx:
             mageId = vals.pop('mage_id', 0)
             vals = self.update_vals(vals, True)
-        prodTempObj = super(ProductTemplate, self).create(vals)
+            prodTempObj = self.seach([('default_code', '=', vals.get('sku'))])
+            if not prodTempObj:
+                prodTempObj = super(ProductTemplate, self).create(vals)
         if 'magento' in ctx and 'configurable' in ctx:
             mappingData = {
                 'template_name': prodTempObj.id,
@@ -51,9 +54,8 @@ class ProductTemplate(models.Model):
                 ('mage_product_id', '=', mageId)])
             if not mappeo:
                 self.env['magento.product.template'].create(mappingData)
-        product = self.search([('default_code', '=', vals.get('sku'))])
-        if product:
-            return product
+        if not prodTempObj:
+            return super(ProductTemplate, self).create(vals)
         return prodTempObj
 
     @api.multi
