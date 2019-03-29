@@ -20,7 +20,7 @@ class SaleOrder(models.Model):
         string='Tracking Number',
     )
 
-    @api.depends('date_order')
+    @api.depends('order_line')
     def _compute_delevery_status(self):
         for sale in self:
             qty_delevery = sum(self.order_line.filtered(

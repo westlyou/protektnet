@@ -9,7 +9,7 @@ class ResPartner(models.Model):
 
     change_user_id = fields.Boolean(
         string='Change SalePerson',
-        compute='_compute_change_user_id'
+        compute='_compute_change_user_id',
     )
 
     def _compute_change_user_id(self):

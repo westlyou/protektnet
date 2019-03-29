@@ -24,25 +24,29 @@ class StockMoveLine(models.Model):
 
     @api.model
     def create(self, vals):
-        res = super(StockMoveLine, self).create(vals)
-        if (res.lot_id and res.product_uom_qty == 0.0 and
-                res.picking_id.picking_type_code == 'outgoing'):
-            quant = self.env['stock.quant'].search([
-                ('id', 'in', res.lot_id.quant_ids.ids),
-                ('location_id', '=', 82)])
-            sml_picking = self.env['stock.move.line'].search([
-                ('lot_id', '=', res.lot_id.id),
-                ('state', '!=', 'done'),
-                ('product_uom_qty', '=', 1.0),
-                ('picking_id', '!=', res.picking_id.id)])
-            if sml_picking:
-                sml_picking.state = 'waiting'
-                sml_picking.lot_id = False
-                sml_picking.product_uom_qty = '0'
-                sml_picking.unlink()
-                quant.reserved_quantity = 0.0
-                res.product_uom_qty = 1.0
-            if not sml_picking:
-                quant.reserved_quantity = 0.0
-                res.product_uom_qty = 1.0
-        return res
+        moves = super(StockMoveLine, self).create(vals)
+        for res in moves:
+            if (res.lot_id and res.product_uom_qty == 0.0 and
+                    res.picking_id.picking_type_code == 'outgoing'):
+                quant = self.env['stock.quant'].search([
+                    ('id', 'in', res.lot_id.quant_ids.ids),
+                    ('location_id', '=', 82)])
+                sml_pickings = self.env['stock.move.line'].search([
+                    ('lot_id', '=', res.lot_id.id),
+                    ('state', '!=', 'done'),
+                    ('product_uom_qty', '=', 1.0),
+                    ('picking_id', '!=', res.picking_id.id)])
+                if sml_pickings:
+                    for sml_picking in sml_pickings:
+                        sml_picking.state = 'waiting'
+                        sml_picking.lot_id = False
+                        sml_picking.product_uom_qty = '0'
+                        sml_picking.unlink()
+                    if quant.reserved_quantity == 1.0:
+                        quant.reserved_quantity = 0.0
+                    res.product_uom_qty = 1.0
+                if not sml_pickings:
+                    if quant.reserved_quantity == 1.0:
+                        quant.reserved_quantity = 0.0
+                    res.product_uom_qty = 1.0
+        return moves

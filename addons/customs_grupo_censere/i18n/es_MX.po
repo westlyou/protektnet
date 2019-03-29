@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 11.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-02-20 20:42+0000\n"
-"PO-Revision-Date: 2019-02-20 20:42+0000\n"
+"POT-Creation-Date: 2019-03-29 21:01+0000\n"
+"PO-Revision-Date: 2019-03-29 21:01+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -33,6 +33,12 @@ msgid "Airtight"
 msgstr "Airtight"
 
 #. module: customs_grupo_censere
+#: model:ir.model.fields,field_description:customs_grupo_censere.field_product_product_company_ids
+#: model:ir.model.fields,field_description:customs_grupo_censere.field_product_template_company_ids
+msgid "Allowed Companies"
+msgstr "Compañías permitidas"
+
+#. module: customs_grupo_censere
 #: selection:product.template,product_brand:0
 msgid "Barracuda"
 msgstr "Barracuda"
@@ -41,6 +47,11 @@ msgstr "Barracuda"
 #: selection:product.template,product_brand:0
 msgid "Bitdefender"
 msgstr "Bitdefender"
+
+#. module: customs_grupo_censere
+#: model:res.groups,name:customs_grupo_censere.group_block_picking_product
+msgid "Block Picking with Products"
+msgstr "Bloqueo de Picking con Productos"
 
 #. module: customs_grupo_censere
 #: model:ir.model.fields,field_description:customs_grupo_censere.field_account_move_line_product_brand
@@ -61,6 +72,12 @@ msgid "Cautio"
 msgstr "Cautio"
 
 #. module: customs_grupo_censere
+#: model:ir.model.fields,field_description:customs_grupo_censere.field_res_partner_change_user_id
+#: model:ir.model.fields,field_description:customs_grupo_censere.field_res_users_change_user_id
+msgid "Change SalePerson"
+msgstr "Cambiar Salesperson"
+
+#. module: customs_grupo_censere
 #: model:ir.ui.view,arch_db:customs_grupo_censere.view_customs_grupo_censere_res_partner
 msgid "City"
 msgstr "Ciudad"
@@ -72,7 +89,6 @@ msgstr "Colonia..."
 
 #. module: customs_grupo_censere
 #: selection:purchase.order,delevery_status:0
-#: selection:sale.order,delevery_status:0
 msgid "Confirmed"
 msgstr "En espera"
 
@@ -80,6 +96,11 @@ msgstr "En espera"
 #: selection:product.template,product_brand:0
 msgid "Consulting"
 msgstr "Consulting"
+
+#. module: customs_grupo_censere
+#: model:ir.model,name:customs_grupo_censere.model_res_partner
+msgid "Contact"
+msgstr "Contact"
 
 #. module: customs_grupo_censere
 #: model:ir.model.fields,field_description:customs_grupo_censere.field_stock_move_line_standard_price
@@ -106,7 +127,7 @@ msgstr "Eliminar Apunte Contable"
 #: model:ir.model.fields,field_description:customs_grupo_censere.field_sale_order_delevery_status
 #: model:ir.ui.view,arch_db:customs_grupo_censere.sale_order_customs_view_search
 msgid "Delevery Status"
-msgstr "Estado de Entrega"
+msgstr "Estado Entrega"
 
 #. module: customs_grupo_censere
 #: selection:purchase.order,delevery_status:0
@@ -169,6 +190,11 @@ msgstr "Infoblox"
 #: selection:product.template,product_brand:0
 msgid "InterGuard"
 msgstr "InterGuard"
+
+#. module: customs_grupo_censere
+#: model:res.groups,name:customs_grupo_censere.group_inventory_adjustments_censere
+msgid "Inventory Ajustments"
+msgstr "Ajustes de Inventario"
 
 #. module: customs_grupo_censere
 #: model:ir.model,name:customs_grupo_censere.model_account_move_line
@@ -234,12 +260,17 @@ msgstr "Okiok"
 #. module: customs_grupo_censere
 #: model:ir.model,name:customs_grupo_censere.model_stock_move_line
 msgid "Packing Operation"
-msgstr "Operación de empaquetado"
+msgstr "Operación de Empaque"
 
 #. module: customs_grupo_censere
 #: model:ir.model.fields,field_description:customs_grupo_censere.field_stock_move_line_partner_id
 msgid "Partner"
 msgstr "Empresa"
+
+#. module: customs_grupo_censere
+#: selection:sale.order,delevery_status:0
+msgid "Pending"
+msgstr "Pending"
 
 #. module: customs_grupo_censere
 #: selection:product.template,product_brand:0
@@ -272,6 +303,17 @@ msgid "Remote Call"
 msgstr "Remote Call"
 
 #. module: customs_grupo_censere
+#: model:ir.model.fields,field_description:customs_grupo_censere.field_product_product_renewal
+#: model:ir.model.fields,field_description:customs_grupo_censere.field_product_template_renewal
+msgid "Renewal"
+msgstr "Renewal"
+
+#. module: customs_grupo_censere
+#: model:res.groups,name:customs_grupo_censere.group_sales_person
+msgid "SalesPerson"
+msgstr "SalesPerson"
+
+#. module: customs_grupo_censere
 #: selection:product.template,product_brand:0
 msgid "Servicios"
 msgstr "Servicios"
@@ -285,6 +327,12 @@ msgstr "Somansa"
 #: selection:product.template,product_brand:0
 msgid "Sophos"
 msgstr "Sophos"
+
+#. module: customs_grupo_censere
+#: code:addons/customs_grupo_censere/models/stock_picking.py:50
+#, python-format
+msgid "Warning!! You can not give physical products out of stock. Communicate with your administrator."
+msgstr "Advertencia!! No puede dar salida de almacén productos físicos. Comunicate con tu administrador."
 
 #. module: customs_grupo_censere
 #: selection:product.template,product_brand:0
@@ -325,6 +373,13 @@ msgstr "Guía de rastreo"
 #: model:ir.model,name:customs_grupo_censere.model_stock_picking
 msgid "Transfer"
 msgstr "Transferir"
+
+#. module: customs_grupo_censere
+#: model:ir.ui.view,arch_db:customs_grupo_censere.view_customs_censere_product_product_groups
+#: model:ir.ui.view,arch_db:customs_grupo_censere.view_customs_censere_product_product_inherit_groups
+#: model:ir.ui.view,arch_db:customs_grupo_censere.view_customs_censere_product_template_groups
+msgid "Update Qty On Hand"
+msgstr "Actualizar cantidad disponible"
 
 #. module: customs_grupo_censere
 #: selection:purchase.order,delevery_status:0

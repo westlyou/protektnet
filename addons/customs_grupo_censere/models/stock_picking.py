@@ -1,15 +1,14 @@
 # Copyright 2019, Grupo Censere
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from odoo import api, fields, models
+from odoo import _, api, fields, models
+from odoo.exceptions import ValidationError
 import datetime
 import ast
 
 
 class StockPicking(models.Model):
     _inherit = 'stock.picking'
-
-    state = fields.Selection(selection_add=[('shipment', 'Shipment')])
 
     @api.model
     def create(self, vals):
@@ -38,3 +37,16 @@ class StockPicking(models.Model):
     def last_day_of_month(self, any_day):
         next_month = any_day.replace(day=28) + datetime.timedelta(days=4)
         return next_month - datetime.timedelta(days=next_month.day)
+
+    def button_validate(self):
+        if self.env.user.has_group(
+                'customs_grupo_censere.group_block_picking_product'):
+            for rec in self:
+                value = sum(rec.move_lines.filtered(
+                    lambda x: x.product_id.categ_id.id == 4
+                ).mapped('quantity_done'))
+                if value != 0:
+                    raise ValidationError(
+                        _('Warning!! You can not give physical products out of'
+                            ' stock. Communicate with your administrator.'))
+        return super(StockPicking, self).button_validate()
