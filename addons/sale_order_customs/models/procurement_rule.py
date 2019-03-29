@@ -58,6 +58,8 @@ class ProcurementRule(models.Model):
             'x_studio_field_Oxp7D': sale.quote,
             'x_studio_field_4u1C2': sale.deal,
             'domain': sale.x_studio_field_PXOli,
+            'memo': sale.x_studio_field_RmPpJ,
+            'guide_number': sale.guide_number,
         })
         return res
 

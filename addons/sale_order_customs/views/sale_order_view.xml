@@ -22,12 +22,6 @@
                     <field name="purchase_count" widget="statinfo" string="Purchases"/>
                 </button>
             </xpath>
-            <xpath expr="//header" position="after">
-                <field invisible="1" name="consignment"/>
-                <div attrs="{'invisible': [('consignment','=',False)]}" class="alert alert-danger" role="alert" style="margin-bottom:0px;text-align: center; font-size: x-large;">
-                    Mercancia en Demo...
-                </div>
-            </xpath>
             <xpath expr="//header" position="inside">
                 <button groups="sale_order_customs.group_sale_order_consignment" name="action_invoice_consignment" type="object" string="Invoice Consignment" states="consignment"/>
             </xpath>

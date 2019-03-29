@@ -34,6 +34,8 @@ class PurchaseOrder(models.Model):
             'quote': self.x_studio_field_Oxp7D,
             'deal': self.x_studio_field_4u1C2,
             'x_studio_field_PXOli': self.domain,
+            'x_studio_field_RmPpJ': self.memo,
+            'guide_number': self.guide_number,
         })
         return res[0]
 

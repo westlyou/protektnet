@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 11.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-02-20 20:27+0000\n"
-"PO-Revision-Date: 2019-02-20 20:27+0000\n"
+"POT-Creation-Date: 2019-03-29 20:57+0000\n"
+"PO-Revision-Date: 2019-03-29 20:57+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -32,14 +32,13 @@ msgstr "Factura"
 
 #. module: sale_order_customs
 #: model:ir.ui.view,arch_db:sale_order_customs.sale_order_customs_view
-#: model:res.groups,name:sale_order_customs.group_sale_order_consignment
 msgid "Invoice Consignment"
 msgstr "Facturar Consignación"
 
 #. module: sale_order_customs
-#: model:ir.ui.view,arch_db:sale_order_customs.sale_order_customs_view
-msgid "Mercancia en Demo..."
-msgstr "Mercancia en Demo."
+#: model:ir.model.fields,field_description:sale_order_customs.field_purchase_order_memo
+msgid "Memo"
+msgstr "Concepto"
 
 #. module: sale_order_customs
 #: model:ir.model,name:sale_order_customs.model_procurement_rule
@@ -71,7 +70,7 @@ msgstr "Compras"
 #. module: sale_order_customs
 #: model:ir.model,name:sale_order_customs.model_sale_order
 msgid "Quotation"
-msgstr "Cotización"
+msgstr "Contización"
 
 #. module: sale_order_customs
 #: model:ir.model.fields,field_description:sale_order_customs.field_sale_order_quote
@@ -92,3 +91,14 @@ msgstr "Línea de pedido de venta"
 #: model:ir.model.fields,field_description:sale_order_customs.field_sale_order_line_serial_numbers
 msgid "Serial Numbers"
 msgstr "Serial"
+
+#. module: sale_order_customs
+#: model:ir.model.fields,field_description:sale_order_customs.field_purchase_order_guide_number
+msgid "Tracking Number"
+msgstr "Guía de rastreo"
+
+#. module: sale_order_customs
+#: code:addons/sale_order_customs/models/procurement_rule.py:23
+#, python-format
+msgid "Warning! Seller bad configured."
+msgstr "Advertencia!! Proveedor mal configurado."
