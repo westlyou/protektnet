@@ -5,9 +5,9 @@
 			<field name="model">res.partner</field>
 			<field name="inherit_id" ref="account.view_partner_property_form"></field>
 			<field name="arch" type="xml">
-				<field name="trust" position="after">
-					<field name="credit_limit" />
-					<field name="credit_on_hold" />
+				<field name="property_payment_term_id" position="after">
+					<field name="credit_limit" attrs="{'readonly': [('bool_credit_limit', '!=', 'False')]}" />
+					<field name="credit_on_hold" attrs="{'readonly': [('bool_credit_limit', '!=', 'False')]}" />
 				</field>
 			</field>
 		</record>
