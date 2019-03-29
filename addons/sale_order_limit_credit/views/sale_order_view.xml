@@ -8,7 +8,7 @@
             <xpath expr="//header" position="after">
                 <field invisible="1" name="blocked_client"/>
                 <div attrs="{'invisible': [('blocked_client','=',False)]}" class="alert alert-info" role="alert" style="margin-bottom:0px;">The client is currently blocked due to pending invoices. Please contact him for prompt payment.
-                <button name="action_unlocking" type="object" string="Unlock" class="oe_highlight" groups="sale_order_limit_credit.group_sale_order_unlocking"/>
+                <button name="action_unlock" type="object" string="Unlock" class="oe_highlight" groups="sale_order_limit_credit.group_sale_order_unlock"/>
                 </div>
             </xpath>
             <xpath expr="//header" position="attributes">

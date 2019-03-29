@@ -5,8 +5,9 @@
         <field name="inherit_id" ref="account.view_partner_property_form"></field>
         <field name="sequence">100</field>
         <field name="arch" type="xml">
-            <xpath expr="//field[@name='trust']" position="after">
-                <field name="credit_days_limit" />
+            <xpath expr="//field[@name='property_payment_term_id']" position="after">
+                <field name="bool_credit_limit" invisible="1"></field>
+                <field name="credit_days_limit" attrs="{'readonly': [('bool_credit_limit', '!=', 'False')]}"/>
             </xpath>
         </field>
     </record>
