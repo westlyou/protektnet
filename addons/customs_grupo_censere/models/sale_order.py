@@ -36,7 +36,6 @@ class SaleOrder(models.Model):
             if product_uom_qty > qty_delevery and qty_delevery != 0.0:
                 sale.delevery_status = 'waiting'
 
-
     @api.multi
     def action_view_delivery(self):
         action = super(SaleOrder, self).action_view_delivery()
