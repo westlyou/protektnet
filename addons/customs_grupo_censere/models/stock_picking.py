@@ -17,21 +17,22 @@ class StockPicking(models.Model):
         users = ast.literal_eval(parameters.get_param('activity_users'))
         sale_order = self.env['sale.order'].search([('name', '=', res.origin)])
         acti_types = sale_order.order_line.mapped(
-            'product_id').mapped('uom_id').mapped('name')
+            'product_uom.category_id.name')
         any_day = fields.Date.from_string(fields.Date.today())
         date = self.last_day_of_month(any_day)
         if res.picking_type_code == 'outgoing':
             for act_type in acti_types:
-                res.activity_ids.create({
-                    'activity_type_id': 4,
-                    'summary': 'Salida de Almacén',
-                    'date_deadline': date,
-                    'user_id': self.env['res.users'].search([
-                        ('name', '=', users[act_type])]).id,
-                    'res_model_id': self.env['ir.model'].search([
-                        ('model', '=', 'stock.picking')], limit=1).id,
-                    'res_id': res.id,
-                })
+                if users.get(act_type):
+                    res.activity_ids.create({
+                        'activity_type_id': 4,
+                        'summary': 'Salida de Almacén',
+                        'date_deadline': date,
+                        'user_id': self.env['res.users'].search([
+                            ('name', '=', users[act_type])]).id,
+                        'res_model_id': self.env['ir.model'].search([
+                            ('model', '=', 'stock.picking')], limit=1).id,
+                        'res_id': res.id,
+                    })
         return res
 
     def last_day_of_month(self, any_day):

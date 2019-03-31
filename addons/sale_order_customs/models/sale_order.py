@@ -69,7 +69,8 @@ class SaleOrder(models.Model):
         return res
 
     @api.model
-    def prepare_lines(self, product, quantity, price_unit, tax, account, line):
+    def prepare_lines(self, product, quantity, price_unit, tax,
+                      account, line, company):
         return {
             'product_id': product.id,
             'quantity': quantity,
@@ -79,6 +80,7 @@ class SaleOrder(models.Model):
             'name': product.name,
             'account_id': account.id,
             'purchase_line_id': line.id,
+            'company_id': company.id,
         }
 
     @api.multi
@@ -101,6 +103,7 @@ class SaleOrder(models.Model):
                 'currency_id': currency_id,
                 'account_id': res['invoice_account'].id,
                 'type': res['invoice_type'],
+                'company_id': company_rec.id,
                 'purchase_id': purchase.sudo().id,
                 'invoice_line_ids': [line for line in res['lines']],
             })
@@ -125,7 +128,7 @@ class SaleOrder(models.Model):
             lines.append(
                 (0, 0, self.prepare_lines
                     (line.product_id, line.product_qty,
-                     line.price_unit, tax, account, line)))
+                     line.price_unit, tax, account, line, company)))
         res['lines'] = lines
         return res
 

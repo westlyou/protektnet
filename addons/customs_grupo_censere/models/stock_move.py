@@ -43,10 +43,10 @@ class StockMoveLine(models.Model):
                         sml_picking.product_uom_qty = '0'
                         sml_picking.unlink()
                     if quant.reserved_quantity == 1.0:
-                        quant.reserved_quantity = 0.0
+                        quant.sudo().reserved_quantity = 0.0
                     res.product_uom_qty = 1.0
                 if not sml_pickings:
                     if quant.reserved_quantity == 1.0:
                         quant.reserved_quantity = 0.0
-                    res.product_uom_qty = 1.0
+                    res.sudo().product_uom_qty = 1.0
         return moves

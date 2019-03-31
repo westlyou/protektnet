@@ -49,6 +49,12 @@ class SaleOrder(models.Model):
             'x_studio_field_xOOmu': self.x_studio_field_JQBmy.id,
             'x_ingeniero_encargado': self.x_studio_field_DRLTc,
             'x_additional_discount': self.x_additional_discount,
+            'x_studio_field_Oxp7D': self.quote,
+            'x_studio_field_4u1C2': self.deal,
+            'domain': self.x_studio_field_PXOli,
+            'memo': self.x_studio_field_RmPpJ,
+            'guide_number': self.guide_number,
+
         })
         self.purchase_order_id.name += " - " + self.name
         for line in self.order_line:

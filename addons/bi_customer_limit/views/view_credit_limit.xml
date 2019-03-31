@@ -1,27 +1,25 @@
 <odoo>
-	<data>
-		<record id="view_res_partner_form" model="ir.ui.view">
-			<field name="name">res.partner.form</field>
-			<field name="model">res.partner</field>
-			<field name="inherit_id" ref="account.view_partner_property_form"></field>
-			<field name="arch" type="xml">
-				<field name="property_payment_term_id" position="after">
-					<field name="credit_limit" attrs="{'readonly': [('bool_credit_limit', '!=', 'False')]}" />
-					<field name="credit_on_hold" attrs="{'readonly': [('bool_credit_limit', '!=', 'False')]}" />
-				</field>
-			</field>
-		</record>
+    <record id="view_res_partner_form" model="ir.ui.view">
+        <field name="name">res.partner.form</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="sale_order_limit_credit.sale_order_limit_credit_partner_view"></field>
+        <field name="arch" type="xml">
+            <field name="credit_days_limit" position="after">
+                <field name="credit_limit" attrs="{'readonly': [('bool_credit_limit', '=', False)]}"/>
+                <field name="credit_on_hold" attrs="{'readonly': [('bool_credit_limit', '=', False)]}"/>
+            </field>
+        </field>
+    </record>
 
-		<record id="view_sale_order_form" model="ir.ui.view">
-			<field name="name">sale.order.form</field>
-			<field name="model">sale.order</field>
-			<field name="inherit_id" ref="sale.view_order_form"></field>
-			<field name="arch" type="xml">
-				<field name="payment_term_id" position="after">
-					<field name="credit_limit_id" />
-					<field name="total_receivable" />
-				</field>
-			</field>
-		</record>
-	</data>
+    <record id="view_sale_order_form" model="ir.ui.view">
+        <field name="name">sale.order.form</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"></field>
+        <field name="arch" type="xml">
+            <field name="payment_term_id" position="after">
+                <field name="credit_limit_id" />
+                <field name="total_receivable" />
+            </field>
+        </field>
+    </record>
 </odoo>
