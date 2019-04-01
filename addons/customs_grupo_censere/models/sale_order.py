@@ -1,3 +1,4 @@
+
 # Copyright 2018 Grupo Censere (<http://grupocensere.com/>)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
@@ -11,7 +12,7 @@ class SaleOrder(models.Model):
     delevery_status = fields.Selection(
         [('done', 'Done'),
          ('waiting', 'Waiting'),
-         ('confirmed', 'Confirmed'), ],
+         ('pending', 'Pending'), ],
         string='Delevery Status',
         compute='_compute_delevery_status',
         store=True, readonly=True)
@@ -19,21 +20,21 @@ class SaleOrder(models.Model):
         string='Tracking Number',
     )
 
-    @api.depends('picking_ids')
+    @api.depends('order_line')
     def _compute_delevery_status(self):
         for sale in self:
-            if sale.picking_ids:
-                if all([picking.state in ['done', 'cancel']
-                        for picking in sale.picking_ids]):
-                    sale.delevery_status = 'done'
-                if (any([picking.state == 'done'
-                         for picking in sale.picking_ids])and
-                        any([picking.state not in ['done', 'cancel']
-                             for picking in sale.picking_ids])):
-                    sale.delevery_status = 'waiting'
-                if all([picking.state != 'done'
-                        for picking in sale.picking_ids]):
-                    sale.delevery_status = 'confirmed'
+            qty_delevery = sum(self.order_line.filtered(
+                lambda x: x.product_id.type != 'service'
+            ).mapped('qty_delivered'))
+            product_uom_qty = sum(self.order_line.filtered(
+                lambda x: x.product_id.type != 'service'
+            ).mapped('product_uom_qty'))
+            if qty_delevery == 0.0:
+                sale.delevery_status = 'pending'
+            if product_uom_qty == qty_delevery:
+                sale.delevery_status = 'done'
+            if product_uom_qty > qty_delevery and qty_delevery != 0.0:
+                sale.delevery_status = 'waiting'
 
     @api.multi
     def action_view_delivery(self):

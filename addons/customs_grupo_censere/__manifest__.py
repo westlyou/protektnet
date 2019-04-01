@@ -18,7 +18,8 @@
         'bi_manual_currency_exchange_rate',
     ],
     'data': [
-        'security/account_move_security.xml',
+        'security/groups_security.xml',
+        'security/res_security.xml',
         'views/account_move_view.xml',
         'views/product_template_view.xml',
         'views/purchase_order_view.xml',
@@ -26,5 +27,6 @@
         'views/sale_order_view.xml',
         'views/purchase_order_view.xml',
         'views/stock_move_view.xml',
+        'views/stock_picking_view.xml',
     ],
 }

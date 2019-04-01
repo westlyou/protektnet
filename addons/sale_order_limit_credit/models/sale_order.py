@@ -35,6 +35,6 @@ class SaleOrder(models.Model):
                 rec.blocked_client = True
 
     @api.multi
-    def action_unlocking(self):
+    def action_unlock(self):
         for rec in self:
             rec.blocked_client = False

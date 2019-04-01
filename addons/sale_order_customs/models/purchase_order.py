@@ -12,6 +12,10 @@ class PurchaseOrder(models.Model):
         "Sale Order",
         help="Reference to Sale Order",
     )
+    memo = fields.Text(string='Memo')
+    guide_number = fields.Char(
+        string='Tracking Number',
+    )
 
 
 class PurchaseOrderLine(models.Model):

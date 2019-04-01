@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_picking_inherit_grupo_censere" model="ir.ui.view">
+        <field name="name">view.picking.inherit.grupo.censere</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header/field[@name='state']" position="replace">
+                <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,partially_available,assigned,shipment,done"/>
+            </xpath>
+        </field>
+    </record>
+    <record id="activity_users_parameter" model="ir.config_parameter">
+        <field name="key">activity_users</field>
+        <field name="value">{'Unidad': 'Enrique Moreno Solis', 'Servicios':'Karla Leal Gutierrez'}</field>
+    </record>
+</odoo>

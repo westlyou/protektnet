@@ -1,0 +1,73 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* sale_order_limit_credit
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 11.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-03-29 21:05+0000\n"
+"PO-Revision-Date: 2019-03-29 21:05+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: sale_order_limit_credit
+#: model:ir.model,name:sale_order_limit_credit.model_res_company
+msgid "Companies"
+msgstr "Compañías"
+
+#. module: sale_order_limit_credit
+#: model:ir.model,name:sale_order_limit_credit.model_res_partner
+msgid "Contact"
+msgstr "Contacto"
+
+#. module: sale_order_limit_credit
+#: model:ir.model.fields,field_description:sale_order_limit_credit.field_res_company_credit_days_limit
+#: model:ir.model.fields,field_description:sale_order_limit_credit.field_res_config_settings_credit_days_limit
+#: model:ir.model.fields,field_description:sale_order_limit_credit.field_res_partner_credit_days_limit
+#: model:ir.model.fields,field_description:sale_order_limit_credit.field_res_users_credit_days_limit
+#: model:ir.ui.view,arch_db:sale_order_limit_credit.res_config_settings_sale_order_credit_limit_view_form
+msgid "Credit Days Limit"
+msgstr "Limite de días de credito"
+
+#. module: sale_order_limit_credit
+#: model:ir.model.fields,field_description:sale_order_limit_credit.field_res_partner_bool_credit_limit
+#: model:ir.model.fields,field_description:sale_order_limit_credit.field_res_users_bool_credit_limit
+#: model:res.groups,name:sale_order_limit_credit.group_credit_limit
+msgid "Credit Limit"
+msgstr "Crédito concedido"
+
+#. module: sale_order_limit_credit
+#: model:ir.ui.view,arch_db:sale_order_limit_credit.res_config_settings_sale_order_credit_limit_view_form
+msgid "Limited days in the payment of the invoice"
+msgstr "Límite de días en el pago de la factura."
+
+#. module: sale_order_limit_credit
+#: model:ir.model.fields,field_description:sale_order_limit_credit.field_sale_order_blocked_client
+msgid "Message Credit Limit"
+msgstr "Mensaje de limite de credito"
+
+#. module: sale_order_limit_credit
+#: model:ir.model,name:sale_order_limit_credit.model_sale_order
+msgid "Quotation"
+msgstr "Cotización"
+
+#. module: sale_order_limit_credit
+#: model:ir.ui.view,arch_db:sale_order_limit_credit.sale_order_limit_credit_view
+msgid "The client is currently blocked due to pending invoices. Please contact him for prompt payment."
+msgstr "El cliente está actualmente bloqueado debido a las facturas pendientes. Por favor, póngase en contacto con él para el pago puntual."
+
+#. module: sale_order_limit_credit
+#: model:ir.ui.view,arch_db:sale_order_limit_credit.sale_order_limit_credit_view
+#: model:res.groups,name:sale_order_limit_credit.group_sale_order_unlock
+msgid "Unlock"
+msgstr "Desbloquear"
+
+#. module: sale_order_limit_credit
+#: model:ir.model,name:sale_order_limit_credit.model_res_config_settings
+msgid "res.config.settings"
+msgstr "res.config.settings"

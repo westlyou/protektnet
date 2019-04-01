@@ -11,9 +11,11 @@
     'version': '11.0.1.0.0',
     'depends': [
         'sale',
-        'purchase',
+        'sale_stock',
+        'purchase_order_customs',
     ],
     'data': [
         'views/sale_order_view.xml',
+        'views/purchase_order_view.xml',
     ]
 }

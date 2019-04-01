@@ -20,4 +20,17 @@
             </xpath>
         </field>
     </record>
+    <record id="sale_order_customs_view_search" model="ir.ui.view">
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_sales_order_filter"/>
+        <field name="sequence">90</field>
+        <field name="arch" type="xml">
+            <xpath expr="//group/filter[@name='customer']" position="after">
+                <filter string="Delevery Status" domain="[]" context="{'group_by':'delevery_status'}"/>
+            </xpath>
+            <xpath expr="//field[@name='user_id']" position="after">
+                <field name="delevery_status"></field>
+            </xpath>
+        </field>
+    </record>
 </odoo>
