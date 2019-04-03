@@ -42,6 +42,8 @@ class SaleOrder(models.Model):
             'state': default_so_state,
             'x_studio_field_jaeoa': self.partner_id.id,
             'partner_id': self.get_partner_id(),
+            'currency_id': self.get_partner_id(
+            ).property_purchase_currency_id.id,
             'sale_order_id': self.id,
             'x_start_date': self.x_studio_field_nJisW,
             'x_end_date': self.	x_studio_field_vqN4P,
