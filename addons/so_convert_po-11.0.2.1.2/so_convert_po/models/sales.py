@@ -41,7 +41,7 @@ class SaleOrder(models.Model):
         self.purchase_order_id = self.env['purchase.order'].create({
             'state': default_so_state,
             'x_studio_field_jaeoa': self.partner_id.id,
-            'partner_id': self.get_partner_id(),
+            'partner_id': self.get_partner_id().id,
             'currency_id': self.get_partner_id(
             ).property_purchase_currency_id.id,
             'sale_order_id': self.id,
@@ -80,5 +80,5 @@ class SaleOrder(models.Model):
         if not partner:
             raise ValidationError('Error in configuration of the sellers')
         if len(partner) > 1:
-            return partner[0].id
-        return partner.id
+            return partner[0]
+        return partner
