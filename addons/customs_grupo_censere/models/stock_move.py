@@ -30,7 +30,7 @@ class StockMoveLine(models.Model):
                     res.picking_id.picking_type_code == 'outgoing'):
                 quant = self.env['stock.quant'].search([
                     ('id', 'in', res.lot_id.quant_ids.ids),
-                    ('location_id', '=', 82)])
+                    ('location_id', 'in', [82, 16])])
                 sml_pickings = self.env['stock.move.line'].search([
                     ('lot_id', '=', res.lot_id.id),
                     ('state', '!=', 'done'),

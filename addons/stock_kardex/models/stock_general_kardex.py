@@ -26,8 +26,9 @@ class StockKardexGeneral(models.AbstractModel):
             {'name': (_("Date") if not self._context.get('print_mode', False) else ""), 'class': 'date'},
             {'name': (_("Quantity") if not self._context.get('print_mode', False) else ""), 'class': 'number'},
             {'name': _("UoM")},
-            {'name': _("Balance"), 'class': 'number'},
-            {'name': _("List Price"), 'class': 'number'},
+            {'name': "" if not self._context.get('print_mode', False) else _("Description")},
+            {'name': _("Stock"), 'class': 'number'},
+            {'name': _("MSRP"), 'class': 'number'},
         ]
 
     @api.model
@@ -154,7 +155,7 @@ class StockKardexGeneral(models.AbstractModel):
                 'name': product.name,
                 'columns': (
                     [{'name': v} for v in [
-                        product.uom_id.name, '%.2f' %
+                        product.uom_id.name, "" if not self.env.context.get('print_mode', False) else product.description, '%.2f' %
                         (sum([x['qty_done'] for x in moves]) + balance),
                         '$ ' + '%.2f' % product.list_price]]),
                 'level': 2,
@@ -191,7 +192,7 @@ class StockKardexGeneral(models.AbstractModel):
                                 line['location_dest_id'] == location
                                 else 'OUT --> %s' %
                                 location_dest_id.name,
-                                line['date'], '%.2f' % line[
+                                line['date'], "", '%.2f' % line[
                                     'qty_done'], '', '%.2f' % balance, '']],
                             'level': 4,
                             'caret_options': 'stock.move.line',

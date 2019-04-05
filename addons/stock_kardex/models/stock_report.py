@@ -442,6 +442,7 @@ class StockReport(models.AbstractModel):
             'font_name': 'Arial',
             'bold': False,
             'top': 2})
+        level_2_style.set_text_wrap()
         level_2_style_left = workbook.add_format({
             'font_name': 'Arial',
             'bold': False,
@@ -464,18 +465,18 @@ class StockReport(models.AbstractModel):
             'valign': 'vcenter',
         })
 
-        binaryData = self.env.user.company_id.partner_id.image_medium
-        image = io.BytesIO(base64.b64decode(binaryData))
+        binary_data = self.env.user.company_id.partner_id.image_medium
+        image = io.BytesIO(base64.b64decode(binary_data))
         sheet.set_row(0, 100)
-        sheet.merge_range('A1:D1', ' ', merge_format)
+        sheet.merge_range('A1:E1', ' ', merge_format)
         sheet.insert_image(
             'A1:D1', 'image',
             {'image_data': image, 'x_offset': 15, 'y_offset': 10})
-        sheet.merge_range('A2:D2', self.env.user.company_id.name, merge_format)
-        sheet.merge_range('A2:D2', self.env.user.company_id.name, merge_format)
+        sheet.merge_range('A2:E2', self.env.user.company_id.name, merge_format)
+        sheet.merge_range('A2:E2', self.env.user.company_id.name, merge_format)
         sheet.merge_range('A3:B3', _('Stock Kardex'), merge_format)
         sheet.merge_range(
-            'C3:D3', fields.Date.context_today(self), merge_format)
+            'C3:E3', fields.Date.context_today(self), merge_format)
         x = 0
         y_offset = 3
         for column in [x for x in self.with_context(
@@ -497,9 +498,11 @@ class StockReport(models.AbstractModel):
         sheet.set_column(
             'B:B', max([len(x['columns'][0]['name']) for x in lines]))
         sheet.set_column(
-            'C:C', max([len(x['columns'][1]['name']) for x in lines]))
+            'C:C', 50)
         sheet.set_column(
             'D:D', max([len(x['columns'][2]['name']) for x in lines]))
+        sheet.set_column(
+            'E:E', max([len(x['columns'][3]['name']) for x in lines]))
         for y in range(0, len(lines)):
             if lines[y].get('level') == 2:
                 style_left = level_2_style_left
