@@ -38,12 +38,13 @@ class SaleOrder(models.Model):
         self.ensure_one()
         default_so_state = (
             self.env['res.config.settings'].get_values().get('so_state'))
+        partner = self.get_partner_id()
         self.purchase_order_id = self.env['purchase.order'].create({
             'state': default_so_state,
             'x_studio_field_jaeoa': self.partner_id.id,
-            'partner_id': self.get_partner_id().id,
-            'currency_id': self.get_partner_id(
-            ).property_product_pricelist.currency_id.id,
+            'partner_id': partner.id,
+            'currency_id': partner.property_product_pricelist.currency_id.id,
+            'payment_term_id': partner.property_supplier_payment_term_id.id,
             'sale_order_id': self.id,
             'x_start_date': self.x_studio_field_nJisW,
             'x_end_date': self.	x_studio_field_vqN4P,
