@@ -46,7 +46,7 @@ class StockReport(models.AbstractModel):
         date_string = "%s-%s-01"
         if month < 10:
             date_string = "%s-0%s-01"
-        month_start = date_string % (today.year, month)
+        month_start = date_string % (today.year, 1)
         return month_start
 
     @api.model
