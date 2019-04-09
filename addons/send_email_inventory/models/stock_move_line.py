@@ -39,14 +39,11 @@ class ResCompany(models.Model):
                 today.year - 1, month)[1])
         return month_end
 
-    def send_mail_rackmount(self, name, email_to, email_from):
-        Mail = self.env['mail.mail']
-        server = self.env['ir.mail_server'].search([
-                ('active', '=', False), ('id', '=', 5),
-                ('company_id', '=', 3)])
-        values = self._prepare_values(name, email_to, email_from, server)
-        Mail.with_context(cron_server=True).create(values)
-        Mail.send()
+    def send_mail_rackmount(self, name, email_to, email_from, id_server):
+        mail = self.env['mail.mail']
+        values = self._prepare_values(name, email_to, email_from, id_server)
+        mail.with_context(cron_server=True).create(values)
+        mail.send()
         self.env['ir.attachment'].search([(
             'name', '=',
             'Stock Kardex_' + fields.Date.context_today(self),)])
@@ -59,7 +56,7 @@ class ResCompany(models.Model):
             'email_from': email_from,
             'email_to': email_to,
             'attachment_ids': [(6, 0, [self.create_attachment()])],
-            'mail_server_id': server.id,
+            'mail_server_id': server,
             'body_html': (
                 '<table width="650" border="0" cellpadding="0" '
                 'bgcolor="#875A7B" style="text-align: left; '
@@ -70,7 +67,8 @@ class ResCompany(models.Model):
                 '<span style="font-size: 20px; color: white; '
                 'font-weight: bold;">Stock of Rackmount</span></td>'
                 '<td valign="middle" align="right" style="text-align: left;">'
-                '<img t-if="company.logo" t-att-src="'+url+' % to_text(company.logo)" class="pull-left"/>'
+                '<img t-if="company.logo" t-att-src="' + url +
+                ' % to_text(company.logo)" class="pull-left"/>'
                 '</td></tr></tbody></table><table width="650" border="0" '
                 'cellpadding="0" bgcolor="#ffffff" style="text-align: left; '
                 'background-color: rgb(255, 255, 255); min-width: 590px; '
@@ -98,13 +96,11 @@ class ResCompany(models.Model):
                 '<br></p>')
         }
 
-    def get_columns_name(self, ):
+    def get_columns_name(self):
         return [
-            {'name':
-                '' if not self._context.get('print_mode', False)
+            {'name': '' if not self._context.get('print_mode', False)
                 else _("Product")},
-            {'name':
-                _("Type") if not self._context.get('print_mode', False)
+            {'name': _("Type")if not self._context.get('print_mode', False)
                 else ""},
             {'name': (
                 _("Date") if not self._context.get('print_mode', False)
@@ -113,21 +109,23 @@ class ResCompany(models.Model):
                 _("Quantity") if not self._context.get('print_mode', False)
                 else ""), 'class': 'number'},
             {'name': _("UoM")},
-            {'name': _("Balance"), 'class': 'number'},
-            {'name': _("List Price"), 'class': 'number'},
+            {'name': "" if not self._context.get('print_mode', False)
+                else _("Description")},
+            {'name': _("Stock"), 'class': 'number'},
+            {'name': _("MSRP"), 'class': 'number'},
         ]
 
     def create_attachment(self):
         output = io.BytesIO()
         workbook = xlsxwriter.Workbook(output)
         sheet = workbook.add_worksheet('stock_rackmount')
-        def_style = workbook.add_format({'font_name': 'Arial'})
         title_style = workbook.add_format(
             {'font_name': 'Arial', 'bold': True, 'bottom': 2})
         level_2_style = workbook.add_format({
             'font_name': 'Arial',
             'bold': False,
             'top': 2})
+        level_2_style.set_text_wrap()
         level_2_style_left = workbook.add_format({
             'font_name': 'Arial',
             'bold': False,
@@ -150,18 +148,18 @@ class ResCompany(models.Model):
             'valign': 'vcenter',
         })
 
-        binaryData = self.env.user.company_id.logo
-        image = io.BytesIO(base64.b64decode(binaryData))
+        binary_data = self.env.user.company_id.logo
+        image = io.BytesIO(base64.b64decode(binary_data))
         sheet.set_row(0, 100)
-        sheet.merge_range('A1:D1', ' ', merge_format)
+        sheet.merge_range('A1:E1', ' ', merge_format)
         sheet.insert_image(
-            'A1:D1', 'image',
+            'A1:E1', 'image',
             {'image_data': image, 'x_offset': 15, 'y_offset': 10})
-        sheet.merge_range('A2:D2', self.env.user.company_id.name, merge_format)
-        sheet.merge_range('A2:D2', self.env.user.company_id.name, merge_format)
+        sheet.merge_range('A2:E2', self.env.user.company_id.name, merge_format)
+        sheet.merge_range('A2:E2', self.env.user.company_id.name, merge_format)
         sheet.merge_range('A3:B3', _('Stock Kardex'), merge_format)
         sheet.merge_range(
-            'C3:D3', fields.Date.context_today(self), merge_format)
+            'C3:E3', fields.Date.context_today(self), merge_format)
         x = 0
         y_offset = 3
         for column in [x for x in self.with_context(
@@ -179,9 +177,11 @@ class ResCompany(models.Model):
         sheet.set_column(
             'B:B', max([len(x['columns'][0]['name']) for x in lines]))
         sheet.set_column(
-            'C:C', max([len(x['columns'][1]['name']) for x in lines]))
+            'C:C', 50)
         sheet.set_column(
             'D:D', max([len(x['columns'][2]['name']) for x in lines]))
+        sheet.set_column(
+            'E:E', max([len(x['columns'][3]['name']) for x in lines]))
         for y in range(0, len(lines)):
             if lines[y].get('level') == 2:
                 style_left = level_2_style_left
@@ -215,7 +215,9 @@ class ResCompany(models.Model):
         attach_id = self.env['ir.attachment'].create({
             'name': 'Stock Kardex_' + fields.Date.context_today(self),
             'type': 'binary',
-            'datas_fname': 'Stock_Kardex_' + fields.Date.context_today(self) + '.xlsx',
+            'datas_fname': (
+                'Stock_Kardex_' + fields.Date.context_today(self) +
+                '.xlsx'),
             'datas': base64.encodebytes(output.read()),
         })
         return attach_id.id
@@ -269,7 +271,7 @@ class ResCompany(models.Model):
                 'name': product.name,
                 'columns': (
                     [{'name': v} for v in [
-                        product.uom_id.name, '%.2f' %
+                        product.uom_id.name, product.description, '%.2f' %
                         (sum([x['qty_done'] for x in moves]) + balance),
                         '$ ' + '%.2f' % product.list_price]]),
                 'level': 2,

@@ -15,7 +15,7 @@ class ProcurementRule(models.Model):
         res = super(ProcurementRule, self)._prepare_purchase_order_line(
             product_id, product_qty, product_uom, values, po, supplier)
         line = values.get('move_dest_ids').sale_line_id
-        seller = product_id.seller_ids.with_context(
+        seller = product_id.variant_seller_ids.with_context(
             vendor=po.partner_id).filtered(
             lambda x: x.name == x._context.get('vendor') and
             x.company_id == x.env.user.company_id)

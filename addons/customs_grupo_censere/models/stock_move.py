@@ -2,6 +2,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 from odoo import _, api, fields, models
+from odoo.exceptions import ValidationError
 
 
 class StockMoveLine(models.Model):
@@ -28,9 +29,20 @@ class StockMoveLine(models.Model):
         for res in moves:
             if (res.lot_id and res.product_uom_qty == 0.0 and
                     res.picking_id.picking_type_code == 'outgoing'):
-                quant = self.env['stock.quant'].search([
-                    ('id', 'in', res.lot_id.quant_ids.ids),
-                    ('location_id', '=', 82)])
+                quant = res.lot_id.quant_ids.filtered(
+                    lambda x: x.location_id.usage == 'internal' and
+                    x.lot_id.company_id == x.env.user.company_id
+                )
+                if not quant:
+                    picki = self.search([
+                        ('location_id.usage', '=', 'internal'),
+                        ('location_dest_id.usage', '=', 'customer'),
+                        ('lot_id', '=', res.lot_id.id), ('state', '=', 'done')]
+                    )
+                    raise ValidationError(_(
+                        "The serial number that was selected has already been "
+                        "output, in the picking: %s, please check it.") %
+                        picki.reference)
                 sml_pickings = self.env['stock.move.line'].search([
                     ('lot_id', '=', res.lot_id.id),
                     ('state', '!=', 'done'),
