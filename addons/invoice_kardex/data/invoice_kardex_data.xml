@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="action_invoice_kardex_general" model="ir.actions.client">
+            <field name="name">Customes Invoices</field>
+            <field name="tag">invoice_report</field>
+            <field name="context" eval="{'model': 'invoice.kardex.general'}" />
+        </record>
+
+        <menuitem id="menu_action_invoice_kardex_general" name="Facturas a cobrar" action="action_invoice_kardex_general" parent="account_reports.account_reports_partners_reports_menu"/>
+
+        <template id="invoice_reports_backend" inherit_id="web.assets_backend" active="True">
+            <xpath expr="." position="inside">
+                <script type="text/javascript" src="/invoice_kardex/static/src/js/invoice_reports.js"></script>
+                <script type="text/javascript" src="/invoice_kardex/static/src/js/invoice_reports_followup.js"></script>
+                <link rel="stylesheet" href="/invoice_kardex/static/src/less/invoice_kardex_report.less" />
+            </xpath>
+        </template>
+    </data>
+</odoo>
