@@ -7,7 +7,7 @@
             <field name="context" eval="{'model': 'invoice.kardex.general'}" />
         </record>
 
-        <menuitem id="menu_action_invoice_kardex_general" name="Facturas a cobrar" action="action_invoice_kardex_general" parent="account_reports.account_reports_partners_reports_menu"/>
+        <menuitem id="menu_action_invoice_kardex_general" name="Invoices receivable" action="action_invoice_kardex_general" parent="account_reports.account_reports_partners_reports_menu"/>
 
         <template id="invoice_reports_backend" inherit_id="web.assets_backend" active="True">
             <xpath expr="." position="inside">

@@ -154,11 +154,11 @@ var InvoicekardexReportsWidget = Widget.extend(ControlPanelMixin, {
             self.report_options.date.filter = $(this).data('filter');
             var error = false;
             if ($(this).data('filter') === 'custom') {
-                var date_from = self.$searchview_buttons.find('.o_datepicker_input[name="date_from"]');
+                var date_today = self.$searchview_buttons.find('.o_datepicker_input[name="date_today"]');
                 var date_to = self.$searchview_buttons.find('.o_datepicker_input[name="date_to"]');
-                if (date_from.length > 0){
-                    error = date_from.val() === "" || date_to.val() === "";
-                    self.report_options.date.date_from = field_utils.parse.date(date_from.val());
+                if (date_today.length > 0){
+                    error = date_today.val() === "" || date_to.val() === "";
+                    self.report_options.date.date_today = field_utils.parse.date(date_today.val());
                     self.report_options.date.date_to = field_utils.parse.date(date_to.val());
                 }
                 else {
@@ -172,31 +172,17 @@ var InvoicekardexReportsWidget = Widget.extend(ControlPanelMixin, {
                 self.reload();
             }
         });
-        // analytic filter
-        this.$searchview_buttons.find('.js_invoice_reports_product_auto_complete').select2();
-        if (self.report_options.product) {
-            self.$searchview_buttons.find('[data-filter="product_ids"]').select2("val", self.report_options.product_ids);
-            self.$searchview_buttons.find('[data-filter="analytic_tags"]').select2("val", self.report_options.analytic_tags);
+        // partners
+        this.$searchview_buttons.find('.js_invoice_reports_partner_auto_complete').select2();
+        if (self.report_options.partner) {
+            self.$searchview_buttons.find('[data-filter="partner_ids"]').select2("val", self.report_options.partner_ids);
         }
-        this.$searchview_buttons.find('.js_invoice_reports_product_auto_complete').on('change', function(){
-            self.report_options.product_ids = self.$searchview_buttons.find('[data-filter="product_ids"]').val();
-            self.report_options.analytic_tags = self.$searchview_buttons.find('[data-filter="analytic_tags"]').val();
+        this.$searchview_buttons.find('.js_invoice_reports_partner_auto_complete').on('change', function(){
+            self.report_options.partner_ids = self.$searchview_buttons.find('[data-filter="partner_ids"]').val();
             return self.reload().then(function(){
-                self.$searchview_buttons.find('.stock_product_filter').click();
+                self.$searchview_buttons.find('.stock_partner_filter').click();
             })
         });
-        // filter brands
-        this.$searchview_buttons.find('.js_invoice_reports_brand_auto_complete').select2();
-        if (self.report_options.brand) {
-            self.$searchview_buttons.find('[data-filter="brand_ids"]').select2("val", self.report_options.brand_ids);
-        }
-        this.$searchview_buttons.find('.js_invoice_reports_brand_auto_complete').on('change', function(){
-            self.report_options.brand_ids = self.$searchview_buttons.find('[data-filter="brand_ids"]').val();
-            return self.reload().then(function(){
-                self.$searchview_buttons.find('.stock_brand_filter').click();
-            })
-        });
-
     },
     format_date: function(moment_date) {
         var date_format = 'YYYY-MM-DD';
@@ -204,7 +190,7 @@ var InvoicekardexReportsWidget = Widget.extend(ControlPanelMixin, {
     },
     renderButtons: function() {
         var self = this;
-        this.$buttons = $(QWeb.render("stockardexReports.buttons", {buttons: this.buttons}));
+        this.$buttons = $(QWeb.render("invoicekardexReports.buttons", {buttons: this.buttons}));
         // bind actions
         _.each(this.$buttons.siblings('button'), function(el) {
             $(el).click(function() {

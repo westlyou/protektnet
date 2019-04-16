@@ -12,8 +12,7 @@
 </template>
 
 <template id="line_caret_options">
-    <li t-if="line['caret_options'] == 'stock.move.line'" role="presentation"><a role="menuitem" tabindex="-1" t-att-data-id="line['id']" action="open_stock_move_line">View Move Line</a></li>
-    <li t-if="line['caret_options'] == 'stock.move.line'" role="presentation"><a role="menuitem" tabindex="-1" t-att-data-name="line['name']" action="open_stock_picking">View Stock Picking</a></li>
+    <li t-if="line['caret_options'] == 'account.invoice'" role="presentation"><a role="menuitem" tabindex="-1" t-att-data-id="line['id']" action="open_account_invoice">View Invoice</a></li>
 </template>
 
 <template id="line_template">

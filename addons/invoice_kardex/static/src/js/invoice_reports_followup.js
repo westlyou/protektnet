@@ -44,7 +44,7 @@ var invoice_report_followup = invoice_report.extend({
         return this.$pager;
     },
     render_searchview: function() {
-        this.$searchview = $(QWeb.render("stockardexReports.followupProgressbar", {options: this.report_options}));
+        this.$searchview = $(QWeb.render("invoicekardexReports.followupProgressbar", {options: this.report_options}));
     },
     change_trust: function(e) {
         var partner_id = $(e.target).parents('span.dropdown').data("partner");
