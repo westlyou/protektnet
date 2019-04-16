@@ -105,12 +105,15 @@ class InvoiceKardexGeneral(models.AbstractModel):
                 'name': partner.name,
                 'columns': (
                     [{'name': v} for v in [
-                     partner.phone, '$ ' + str(balance)]]),
+                     ("TEL: " + partner.phone if partner.phone else ""),
+                     ("Salesperson: " + partner.user_id.name
+                      if partner.user_id else ""),
+                     '$ ' + str(balance)]]),
                 'level': 2,
                 'unfoldable': True,
                 'unfolded': 'partner_%s' % (
                     partner_id) in options.get('unfolded_lines') or unfold_all,
-                'colspan': 8,
+                'colspan': 7,
             })
             if 'partner_%s' % (
                     partner_id) in options.get(

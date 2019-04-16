@@ -147,7 +147,7 @@ msgstr "Kardex de Facturación"
 #. module: invoice_kardex
 #: model:ir.ui.menu,name:invoice_kardex.menu_action_invoice_kardex_general
 msgid "Invoices receivable"
-msgstr "Invoices receivable"
+msgstr "Facturas a Cobrar"
 
 #. module: invoice_kardex
 #: model:ir.model.fields,field_description:invoice_kardex.field_invoice_kardex___last_update

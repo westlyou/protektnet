@@ -378,15 +378,12 @@ class InvoiceKardex(models.AbstractModel):
         level_2_style = workbook.add_format({
             'font_name': 'Arial',
             'bold': False,
-            'top': 2,
             'align': 'right',
         })
         level_2_style.set_text_wrap()
         level_2_style_right = workbook.add_format({
             'font_name': 'Arial',
-            'bold': False,
-            'top': 2,
-            'right': 2})
+            'bold': True,})
         level_2_style_right.set_bg_color('#808080')
         upper_line_style = workbook.add_format({
             'font_name': 'Arial', 'top': 2})
@@ -405,11 +402,11 @@ class InvoiceKardex(models.AbstractModel):
             'valign': 'vright',
         })
         merge_total.set_bg_color('#808080')
-        sheet.merge_range('A1:I1', self.env.user.company_id.name, merge_format)
+        sheet.merge_range('A1:J1', self.env.user.company_id.name, merge_format)
         sheet.merge_range(
-            'A2:I2', _("Summary of due accounts receivable"),
+            'A2:J2', _("Summary of due accounts receivable"),
             merge_format)
-        sheet.merge_range('A3:I3', "Al " + fields.Date.from_string(
+        sheet.merge_range('A3:J3', "Al " + fields.Date.from_string(
             fields.Date.today()).strftime("%a, %d %B, %Y"), merge_format)
         x = 0
         y_offset = 3
@@ -432,6 +429,7 @@ class InvoiceKardex(models.AbstractModel):
         sheet.set_column('C:C', 23)
         sheet.set_column('D:D', 15)
         sheet.set_column('E:E', 15)
+
         for y in range(0, len(lines)):
             if lines[y].get('level') == 2:
                 style = level_2_style_right
@@ -442,17 +440,24 @@ class InvoiceKardex(models.AbstractModel):
                 sheet.write(y + y_offset, x, None, style)
             for x in range(1, len(lines[y]['columns']) + 1):
                 if (lines[y].get('level') == 2 and
-                    lines[y].get('colspan') == 8 and
+                    lines[y].get('colspan') == 7 and
                         lines[y]['columns'][x - 1].get('name', '')):
-                    if '$' in lines[y]['columns'][x - 1].get('name', ''):
+                    if 'TEL:' in lines[y]['columns'][x - 1].get('name', ''):
                         sheet.merge_range(
-                            'G' + str(y + y_offset + 1) + ':J' +
+                            'B' + str(y + y_offset + 1) + ':D' +
+                            str(y + y_offset + 1),
+                            lines[y]['columns'][x - 1].get('name', ''),
+                            merge_total)
+                    if 'Salesperson:' in lines[y]['columns'][x - 1].get(
+                            'name', ''):
+                        sheet.merge_range(
+                            'E' + str(y + y_offset + 1) + ':G' +
                             str(y + y_offset + 1),
                             lines[y]['columns'][x - 1].get('name', ''),
                             merge_total)
                     else:
                         sheet.merge_range(
-                            'B' + str(y + y_offset + 1) + ':F' +
+                            'H' + str(y + y_offset + 1) + ':J' +
                             str(y + y_offset + 1),
                             lines[y]['columns'][x - 1].get('name', ''),
                             merge_total)
