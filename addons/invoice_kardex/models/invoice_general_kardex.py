@@ -84,14 +84,14 @@ class InvoiceKardexGeneral(models.AbstractModel):
         return invoices[0]['residual']
 
     def get_initial_dates(self, invoice):
-        sale = self.env['sale.order'].search([
-            ('name', '=', invoice.origin)])
+        sale = self.env['sale.order'].search([('name', '=', invoice.origin)])
         if len(sale.invoice_ids.filtered(
                 lambda inv: inv.state != 'cancel')) == 1:
             return invoice.date, invoice.date_due
         else:
             inv_refund = sale.invoice_ids.filtered(
-                lambda inv: inv.state != 'cancel' and inv.payment_ids)
+                lambda inv: inv.state != 'cancel' and inv.state == 'paid' and
+                inv.type == 'out_invoice')
             return inv_refund.date, inv_refund.date_due
 
     @api.model
