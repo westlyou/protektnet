@@ -6,8 +6,8 @@ from odoo.exceptions import ValidationError
 from odoo.tools.float_utils import float_compare
 
 
-class StockProductionLot(models.Model):
-    _inherit = 'stock.production.lot'
+class StockQuant(models.Model):
+    _inherit = 'stock.quant'
 
     @api.constrains('quantity')
     def check_quantity(self):
