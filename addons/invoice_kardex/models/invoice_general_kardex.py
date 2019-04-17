@@ -83,6 +83,17 @@ class InvoiceKardexGeneral(models.AbstractModel):
             ['partner_id'])
         return invoices[0]['residual']
 
+    def get_initial_dates(self, invoice):
+        sale = self.env['sale.order'].search([
+            ('name', '=', invoice.origin)])
+        if len(sale.invoice_ids.filtered(
+                lambda inv: inv.state != 'cancel')) == 1:
+            return invoice.date, invoice.date_due
+        else:
+            inv_refund = sale.invoice_ids.filtered(
+                lambda inv: inv.state != 'cancel' and inv.payment_ids)
+            return inv_refund.date, inv_refund.date_due
+
     @api.model
     def get_lines(self, options, line_id=None):
         lines = []
@@ -120,12 +131,13 @@ class InvoiceKardexGeneral(models.AbstractModel):
                     'unfolded_lines') or unfold_all:
                 for line in invoices:
                     invoice = invoice_obj.browse(line['invoice_id'])
+                    start_date, end_date = self.get_initial_dates(invoice)
                     days = (fields.Date.from_string(
                         fields.Date.context_today(self)) -
-                        fields.Date.from_string(invoice.date_due)).days
+                        fields.Date.from_string(end_date)).days
                     days_of_credit = (
-                        fields.Date.from_string(invoice.date_due) -
-                        fields.Date.from_string(invoice.date)).days
+                        fields.Date.from_string(end_date) -
+                        fields.Date.from_string(start_date)).days
                     message = invoice.message_ids.filtered(
                         lambda msg: msg.message_type == 'comment')
                     line_value = {
@@ -133,8 +145,10 @@ class InvoiceKardexGeneral(models.AbstractModel):
                         'parent_id': 'partner_%s' % (partner_id),
                         'name': line['number'],
                         'columns': [{'name': v} for v in [
-                            line['date'].strftime("%a, %d %B, %Y"),
-                            line['date_due'].strftime("%a, %d %B, %Y"),
+                            fields.Date.from_string(start_date).strftime(
+                                "%a, %d %B, %Y"),
+                            fields.Date.from_string(end_date).strftime(
+                                "%a, %d %B, %Y"),
                             days_of_credit,
                             days if days > 0 else 0,
                             '$ ' + str(line['residual'] if days < 0 else 0.00),
