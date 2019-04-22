@@ -1,0 +1,63 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* project_analytic
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 12.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-12-14 17:45+0000\n"
+"PO-Revision-Date: 2018-12-14 17:45+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: project_analytic
+#: model:ir.model,name:project_analytic.model_account_analytic_account
+#: model:ir.model.fields,field_description:project_analytic.field_project_project__analytic_account_id
+msgid "Analytic Account"
+msgstr "Cuenta Analítica"
+
+#. module: project_analytic
+#: model:ir.model.fields,field_description:project_analytic.field_project_task__analytic_tag_id
+msgid "Analytic Tag"
+msgstr "Etiqueta Analítica"
+
+#. module: project_analytic
+#: model:ir.model.fields,help:project_analytic.field_project_project__analytic_account_id
+msgid "Link this project to an analytic account if you need financial management on projects. It enables you to connect projects with budgets, planning, cost and revenue analysis, timesheets on projects, etc."
+msgstr "Enlace este proyecto a una cuenta analítica si necesita la gestión "
+"financiera de los proyectos. Le permite conectar los proyectos con "
+"presupuestos, planificación, análisis de costes e ingresos, partes de horas "
+"de proyectos, etc."
+
+#. module: project_analytic
+#: code:addons/project_analytic/models/account_analytic_account.py:34
+#, python-format
+msgid "Please remove existing tasks in the project linked to the accounts you want to delete."
+msgstr "Por favor, elimine las tareas al proyecto vinculadas a las cuentas que "
+"quiere eliminar."
+
+#. module: project_analytic
+#: model:ir.model,name:project_analytic.model_project_project
+msgid "Project"
+msgstr "Proyecto"
+
+#. module: project_analytic
+#: model:ir.model.fields,field_description:project_analytic.field_account_analytic_account__project_count
+msgid "Project Count"
+msgstr "No. de Proyectos"
+
+#. module: project_analytic
+#: model:ir.model.fields,field_description:project_analytic.field_account_analytic_account__project_ids
+#: model_terms:ir.ui.view,arch_db:project_analytic.view_account_analytic_account_project_analytic_form
+msgid "Projects"
+msgstr "Proyectos"
+
+#. module: project_analytic
+#: model:ir.model,name:project_analytic.model_project_task
+msgid "Task"
+msgstr "Tarea"

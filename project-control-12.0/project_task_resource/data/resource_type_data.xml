@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo noupdate="1">
+    <record id="material_resource" model="resource.type">
+        <field name="name">Material</field>
+    </record>
+</odoo>

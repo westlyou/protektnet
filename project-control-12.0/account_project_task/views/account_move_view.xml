@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_move_line_form_account_project_task" model="ir.ui.view">
+        <field name="name">account.move.line.form</field>
+        <field name="model">account.move.line</field>
+        <field name="inherit_id" 
+               ref="account_project.view_move_line_form_account_project"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='project_id']" position="after">
+                <field name="task_id"/>
+            </xpath>
+        </field>
+    </record>
+    <record id="view_move_line_tree_account_project_task" model="ir.ui.view">
+        <field name="name">account.move.line.tree</field>
+        <field name="model">account.move.line</field>
+        <field name="inherit_id" ref="account_project.view_move_line_tree_account_project"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='project_id']" position="after">
+                <field name="task_id"/>
+            </xpath>
+        </field>
+    </record>
+    <record id="view_account_move_line_filter_account_project_task" model="ir.ui.view">
+        <field name="name">Journal Items</field>
+        <field name="model">account.move.line</field>
+        <field name="inherit_id" ref="account_project.view_account_move_line_filter_account_project"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='project_id']" position="after">
+                <field name="task_id"/>
+            </xpath>
+            <xpath expr="//filter[@name='project']" position="after">
+                <filter string="Task" name="task" domain="[]" context="{'group_by':'task_id'}"/>
+            </xpath>
+        </field>
+    </record>
+    <record id="view_move_form_account_project_task" model="ir.ui.view">
+        <field name="name">account.move.form</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account_project.view_move_form_account_project"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='line_ids']/tree//field[@name='project_id']" position="after">
+                <field name="task_id"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

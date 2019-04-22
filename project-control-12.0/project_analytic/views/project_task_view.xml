@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_project_task_project_analytic_form" model="ir.ui.view">
+        <field name="name">view.project.task.project.analytic.form</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.view_task_form2"/>
+        <field name="arch" type="xml">
+            <field name="tag_ids" position="after">
+                <field name="analytic_tag_id" readonly="1" groups="analytic.group_analytic_tags"/>
+            </field>
+        </field>
+    </record>
+    <record id="view_project_task_wbs_analytic_pivot" model="ir.ui.view">
+        <field name="name">viwq.project.task.wbs.analytic.pivot</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.view_project_task_pivot"/>
+        <field name="arch" type="xml">
+            <field name="project_id" position="after">
+                <field name="analytic_tag_id" type="row" groups="analytic.group_analytic_tags"/>
+            </field>
+        </field>
+    </record>
+</odoo>

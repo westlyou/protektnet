@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_account_analytic_account_user,account.analytic.account,analytic.model_account_analytic_account,project.group_project_user,1,0,0,0
+access_account_analytic_account_manager,account.analytic.account,analytic.model_account_analytic_account,project.group_project_manager,1,1,1,1
+access_account_analytic_account_portal,account_analytic_account,analytic.model_account_analytic_account,base.group_portal,1,0,0,0
+access_account_analytic_tag_user,account.analytic.tag,analytic.model_account_analytic_tag,project.group_project_user,1,0,0,0
+access_account_analytic_tag_manager,account.analytic.tag,analytic.model_account_analytic_tag,project.group_project_manager,1,1,1,1
+access_account_analytic_tag_portal,account_analytic_tag,analytic.model_account_analytic_tag,base.group_portal,1,0,0,0

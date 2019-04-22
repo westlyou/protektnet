@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_project_task_resource_form" model="ir.ui.view">
+        <field name="name">view.project.task.resource.form</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.view_task_form2"/>
+        <field name="arch" type="xml">
+            <div class="oe_button_box" name="button_box">
+                <button class="oe_stat_button" icon="fa-tasks" name="action_task_resource_total" string="Resource(s)" type="object"/>
+            </div>
+            <xpath expr="//notebook" position="before">
+                <group>
+                    <group class="oe_subtotal_footer oe_right" style="margin-right:10%;">
+                        <field class="oe_left" name="uom_id" required="1" />
+                        <field class="oe_left" name="unit_price" required="1" />
+                        <field class="oe_left" name="qty" sum="Total qty" />
+                        <field class="oe_left" name="subtotal"/>
+                    </group>
+                </group>
+            </xpath>
+            <notebook position="inside">
+                <page attrs="{'invisible':[('id', '=', False)]}" name="Unit Resources" string="Resources">
+                    <field name="resource_ids" nolabel="1">
+                        <tree editable="top">
+                            <field name="product_id" required="1"/>
+                            <field name="description" required="1"/>
+                            <field name="resource_type_id" required="1" options="{'no_open': 1, 'no_create': 1, 'no_create_edit': 1}"/>
+                            <field name="uom_id" required="1"/>
+                            <field name="qty" required="1" sum="Total qty"/>
+                            <field name="unit_price"/>
+                        </tree>
+                    </field>
+                </page>
+                 <page attrs="{'invisible':[('id', '=', False)]}" name="total" string="Total Resource(s)">
+                    <field name="total_resource_ids" nolabel="1" readonly="1">
+                        <tree editable="top">
+                            <field name="product_id"/>
+                            <field name="description"/>
+                            <field name="resource_type_id"/>
+                            <field name="uom_id" required="1"/>
+                            <field name="qty" sum="Total qty"/>
+                            <field name="subtotal" sum="subtotal"/>
+                        </tree>
+                    </field>
+                </page>
+            </notebook>
+        </field>
+    </record>
+    <record id="view_project_task_resource_kanban" model="ir.ui.view">
+        <field name="name">view.project.task.kanban</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.view_task_kanban"/>
+        <field name="arch" type="xml">
+            <field name="name" position="after">
+                <div>
+                    <label>Total Planned: $</label>
+                    <field name="subtotal"/>
+                </div>
+            </field>
+        </field>
+    </record>
+    <record id="view_project_task_resource_tree" model="ir.ui.view">
+        <field name="name">view.project.task.tree</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.view_task_tree2"/>
+        <field name="arch" type="xml">
+            <field name="project_id" position="after">
+                <field name ="uom_id"/>
+                <field name="qty" sum="Total Qty"/>
+                <field name="uom_id"/>
+                <field name="unit_price"/>
+                <field name="subtotal" sum="subtotal"/>
+            </field>
+        </field>
+    </record>
+</odoo>

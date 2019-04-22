@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record model="ir.ui.view" id="project_task_po_wizard_form">
+        <field name="name">project_task_po_wizard.form</field>
+        <field name="model">project.task.po.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="partner_id" context="{'default_supplier': True, 'default_customer': False, }"/>
+                </group>
+                <field name="line_ids" nolabel="1">
+                    <tree create="0" editable="top">
+                        <field name="product_id"/>
+                        <field name="name"/>
+                        <field name="uom_id"/>
+                        <field name="unit_price"/>
+                        <field name="qty"/>
+                        <field name="subtotal"/>
+                    </tree>
+                </field>
+                <footer>
+                    <button class="oe_highlight" name="create_purchase_order" string="Create Purchase Order" type="object"/>
+                    <button class="oe_link" special="cancel" string="Cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+   <act_window 
+        id="action_view_project_task_po"
+        key2="client_action_multi"
+        name="Create Purchase Order"
+        res_model="project.task.po.wizard"
+        src_model="project.task"
+        target="new"
+        view_mode="form"/>
+
+</odoo>

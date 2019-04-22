@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record model="ir.ui.view" id="project_task_po_form">
+        <field name="name">project_task_po.form</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.view_task_form2"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button class="oe_stat_button" icon="fa-shopping-cart" name="show_purchase_order" string="Purchase Order" type="object"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

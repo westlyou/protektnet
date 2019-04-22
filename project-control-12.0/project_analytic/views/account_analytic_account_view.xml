@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_account_analytic_account_project_analytic_form" model="ir.ui.view">
+        <field name="name">view.account.analytic.account.project.analytic.form</field>
+        <field name="model">account.analytic.account</field>
+        <field name="inherit_id" ref="analytic.view_account_analytic_account_form"/>
+        <field eval="18" name="priority"/>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='toggle_active']" position="before">
+                <button class="oe_stat_button" type="object" name="projects_action"
+                    icon="fa-puzzle-piece" attrs="{'invisible': [('project_id', '=', False)]}">
+                    <field string="Project" name="project_id" widget="statinfo"/>
+                </button>
+            </xpath>
+        </field>
+    </record>
+</odoo>

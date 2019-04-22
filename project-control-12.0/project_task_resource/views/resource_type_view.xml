@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="resource_type_tree" model="ir.ui.view">
+        <field name="name">resource.type.tree</field>
+        <field name="model">resource.type</field>
+        <field name="arch" type="xml">
+            <tree editable="top" string="Resource type">
+                <field name='name'/>
+            </tree>
+        </field>
+    </record>
+    <record id="action_resource_type" model="ir.actions.act_window">
+        <field name="name">Resource type</field>
+        <field name="res_model">resource.type</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree</field>
+    </record>
+    <menuitem action="action_resource_type" id="resource_type_menu_id" name="Resource type" parent="project.menu_project_config"/>
+</odoo>

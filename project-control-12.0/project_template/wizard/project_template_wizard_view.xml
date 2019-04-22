@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_account_fiscalyear" model="ir.ui.view">
+        <field name="name">Project Template Wizard</field>
+        <field name="model">project.template.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group col="2">
+                        <field name="name" required="1"/>
+                        <field name="project_id" required="1"/>
+                    </group>
+                </sheet>
+                <footer>
+                    <button class="oe_highlight" name="create_from_template" string="Create Project from Template" type="object"/>
+                    <button special="cancel" string="Cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="action_project_template_wizard" model="ir.actions.act_window">
+        <field name="name">Project Template Wizard</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">project.template.wizard</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+    <menuitem id="project_template_wizard_menu" name="Create from Template" action="action_project_template_wizard" parent="project.menu_main_pm" sequence="1"/>
+</odoo>
