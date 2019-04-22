@@ -5,7 +5,7 @@
 from odoo import api, fields, models
 
 
-class ResCompany(models.Model):
+class ProductTemplate(models.Model):
     _inherit = 'product.template'
 
     product_brand = fields.Selection([

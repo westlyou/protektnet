@@ -50,4 +50,6 @@ class StockPicking(models.Model):
                     raise ValidationError(
                         _('Warning!! You can not give physical products out of'
                             ' stock. Communicate with your administrator.'))
-        return super(StockPicking, self).button_validate()
+        res = super(StockPicking, self).button_validate()
+        return res
+

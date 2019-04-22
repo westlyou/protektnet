@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record model="ir.ui.view" id="product_template_form_demos">
+        <field name="name">product.template.demos</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="stock.product_template_form_view_procurement_button"/>
+        <field name="arch" type="xml">
+            <data>
+                <xpath expr="//button[@name='action_open_quants']" position="before">
+                    <button type="object"
+                        name="action_open_quants"
+                        attrs="{'invisible':[('type', '!=', 'product')]}"
+                        class="oe_stat_button" icon="fa-building-o">
+                        <field name="qty_demos" widget="statinfo" string="Demos"/>
+                    </button>
+                </xpath>
+            </data>
+        </field>
+    </record>
+</odoo>
