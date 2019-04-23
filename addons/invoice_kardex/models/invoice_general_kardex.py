@@ -14,7 +14,7 @@ class InvoiceKardexGeneral(models.AbstractModel):
     filter_date = {
         'date_today': '',
         'filter': 'custom'}
-    filter_partner = True
+    filter_partners = True
     filter_unfold_all = False
 
     def get_columns_name(self, options):
@@ -44,19 +44,27 @@ class InvoiceKardexGeneral(models.AbstractModel):
         results = {}
         tz = self._context.get('tz', 'America/Mexico_City')
         select = (
-            """SELECT ai.id, ai.residual, ai.number, ai.partner_id,
+            """SELECT ai.id, ai.residual_company_signed, ai.number,
+            ai.partner_id,
             ai.date AT TIME ZONE 'UTC' AT TIME ZONE %s AS date,
-            ai.date_due AT TIME ZONE 'UTC' AT TIME ZONE %s AS date_due
+            ai.date_due AT TIME ZONE 'UTC' AT TIME ZONE %s AS date_due,
+            ai.currency_id AS currency
             FROM account_invoice ai
-            WHERE ai.residual != 0.0
+            WHERE ai.residual_company_signed != 0.0
             AND ai.type = 'out_invoice'
             AND ai.state = 'open'
             AND ai.company_id = %s
             """)
         if line_id:
             select += 'AND ai.partner_id = %s' % line_id
-        if options.get('partner_ids'):
-            select += 'AND ai.partner_id = %s' % options.get('partner_ids')[0]
+        # if options.get('partners'):
+        #     partners = [p.get('id') for p in options.get('partners') if
+        #                 p.get('selected')]
+        #     if partners:
+        #         if len(partners) == 1:
+        #             select += 'AND ai.partner_id = %s' % partners[0]
+        #         else:
+        #             select += 'AND ai.partner_id in %s' % tuple(partners)
         select += ' ORDER BY ai.date'
         if not options['date']['date_today']:
             options['date']['date_today'] = fields.Date.context_today(self)
@@ -66,11 +74,12 @@ class InvoiceKardexGeneral(models.AbstractModel):
             if item['partner_id'] not in results.keys():
                 results[item['partner_id']] = []
             results[item['partner_id']].append({
-                'residual': item['residual'],
+                'residual_company_signed': item['residual_company_signed'],
                 'number': item['number'],
                 'date': item['date'],
                 'date_due': item['date_due'],
                 'invoice_id': item['id'],
+                'currency': item['currency']
             })
         return results
 
@@ -79,26 +88,39 @@ class InvoiceKardexGeneral(models.AbstractModel):
         invoices = self.env['account.invoice'].read_group(
             [('partner_id', '=', partner_id),
              ('state', '=', 'open')],
-            ['partner_id', 'residual'],
+            ['partner_id', 'residual_company_signed'],
             ['partner_id'])
-        return invoices[0]['residual']
+        return invoices[0]['residual_company_signed']
+
+    def addComa(self, snum):
+        s = snum
+        i = s.index('.')
+        while i > 3:
+            i = i - 3
+            s = s[:i] + ',' + s[i:]
+        return s
 
     def get_initial_dates(self, invoice):
         sale = self.env['sale.order'].search([('name', '=', invoice.origin)])
-        if len(sale.invoice_ids.filtered(
-                lambda inv: inv.state != 'cancel')) == 1:
+        if (len(sale.invoice_ids.filtered(
+                lambda inv: inv.state != 'cancel')) == 1 or
+                'out_refund' not in sale.invoice_ids.mapped('type')):
             return invoice.date, invoice.date_due
         else:
             inv_refund = sale.invoice_ids.filtered(
                 lambda inv: inv.state != 'cancel' and inv.state == 'paid' and
                 inv.type == 'out_invoice')
-            return inv_refund.date, inv_refund.date_due
+            date_due = (inv_refund.date_due if inv_refund.date_due else
+                        inv_refund.date)
+            return inv_refund.date, date_due
 
     @api.model
     def get_lines(self, options, line_id=None):
         lines = []
         partner_obj = self.env['res.partner']
         invoice_obj = self.env['account.invoice']
+        usd = self.env['res.currency'].browse(3)
+        mxn = self.env['res.currency'].browse(34)
         context = self.env.context
         line_id = line_id and int(line_id.split('_')[1]) or None
         data = self.do_query(options, line_id)
@@ -108,9 +130,14 @@ class InvoiceKardexGeneral(models.AbstractModel):
             unfold_all = True
         for partner_id, invoices in data.items():
             domain_lines = []
+            currencys = [inv.get('currency') for inv in invoices]
+            no_dolar = (34 in currencys and len(set(currencys)) == 1)
+            amount = self.get_initial_balance(partner_id)
             partner = partner_obj.browse(partner_id)
-            balance = 0
-            balance = self.get_initial_balance(partner_id)
+            balance = (
+                'MXN: ' + self.addComa('%.2f' % (amount)) +
+                ' - USD: ' + self.addComa('%.2f' % (mxn.compute(amount, usd)))
+            ) if not no_dolar else 'MXN: ' + self.addComa('%.2f' % (amount))
             lines.append({
                 'id': 'partner_%s' % (partner_id),
                 'name': partner.name,
@@ -118,8 +145,7 @@ class InvoiceKardexGeneral(models.AbstractModel):
                     [{'name': v} for v in [
                      ("TEL: " + partner.phone if partner.phone else ""),
                      ("Salesperson: " + partner.user_id.name
-                      if partner.user_id else ""),
-                     '$ ' + str(balance)]]),
+                      if partner.user_id else ""), balance]]),
                 'level': 2,
                 'unfoldable': True,
                 'unfolded': 'partner_%s' % (
@@ -140,10 +166,18 @@ class InvoiceKardexGeneral(models.AbstractModel):
                         fields.Date.from_string(start_date)).days
                     message = invoice.message_ids.filtered(
                         lambda msg: msg.message_type == 'comment')
+                    amount_line = line['residual_company_signed']
+                    value = (
+                        'MXN: ' + self.addComa('%.2f' % (amount_line)) +
+                        ' - USD: ' + self.addComa(
+                            '%.2f' % (mxn.compute(amount_line, usd)))
+                    ) if not no_dolar else 'MXN: ' + self.addComa(
+                        '%.2f' % (amount_line))
                     line_value = {
                         'id': line['invoice_id'],
                         'parent_id': 'partner_%s' % (partner_id),
-                        'name': line['number'],
+                        'name': (
+                            line['number'] + '-' + invoice.currency_id.name),
                         'columns': [{'name': v} for v in [
                             fields.Date.from_string(start_date).strftime(
                                 "%a, %d %B, %Y"),
@@ -151,15 +185,10 @@ class InvoiceKardexGeneral(models.AbstractModel):
                                 "%a, %d %B, %Y"),
                             days_of_credit,
                             days if days > 0 else 0,
-                            '$ ' + str(line['residual'] if days < 0 else 0.00),
-                            '$ ' + str(
-                                line['residual'] if days >= 1 and
-                                days <= 30 else 0.00),
-                            '$ ' + str(
-                                line['residual'] if days >= 31 and
-                                days <= 60 else 0.00),
-                            '$ ' + str(
-                                line['residual'] if days >= 61 else 0.00),
+                            value if days < 0 else '0.00',
+                            value if days >= 1 and days <= 30 else '0.00',
+                            value if days >= 31 and days <= 60 else '0.00',
+                            value if days >= 61 else '0.00',
                             message[0].body.replace(
                                 '<p>', '').replace(
                                 '</p>', '') if message else _("No message"),
@@ -174,3 +203,13 @@ class InvoiceKardexGeneral(models.AbstractModel):
     @api.model
     def get_report_name(self):
         return _("Customers")
+
+    @api.model
+    def get_report_rate(self):
+        usd = self.env['res.currency'].browse(3)
+        rate = 0.00
+        rates = usd.rate_ids.filtered(
+            lambda usd: usd.company_id == usd.env.user.company_id)
+        if rates:
+            rate = 1 / rates[0].rate
+        return rate
