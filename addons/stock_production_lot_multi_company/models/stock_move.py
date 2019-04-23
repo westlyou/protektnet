@@ -11,7 +11,8 @@ class StockMoveLine(models.Model):
     def create(self, vals):
         ml = super(StockMoveLine, self).create(vals)
         if (ml.move_id.purchase_line_id.order_id.sale_order_id.
-                client_order_ref and self.env.user.company_id.id == 3):
+                client_order_ref and self.env.user.company_id.id == 3 and
+                ml.lot_id):
             self.env['stock.production.lot'].create({
                 'name': ml.lot_id.name,
                 'product_id': ml.product_id.id,
