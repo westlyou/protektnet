@@ -30,7 +30,6 @@ class InvoiceKardex(models.AbstractModel):
     _name = 'invoice.kardex'
 
     filter_date = None
-    filter_partners = None
     filter_unfold_all = None
     filter_hierarchy = None
 
@@ -91,8 +90,6 @@ class InvoiceKardex(models.AbstractModel):
 
     @api.model
     def get_options(self, previous_options=None):
-        if self.filter_partners:
-            self.filter_partner_ids = [] if self.filter_partners else None
         return self._build_options(previous_options)
 
     def get_report_filename(self, options):
@@ -144,14 +141,14 @@ class InvoiceKardex(models.AbstractModel):
         if options.get('partners'):
             ctx['partner_ids'] = [
                 j.get('id') for j in
-                options.get('partners') if j.get('selected')]
+                options.get('partner_ids') if j.get('selected')]
         return ctx
 
     @api.multi
     def get_report_informations(self, options):
         options = self.get_options(options)
-
         searchview_dict = {'options': options, 'context': self.env.context}
+
         report_manager = self.get_report_manager(options)
         info = {'options': options,
                 'context': self.env.context,
@@ -219,12 +216,6 @@ class InvoiceKardex(models.AbstractModel):
 
     def get_report_manager(self, options):
         domain = [('report_name', '=', self._name)]
-        selected_companies = []
-        if options.get('multi_company'):
-            selected_companies = [c['id'] for c in options['multi_company']
-                                  if c.get('selected')]
-        if len(selected_companies) == 1:
-            domain += [('company_id', '=', selected_companies[0])]
         existing_manager = self.env['invoice.kardex.manager'].search(
             domain, limit=1)
         return existing_manager

@@ -143,9 +143,6 @@ var InvoicekardexReportsWidget = Widget.extend(ControlPanelMixin, {
             $(this).toggleClass('o_closed_menu o_open_menu');
             self.$searchview_buttons.find('.o_foldable_menu[data-filter="'+$(this).data('filter')+'"]').toggleClass('o_closed_menu o_open_menu');
         });
-         _.each(this.$searchview_buttons.find('.js_account_report_choice_filter'), function(k) {
-            $(k).toggleClass('selected', (_.filter(self.report_options[$(k).data('filter')], function(el){return ''+el.id == ''+$(k).data('id') && el.selected === true;})).length > 0);
-        });
         // render filter (add selected class to the options that are selected)
         _.each(self.report_options, function(k) {
             if (k!== null && k.filter !== undefined) {
@@ -174,29 +171,6 @@ var InvoicekardexReportsWidget = Widget.extend(ControlPanelMixin, {
             } else {
                 self.reload();
             }
-        });
-        // partners
-        this.$searchview_buttons.find('.js_account_report_choice_filter').click(function (event) {
-            var option_value = $(this).data('filter');
-            var option_id = $(this).data('id');
-            _.filter(self.report_options[option_value], function(el) {
-                if (''+el.id == ''+option_id){
-                    if (el.selected === undefined || el.selected === null){el.selected = false;}
-                    el.selected = !el.selected;
-                }
-                return el;
-            });
-            self.reload();
-        });
-        this.$searchview_buttons.find('.js_invoice_reports_partner_auto_complete').select2();
-        if (self.report_options.partner) {
-            self.$searchview_buttons.find('[data-filter="partner_ids"]').select2("val", self.report_options.partner_ids);
-        }
-        this.$searchview_buttons.find('.js_invoice_reports_partner_auto_complete').on('change', function(){
-            self.report_options.partner_ids = self.$searchview_buttons.find('[data-filter="partner_ids"]').val();
-            return self.reload().then(function(){
-                self.$searchview_buttons.find('.stock_partner_filter').click();
-            })
         });
     },
     format_date: function(moment_date) {

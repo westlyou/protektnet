@@ -7,41 +7,10 @@
                 <span class="js_format_date">
                     <t t-esc="options['date']['date_today']"/>
                 </span>
-                <span class="caret"/>
-        </template>
-        <template id="search_template_partners">
-            <a type="button" class="dropdown-toggle" data-toggle="dropdown">
-                <span class="fa fa-partner-hunt"/>
-                Partners:
-                <t t-set="partner_value" t-value="'All'"/>
-                <t t-foreach="options['partners']" t-as="j">
-                    <t t-if="j.get('selected') == True">
-                        <t t-set="partner_value" t-value="''"/>
-                        <t t-esc="j.get('name')"/>
-                    </t>
-                </t>
-                <t t-esc="partner_value"/>
-                <span class="caret"/>
-            </a>
-            <ul class="dropdown-menu o_filters_menu" role="menu">
-                <t t-foreach="options['partners']" t-as="j">
-                    <t t-if="j.get('id') == 'divider'">
-                        <li class="divider"></li>
-                        <li><b style="margin-left: 5px;"><t t-esc="j.get('name')"/></b></li>
-                        <li class="divider"></li>
-                    </t>
-                    <t t-if="j.get('id') != 'divider'">
-                        <li t-att-title="j.get('name')" t-att-data-id="j.get('id')" data-filter="partners" class="js_account_report_choice_filter"><a><t t-esc="j.get('name')"/></a></li>
-                    </t>
-                </t>
-            </ul>
         </template>
         <template id="search_template">
             <div class="btn-group o_dropdown o_invoice_reports_filter_date">
                 <t t-call="invoice_kardex.search_template_date_filter"/>
-            </div>
-            <div class="btn-group o_dropdown o_invoice_reports_filter_partner" t-if="options.get('partners') != None">
-                <t t-call="invoice_kardex.search_template_partners"/>
             </div>
         </template>
     </data>

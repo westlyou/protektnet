@@ -14,7 +14,6 @@ class InvoiceKardexGeneral(models.AbstractModel):
     filter_date = {
         'date_today': '',
         'filter': 'custom'}
-    filter_partners = True
     filter_unfold_all = False
 
     def get_columns_name(self, options):
@@ -57,14 +56,6 @@ class InvoiceKardexGeneral(models.AbstractModel):
             """)
         if line_id:
             select += 'AND ai.partner_id = %s' % line_id
-        # if options.get('partners'):
-        #     partners = [p.get('id') for p in options.get('partners') if
-        #                 p.get('selected')]
-        #     if partners:
-        #         if len(partners) == 1:
-        #             select += 'AND ai.partner_id = %s' % partners[0]
-        #         else:
-        #             select += 'AND ai.partner_id in %s' % tuple(partners)
         select += ' ORDER BY ai.date'
         if not options['date']['date_today']:
             options['date']['date_today'] = fields.Date.context_today(self)
