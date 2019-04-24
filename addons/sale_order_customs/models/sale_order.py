@@ -11,6 +11,10 @@ class SaleOrder(models.Model):
         string='Purchases',
         compute='_compute_purchase_count'
     )
+    mrp_count = fields.Integer(
+        string='Manufacturing',
+        compute='_compute_mrp_count'
+    )
     state = fields.Selection(selection_add=[('consignment', 'Consignment')])
     quote = fields.Char(string='Quote Number')
     deal = fields.Char(string='Deal Registration')
@@ -29,6 +33,13 @@ class SaleOrder(models.Model):
                     rec.mapped('order_line').ids)]).mapped('order_id')
             rec.purchase_count = len(pos)
 
+    @api.depends('order_line')
+    def _compute_mrp_count(self):
+        for rec in self:
+            mrps = self.env['mrp.production'].search([
+                ('origin', '=', rec.name)])
+            rec.mrp_count = len(mrps)
+
     @api.multi
     def action_view_purchase(self):
         context = dict(self._context or {})
@@ -43,6 +54,21 @@ class SaleOrder(models.Model):
             'view_id': False,
             'type': 'ir.actions.act_window',
             'domain': [('id', 'in', pos.ids)],
+            'context': context,
+        }
+
+    @api.multi
+    def action_view_mrp(self):
+        context = dict(self._context or {})
+        mrps = self.env['mrp.production'].search([('origin', '=', self.name)])
+        return {
+            'name': _('Manufacturing Orders'),
+            'view_type': 'form',
+            'view_mode': 'tree,form',
+            'res_model': 'mrp.production',
+            'view_id': False,
+            'type': 'ir.actions.act_window',
+            'domain': [('id', 'in', mrps.ids)],
             'context': context,
         }
 
