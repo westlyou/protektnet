@@ -22,11 +22,11 @@ class ProcurementRule(models.Model):
         tax_id = res['taxes_id'][0][2]
         taxes_id = self.env['account.tax'].browse(tax_id)
         price_unit = self.env['account.tax']._fix_tax_included_price_company(
-            seller.price, product_id.supplier_taxes_id, taxes_id,
+            seller[0].price, product_id.supplier_taxes_id, taxes_id,
             values['company_id']) if seller else 0.0
         if (price_unit and seller and po.currency_id and
-                seller.currency_id != po.currency_id):
-            price_unit = seller.currency_id.compute(
+                seller[0].currency_id != po.currency_id):
+            price_unit = seller[0].currency_id.compute(
                 price_unit, po.currency_id)
         if line:
             if line.order_id.name not in po.name:
