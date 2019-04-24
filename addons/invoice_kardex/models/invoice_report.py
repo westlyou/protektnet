@@ -30,7 +30,6 @@ class InvoiceKardex(models.AbstractModel):
     _name = 'invoice.kardex'
 
     filter_date = None
-    filter_partner = None
     filter_unfold_all = None
     filter_hierarchy = None
 
@@ -44,8 +43,6 @@ class InvoiceKardex(models.AbstractModel):
         for element in filter_list:
             filter_name = element[7:]
             options[filter_name] = getattr(self, element)
-        if options.get('partner'):
-            options['partner'] = self.get_partners()
 
         options['unfolded_lines'] = []
         for key, value in options.items():
@@ -88,10 +85,11 @@ class InvoiceKardex(models.AbstractModel):
     def get_report_name(self):
         return _('Invoice Kardex')
 
+    def get_report_rate(self):
+        return False
+
     @api.model
     def get_options(self, previous_options=None):
-        if self.filter_partner:
-            self.filter_partner_ids = [] if self.filter_partner else None
         return self._build_options(previous_options)
 
     def get_report_filename(self, options):
@@ -140,22 +138,17 @@ class InvoiceKardex(models.AbstractModel):
         ctx = self.env.context.copy()
         if options.get('date') and options['date'].get('date_today'):
             ctx['date_today'] = options['date']['date_today']
-        if options.get('partner_ids'):
-            ctx['filter_partner_ids'] = self.env[
-                'res.partner'].browse(
-                    [int(acc) for acc in options['partner_ids']])
+        if options.get('partners'):
+            ctx['partner_ids'] = [
+                j.get('id') for j in
+                options.get('partner_ids') if j.get('selected')]
         return ctx
 
     @api.multi
     def get_report_informations(self, options):
         options = self.get_options(options)
-
         searchview_dict = {'options': options, 'context': self.env.context}
-        # Check if report needs analytic
-        if options.get('partner') is not None:
-            searchview_dict['partner_ids'] = ([
-                (t.id, t.name) for t in
-                self.env['res.partner'].search([])] or False)
+
         report_manager = self.get_report_manager(options)
         info = {'options': options,
                 'context': self.env.context,
@@ -174,8 +167,10 @@ class InvoiceKardex(models.AbstractModel):
     @api.multi
     def get_html(self, options, line_id=None, additional_context=None):
         templates = self.get_templates()
-        report = {'name': self.get_report_name(),
-                  'company_name': self.env.user.company_id.name}
+        report = {
+            'name': self.get_report_name(),
+            'rate': '%.6f' % self.get_report_rate(),
+            'company_name': self.env.user.company_id.name}
         lines = self.with_context(
             self.set_context(options)).get_lines(options, line_id=line_id)
         rcontext = {
@@ -221,12 +216,6 @@ class InvoiceKardex(models.AbstractModel):
 
     def get_report_manager(self, options):
         domain = [('report_name', '=', self._name)]
-        selected_companies = []
-        if options.get('multi_company'):
-            selected_companies = [c['id'] for c in options['multi_company']
-                                  if c.get('selected')]
-        if len(selected_companies) == 1:
-            domain += [('company_id', '=', selected_companies[0])]
         existing_manager = self.env['invoice.kardex.manager'].search(
             domain, limit=1)
         return existing_manager
@@ -383,7 +372,7 @@ class InvoiceKardex(models.AbstractModel):
         level_2_style.set_text_wrap()
         level_2_style_right = workbook.add_format({
             'font_name': 'Arial',
-            'bold': True,})
+            'bold': True, })
         level_2_style_right.set_bg_color('#808080')
         upper_line_style = workbook.add_format({
             'font_name': 'Arial', 'top': 2})

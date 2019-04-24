@@ -172,17 +172,6 @@ var InvoicekardexReportsWidget = Widget.extend(ControlPanelMixin, {
                 self.reload();
             }
         });
-        // partners
-        this.$searchview_buttons.find('.js_invoice_reports_partner_auto_complete').select2();
-        if (self.report_options.partner) {
-            self.$searchview_buttons.find('[data-filter="partner_ids"]').select2("val", self.report_options.partner_ids);
-        }
-        this.$searchview_buttons.find('.js_invoice_reports_partner_auto_complete').on('change', function(){
-            self.report_options.partner_ids = self.$searchview_buttons.find('[data-filter="partner_ids"]').val();
-            return self.reload().then(function(){
-                self.$searchview_buttons.find('.stock_partner_filter').click();
-            })
-        });
     },
     format_date: function(moment_date) {
         var date_format = 'YYYY-MM-DD';

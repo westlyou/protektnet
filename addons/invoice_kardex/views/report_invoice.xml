@@ -77,6 +77,9 @@
     <div class='o_invoice_reports_body'>
         <div class="container o_invoice_reports_page o_invoice_reports_no_print">
             <h2><t t-esc="report.get('name')"></t></h2>
+            <div style="text-align: end;">
+                <span>Day's exchange rate: <t t-esc="report.get('rate')"></t></span>
+            </div>
             <div class="table-responsive">
                 <table width="100%" class="o_invoice_reports_table">
                     <thead>
