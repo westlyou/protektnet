@@ -12,22 +12,8 @@ class SaleOrder(models.Model):
         compute='_compute_purchase_count'
     )
     state = fields.Selection(selection_add=[('consignment', 'Consignment')])
-    consignment = fields.Boolean(
-        string='Consignment',
-        compute="_compute_consignment",
-        store=True,
-    )
     quote = fields.Char(string='Quote Number')
     deal = fields.Char(string='Deal Registration')
-
-    @api.depends('picking_ids')
-    def _compute_consignment(self):
-        for rec in self:
-            rec.consignment = bool(rec.picking_ids.filtered(
-                lambda x: x.state not in ['draft', 'cancel']
-            ).mapped('owner_id'))
-            if rec.consignment:
-                rec.write({'state': 'consignment'})
 
     @api.multi
     def action_invoice_consignment(self):

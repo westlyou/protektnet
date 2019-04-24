@@ -18,6 +18,8 @@
     'data': [
         'views/product_product_view.xml',
         'views/product_template_view.xml',
+        'views/sale_order_view.xml',
         'views/stock_location_view.xml',
+        'views/stock_return_picking_view.xml',
     ],
 }

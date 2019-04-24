@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="sale_order_demos_view" model="ir.ui.view">
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale_management.sale_order_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="after">
+                <field invisible="1" name="is_demo"/>
+                <div attrs="{'invisible': [('is_demo','=',False)]}" class="alert alert-warning" role="alert" style="text-align: center; margin-bottom:0px;">
+                	<b>Products in demo</b>
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>

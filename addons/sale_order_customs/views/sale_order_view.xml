@@ -22,9 +22,6 @@
                     <field name="purchase_count" widget="statinfo" string="Purchases"/>
                 </button>
             </xpath>
-            <xpath expr="//header" position="inside">
-                <button groups="sale_order_customs.group_sale_order_consignment" name="action_invoice_consignment" type="object" string="Invoice Consignment" states="consignment"/>
-            </xpath>
             <xpath expr="//field[@name='pricelist_id']" position="after">
                 <field name="quote"></field>
                 <field name="deal"></field>
