@@ -135,7 +135,7 @@ class InvoiceKardexGeneral(models.AbstractModel):
                 'columns': (
                     [{'name': v} for v in [
                      ("TEL: " + partner.phone if partner.phone else ""),
-                     ("Salesperson: " + partner.user_id.name
+                     ("Salesperson: " + partner.sudo().user_id.name
                       if partner.user_id else ""), balance]]),
                 'level': 2,
                 'unfoldable': True,
