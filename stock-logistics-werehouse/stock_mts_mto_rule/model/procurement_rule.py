@@ -50,7 +50,6 @@ class ProcurementRule(models.Model):
 
         needed_qty = self.get_mto_qty_to_order(product_id, product_qty,
                                                product_uom, values)
-
         if needed_qty == 0.0:
             getattr(self.mts_rule_id, '_run_%s' % self.mts_rule_id.action)(
                 product_id, product_qty, product_uom, location_id, name,
